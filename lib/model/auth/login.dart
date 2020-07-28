@@ -7,18 +7,21 @@ class Login extends ChangeNotifier with DiagnosticableTreeMixin {
   int _user;
   String _password;
   String _name;
+  DateTime _lastLogin;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-  Login({int user, String password, String name}) {
+  Login({int user, String password, String name, DateTime lastLogin}) {
     this._user = user;
     this._password = password;
     this._name = name;
+    this._lastLogin = lastLogin ?? DateTime.now();
   } // Login() { ... }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   int get user => this._user;
   String get password => base64.encode(utf8.encode(this._password));
   String get name => this._name;
+  DateTime get lastLogin => this._lastLogin;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   set user(int user) {

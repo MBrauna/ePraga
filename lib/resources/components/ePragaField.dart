@@ -70,7 +70,6 @@ class EPragaField extends StatefulWidget {
 class _EPragaField extends State<EPragaField> {
   @override
   Widget build(BuildContext context) {
-    bool isFocus = false;
 
     return new Padding(
       padding: EdgeInsets.only(
@@ -86,9 +85,6 @@ class _EPragaField extends State<EPragaField> {
         decoration: InputDecoration(
             prefixIcon: widget.prefixIcon, labelText: widget.placeholder),
         onTap: () {
-          setState(() {
-            isFocus = true;
-          });
           if (widget.onTap != null) {
             widget.onTap();
           }
@@ -97,9 +93,6 @@ class _EPragaField extends State<EPragaField> {
           widget.onChanged(t);
         },
         onSubmitted: (t) {
-          setState(() {
-            isFocus = false;
-          });
           widget.onSubmitted(t);
         },
       ),

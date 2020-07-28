@@ -62,16 +62,6 @@ class EpragaTheme {
       color: Colors.indigo[900],
     ),
     primaryColor: Colors.indigo[900],
-    textTheme: TextTheme(
-      title: TextStyle(
-        color: Colors.white,
-        fontSize: 20.0,
-      ),
-      subtitle: TextStyle(
-        color: Colors.white70,
-        fontSize: 15.0,
-      ),
-    ),
   );
   /*
   */
@@ -132,15 +122,5 @@ class EpragaTheme {
       color: Colors.indigo[900],
     ),
     primaryColor: Colors.white,
-    textTheme: TextTheme(
-      title: TextStyle(
-        color: Colors.white,
-        fontSize: 20.0,
-      ),
-      subtitle: TextStyle(
-        color: Colors.white70,
-        fontSize: 15.0,
-      ),
-    ),
   );
 } // class Light { ... }
