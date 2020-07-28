@@ -11,19 +11,16 @@ class Login extends StatefulWidget {
 } // class Login extends StatefulWidget { ... }
 
 class _Login extends State<Login> {
-  String _usuario, _senha;
-  bool bloqueia = false;
-  var cpfController = TextEditingController();
-  var cpfMask = MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
-  var senhaController = TextEditingController();
+  String _user, _password;
+  bool _blockField = true;
+  TextEditingController   _cpfController = TextEditingController(),
+                          _passwordController = TextEditingController();
+  MaskTextInputFormatter  _cpfMask = MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double logoSize =
-        (MediaQuery.of(context).orientation == Orientation.landscape)
-            ? (size.height / 4)
-            : (size.height / 8);
+    Size size       = MediaQuery.of(context).size;
+    double logoSize = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
     return Scaffold(
       key: Key('login'),
@@ -44,53 +41,73 @@ class _Login extends State<Login> {
 
 
               EPragaField(
-                campoAlto: 1.0,
-                campoBaixo: 1.0,
-                campoDireita: 15.0,
-                campoEsquerda: 15.0,
-                texto: 'Usuário',
-                controlador: cpfController,
-                mascara: cpfMask,
-                leitura: bloqueia,
-                fncEdicao: (valor) {
+                width: double.infinity,
+                height: 40.0,
+                inputType: TextInputType.number,
+                prefixIcon: FaIcon(
+                  FontAwesomeIcons.userAlt,
+                ),
+                accentColor: Theme.of(context).primaryColor,
+                autocorrect: false,
+                autofocus: true,
+                backgroundColor: Theme.of(context).backgroundColor,
+                controller: this._cpfController,
+                mask: this._cpfMask,
+                cornerRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(2.0),
+                  topRight: Radius.circular(2.0),
+                ),
+                duration: Duration(milliseconds: 200),
+                enabled: this._blockField,
+                fontFamily: 'Roboto',
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.bold,
+                maxLines: 1,
+                minLines: 1,
+                obscureText: false,
+                isShadow: true,
+                onChanged: (valor) {
                   setState(() {
-                    this._usuario = cpfMask.getUnmaskedText();
+                    this._user  = this._cpfMask.getUnmaskedText();
                   });
                 },
-                tipoTeclado: TextInputType.number,
-                corBgIcone: Colors.indigo[900],
-                corCursor: Colors.indigo[900],
-                icone: FaIcon(
-                  FontAwesomeIcons.userAlt,
-                  color: Colors.white,
-                  size: 15.0,
-                )
+                placeholder: 'Usuário',
+                textColor: Theme.of(context).primaryColor,
               ),
+
 
               EPragaField(
-                campoAlto: 1.0,
-                campoBaixo: 1.0,
-                campoDireita: 15.0,
-                campoEsquerda: 15.0,
-                controlador: senhaController,
-                texto: 'Senha',
-                leitura: bloqueia,
-                senha: true,
-                fncEdicao: (valor) {
+                width: double.infinity,
+                height: 40.0,
+                inputType: TextInputType.text,
+                prefixIcon: FaIcon(
+                  FontAwesomeIcons.userAlt,
+                ),
+                accentColor: Theme.of(context).primaryColor,
+                autocorrect: false,
+                autofocus: true,
+                backgroundColor: Theme.of(context).backgroundColor,
+                cornerRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(2.0),
+                  topRight: Radius.circular(2.0),
+                ),
+                duration: Duration(milliseconds: 200),
+                enabled: this._blockField,
+                fontFamily: 'Roboto',
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.bold,
+                maxLines: 1,
+                minLines: 1,
+                obscureText: true,
+                isShadow: true,
+                onChanged: (valor) {
                   setState(() {
-                    this._senha = valor.toString().trim();
+                    this._user  = this._cpfMask.getUnmaskedText();
                   });
                 },
-                tipoTeclado: TextInputType.text,
-                corBgIcone: Colors.indigo[900],
-                corCursor: Colors.indigo[900],
-                icone: FaIcon(
-                  FontAwesomeIcons.key,
-                  color: Colors.white,
-                  size: 15.0,
-                )
+                placeholder: 'Senha',
+                textColor: Theme.of(context).primaryColor,
               ),
-
 
               SizedBox(
                 width: double.infinity,
@@ -100,7 +117,9 @@ class _Login extends State<Login> {
                     child: Text('Acessar ePraga'),
                     color: Colors.indigo[900],
                     textColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      print('usuario: ${this._user}  Senha: ${this._password}');
+                    },
                   ),
                 ),
               ),

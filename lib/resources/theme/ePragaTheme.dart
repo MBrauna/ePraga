@@ -20,7 +20,7 @@ class EpragaTheme {
       ),
     ),
     applyElevationOverlayColor: true,
-    backgroundColor: Colors.indigo[50],
+    backgroundColor: Colors.white,
     bannerTheme: MaterialBannerThemeData(),
     bottomAppBarColor: Colors.indigo[900],
     brightness: Brightness.light,
@@ -61,7 +61,7 @@ class EpragaTheme {
     iconTheme: IconThemeData(
       color: Colors.indigo[900],
     ),
-    primaryColor: Colors.white,
+    primaryColor: Colors.indigo[900],
     textTheme: TextTheme(
       title: TextStyle(
         color: Colors.white,

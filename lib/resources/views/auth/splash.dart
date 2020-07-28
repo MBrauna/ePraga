@@ -24,7 +24,7 @@ class _Splash extends State<Splash> {
     Size size = MediaQuery.of(context).size;
     double fonteTitulo    = ((MediaQuery.of(context).orientation == Orientation.landscape)  ? (size.width / 16) : (size.width / 8));
     double subfonteTitulo = ((MediaQuery.of(context).orientation == Orientation.landscape)  ? (size.width / 36) : (size.width / 18));
-    double tamanhoLogo    = ((MediaQuery.of(context).orientation == Orientation.landscape)  ? (size.width / 3)  : (size.width - (size.width / 4)));
+    double tamanhoLogo    = ((MediaQuery.of(context).orientation == Orientation.landscape)  ? (size.width / 4)  : (size.width - (size.width / 8)));
 
     return Scaffold(
       key: Key('SplashScreen'),

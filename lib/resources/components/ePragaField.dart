@@ -1,44 +1,67 @@
-import 'package:flutter/Material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class EPragaField extends StatefulWidget {
   // Declaração de conteúdos para Campo
-  bool leitura, sugestao, senha;
-  Color corCursor, corBgIcone;
-  double campoAlto, campoBaixo, campoDireita, campoEsquerda;
-  FaIcon icone;
-  int tamanhoTexto, minimoLinhas, maximoLinhas;
-  MaskTextInputFormatter mascara;
-  OverlayVisibilityMode iconeVisibilidade;
-  String texto;
-  TextInputType tipoTeclado;
-  var fncFinalizado, fncEdicao, fncCompleto, controlador;
+  final BorderRadius cornerRadius;
+  final double width, height, wordSpacing;
+  final Color backgroundColor, accentColor, textColor;
+  final String placeholder, fontFamily;
+  final FaIcon prefixIcon, suffixIcon;
+  final TextInputType inputType;
+  final EdgeInsets margin;
+  final Duration duration;
+  final MaskTextInputFormatter mask;
+  final VoidCallback onClickSuffix;
+  final TextBaseline textBaseline;
+  final FontStyle fontStyle;
+  final FontWeight fontWeight;
+  final bool autofocus, autocorrect, enabled, obscureText, isShadow;
+  final FocusNode focusNode;
+  final int maxLength, minLines, maxLines;
+  final ValueChanged<String> onChanged, onSubmitted;
+  final GestureTapCallback onTap;
+  final TextEditingController controller;
   // Declaração de conteúdos para Campo
 
-  EPragaField({
-    this.campoAlto = 0.0,
-    this.campoBaixo = 0.0,
-    this.campoDireita = 0.0,
-    this.campoEsquerda = 0.0,
-    this.corCursor = Colors.blue,
-    this.corBgIcone = Colors.blue,
-    this.controlador,
-    this.fncFinalizado,
-    this.fncEdicao,
-    this.fncCompleto,
-    this.icone,
-    this.leitura = false,
-    this.maximoLinhas = 1,
-    this.mascara,
-    this.minimoLinhas = 1,
-    this.senha = false,
-    this.sugestao = false,
-    this.tamanhoTexto = 250,
-    this.texto = '',
-    this.tipoTeclado = TextInputType.text,
-  });
+  EPragaField(
+      {@required this.width,
+      @required this.height,
+      @required this.prefixIcon,
+      @required this.inputType,
+      this.controller,
+      this.suffixIcon,
+      this.mask,
+      this.duration = const Duration(milliseconds: 500),
+      this.margin = const EdgeInsets.all(10),
+      this.obscureText = false,
+      this.backgroundColor = const Color(0xff111823),
+      this.cornerRadius = const BorderRadius.all(Radius.circular(10)),
+      this.textColor = const Color(0xff5c5bb0),
+      this.accentColor = Colors.white,
+      this.placeholder = "Placeholder",
+      this.isShadow = true,
+      this.onClickSuffix,
+      this.wordSpacing,
+      this.textBaseline,
+      this.fontFamily,
+      this.fontStyle,
+      this.fontWeight,
+      this.autofocus = false,
+      this.autocorrect = false,
+      this.focusNode,
+      this.enabled = true,
+      this.maxLength,
+      this.maxLines,
+      this.minLines,
+      this.onChanged,
+      this.onTap,
+      this.onSubmitted})
+      : assert(width != null),
+        assert(height != null),
+        assert(prefixIcon != null),
+        assert(inputType != null);
 
   @override
   _EPragaField createState() => _EPragaField();
@@ -47,51 +70,37 @@ class EPragaField extends StatefulWidget {
 class _EPragaField extends State<EPragaField> {
   @override
   Widget build(BuildContext context) {
+    bool isFocus = false;
+
     return new Padding(
       padding: EdgeInsets.only(
-        top: widget.campoAlto,
-        bottom: widget.campoBaixo,
-        left: widget.campoEsquerda,
-        right: widget.campoDireita,
+        left: 15.0,
+        right: 15.0,
       ),
-      child: CupertinoTextField(
-        autocorrect: false,
-        clearButtonMode: (widget.leitura)
-            ? OverlayVisibilityMode.never
-            : OverlayVisibilityMode.editing,
-        cursorColor: widget.corCursor,
-        enableSuggestions: widget.sugestao,
-        keyboardType: widget.tipoTeclado,
-        maxLength: widget.tamanhoTexto,
-        maxLines: widget.maximoLinhas,
-        minLines: widget.minimoLinhas,
-        maxLengthEnforced: true,
-        controller: widget.controlador,
-        inputFormatters: (widget.mascara == null) ? null : [widget.mascara],
-        onChanged: widget.fncEdicao,
-        onEditingComplete: widget.fncCompleto,
-        onSubmitted: widget.fncFinalizado,
-        placeholder: widget.texto,
-        obscureText: widget.senha,
-        prefix: (widget.icone == null)
-            ? null
-            : Container(
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  bottom: 10.0,
-                  left: 10.0,
-                  right: 10.0,
-                ),
-                color: widget.corBgIcone,
-                child: widget.icone,
-              ),
-        prefixMode: OverlayVisibilityMode.always,
-        readOnly: widget.leitura,
-        enabled: !widget.leitura,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 20.0,
+      child: TextField(
+        enabled: widget.enabled,
+        keyboardType: widget.inputType,
+        controller: widget.controller,
+        inputFormatters: (widget.mask == null) ? null : [widget.mask],
+        obscureText: widget.obscureText,
+        decoration: InputDecoration(
+          prefixIcon: widget.prefixIcon,
+          labelText: widget.placeholder
         ),
+        onTap: () {
+          setState(() {
+            isFocus = true;
+          });
+          if (widget.onTap != null) {
+            widget.onTap();
+          }
+        },
+        onSubmitted: (t) {
+          setState(() {
+            isFocus = false;
+          });
+          widget.onSubmitted(t);
+        },
       ),
     );
   } // Widget build(BuildContext context) { ... }
