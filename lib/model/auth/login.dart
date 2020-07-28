@@ -6,16 +6,19 @@ class Login extends ChangeNotifier with DiagnosticableTreeMixin {
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   int _user;
   String _password;
+  String _name;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-  Login({int user, String password}) {
+  Login({int user, String password, String name}) {
     this._user = user;
     this._password = password;
+    this._name = name;
   } // Login() { ... }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   int get user => this._user;
   String get password => base64.encode(utf8.encode(this._password));
+  String get name => this._name;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   set user(int user) {
@@ -43,4 +46,17 @@ class Login extends ChangeNotifier with DiagnosticableTreeMixin {
     this._password = password;
     notifyListeners();
   } // set password(String password) { ... }
+
+  set name(String name) {
+    if (name.isEmpty) {
+      throw EPragaException(
+        error: 'Nome inválido! Verifique.',
+        message: 'Nome inválido! Verifique.',
+        origin: this.runtimeType.toString(),
+      );
+    }
+
+    this._name = name;
+    notifyListeners();
+  } // set name(String name) { ... }
 } // class Login extends ChangeNotifier with DiagnosticableTreeMixin { ... }

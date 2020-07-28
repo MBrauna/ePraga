@@ -84,9 +84,7 @@ class _EPragaField extends State<EPragaField> {
         inputFormatters: (widget.mask == null) ? null : [widget.mask],
         obscureText: widget.obscureText,
         decoration: InputDecoration(
-          prefixIcon: widget.prefixIcon,
-          labelText: widget.placeholder
-        ),
+            prefixIcon: widget.prefixIcon, labelText: widget.placeholder),
         onTap: () {
           setState(() {
             isFocus = true;
@@ -94,6 +92,9 @@ class _EPragaField extends State<EPragaField> {
           if (widget.onTap != null) {
             widget.onTap();
           }
+        },
+        onChanged: (t) {
+          widget.onChanged(t);
         },
         onSubmitted: (t) {
           setState(() {

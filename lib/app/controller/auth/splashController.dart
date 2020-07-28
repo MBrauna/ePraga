@@ -10,10 +10,9 @@ class SplashController {
       SharedPreferences vPreferences = await SharedPreferences.getInstance();
 
       if (vPreferences.containsKey('dataLogin')) {
-        if (vPreferences.getInt('dataLogin') <=
-            DateTime.now().millisecondsSinceEpoch) {
+        if (vPreferences.getInt('dataLogin') <= DateTime.now().millisecondsSinceEpoch) {
           // Se ok envia para a tela principal
-          return FadePageRoute(Login());
+          return FadePageRoute(MainEpraga());
         } // if (value.getInt('dataLogin') <= DateTime.now().millisecondsSinceEpoch) { ... }
       } // if (value.containsKey('dataLogin')) { ...
 

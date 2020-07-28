@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 import './../../config.dart' as config;
 
 class EPragaException implements Exception {
@@ -24,14 +23,17 @@ class EPragaException implements Exception {
   } // EPragaException({String origin = '', dynamic error, String message}) { ... }
 
   void toUser(BuildContext context) {
-    Toast.show(
-      this._message,
-      context,
-      backgroundColor: Colors.red,
-      duration: Toast.LENGTH_LONG,
-      backgroundRadius: 5.0,
-      gravity: Toast.BOTTOM,
-      textColor: Colors.white,
+    final snackbar = SnackBar(
+      content: Text(
+        '[ERRO] - ' + this._message,
+        style: TextStyle(
+          backgroundColor: Colors.red,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
+
+    Scaffold.of(context).showSnackBar(snackbar);
   } // void toUser(BuildContext context) { ... }
 } // class EPragaException implements Exception { ... }
