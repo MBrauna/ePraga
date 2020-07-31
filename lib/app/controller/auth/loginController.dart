@@ -19,7 +19,7 @@ class LoginController {
       final response = await http.get('https://pastebin.com/raw/BgZwkn3L');
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> jsonReturn = jsonDecode(response.body);
+        /*Map<String, dynamic> jsonReturn = jsonDecode(response.body);
         SharedPreferences vPreferences = await SharedPreferences.getInstance();
 
         final access = this._context.read<Epraga>();
@@ -30,6 +30,7 @@ class LoginController {
         );
 
         vPreferences.setInt('dataLogin', DateTime.now().millisecondsSinceEpoch);
+        */
         return true;
       } // if(response.statusCode == 200) { ... }
       else {

@@ -1,65 +1,78 @@
-import 'package:epraga/app/exception/ePragaException.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
+import './../../config.dart' as config;
+import './../../app/exception/ePragaException.dart';
+
 class Login extends ChangeNotifier with DiagnosticableTreeMixin {
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-  int _user;
+  int _accessCode;
   String _password;
-  String _name;
-  DateTime _lastLogin;
+  DateTime _lastLogin = DateTime.now();
+  int _versionCode = config.APP_VERSION;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-  Login({int user, String password, String name, DateTime lastLogin}) {
-    this._user = user;
-    this._password = password;
-    this._name = name;
-    this._lastLogin = lastLogin ?? DateTime.now();
-  } // Login() { ... }
+  Login({int accessCode, String password}) {
+    try {
+      if (accessCode.toString().trim().isNotEmpty) {
+        this._accessCode = accessCode;
+      } // if(user.toString().trim().isNotEmpty) { ... }
 
-  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-  int get user => this._user;
-  String get password => base64.encode(utf8.encode(this._password));
-  String get name => this._name;
-  DateTime get lastLogin => this._lastLogin;
-
-  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-  set user(int user) {
-    if (user.toString().isEmpty) {
-      throw EPragaException(
-        error: 'Usuário inválido! Verifique.',
-        message: 'Usuário inválido! Verifique.',
-        origin: this.runtimeType.toString(),
+      if (password.trim().isNotEmpty) {
+        this._password = password;
+      } // if(password.trim().isNotEmpty) { ... }
+    } // try { ... }
+    catch (erro) {
+      throw new EPragaException(
+        error: erro,
+        message: 'Não foi possível inicializar a classe [LOGIN]! Verifique.',
+        origin: this.runtimeType.toString()
       );
-    } // if(user.toString().isEmpty) { ... }
+    } // catch(erro){ ... }
+  } // Login({int user, String password}) { ... }
 
-    this._user = user;
-    notifyListeners();
-  } // set user(int user) { ... }
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+  DateTime get loginDate => this._lastLogin;
+  int get accessCode => this._accessCode;
+  int get versionCode => this._versionCode;
+  String get hash => base64.encode(utf8.encode(this._accessCode.toString() + ':' + this._password));
 
-  set password(String password) {
-    if (password.isEmpty) {
-      throw EPragaException(
-        error: 'Senha inválida! Verifique.',
-        message: 'Senha inválida! Verifique.',
-        origin: this.runtimeType.toString(),
-      );
-    } // if(password.isEmpty) { ... }
-
-    this._password = password;
-    notifyListeners();
-  } // set password(String password) { ... }
-
-  set name(String name) {
-    if (name.isEmpty) {
-      throw EPragaException(
-        error: 'Nome inválido! Verifique.',
-        message: 'Nome inválido! Verifique.',
-        origin: this.runtimeType.toString(),
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+  set accessCode(int accessCode) {
+    try {
+      if(accessCode.toString().trim().isNotEmpty) {
+        this._accessCode = accessCode;
+        notifyListeners();
+      } // if(accessCode.toString().trim().isNotEmpty) { ... }
+      else {
+        throw Exception('Campo inválido');
+      } // else { ... }
+    }
+    catch(erro) {
+      throw new EPragaException(
+        error: erro,
+        message: 'Não foi possível alterar o campo [LOGIN][accessCode]! Verifique.',
+        origin: this.runtimeType.toString()
       );
     }
+  } // set accessCode([int accessCode]) { ... }
 
-    this._name = name;
-    notifyListeners();
-  } // set name(String name) { ... }
+  set password(String password) {
+    try {
+      if(password.trim().isNotEmpty) {
+        this._password = password;
+        notifyListeners();
+      } // if(password.trim().isNotEmpty) { ... }
+      else {
+        throw Exception('Campo inválido');
+      } // else { ... }
+    }
+    catch(erro) {
+      throw new EPragaException(
+        error: erro,
+        message: 'Não foi possível alterar o campo [LOGIN][password]! Verifique.',
+        origin: this.runtimeType.toString()
+      );
+    }
+  } // set password(String password) { ... }
 } // class Login extends ChangeNotifier with DiagnosticableTreeMixin { ... }

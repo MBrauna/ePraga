@@ -19,7 +19,7 @@ class _MainEpraga extends State<MainEpraga> {
     // Página de Concluídos
     Center(child: Text('Concluidas'),),
     // Página de Dados do usuáriousuário
-    UserPage(),
+    Center(child: Text('Desempenho'),),
   ];
 
   void _onItemTapped(int index) {
