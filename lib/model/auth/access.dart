@@ -10,26 +10,34 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   Access({int id, String description, String hash}) {
     try {
-      if(id.toString().trim().isNotEmpty) {
+      if (id.toString().trim().isNotEmpty) {
         this._id = id;
       } // if(id.toString().trim().isNotEmpty) { ... }
 
-      if(description.trim().isNotEmpty) {
+      if (description.trim().isNotEmpty) {
         this._description = description;
       } // if(description.trim().isNotEmpty) { ... }
 
-      if(hash.trim().isNotEmpty) {
-        this._hash  = hash;
+      if (hash.trim().isNotEmpty) {
+        this._hash = hash;
       } // if(hash.trim().isNotEmpty) { ... }
     } // try { ... }
-    catch(erro) {
+    catch (erro) {
       throw new EPragaException(
-        error: erro,
-        message: 'Não foi possível inicializar a classe [ACCESS]! Verifique.',
-        origin: this.runtimeType.toString()
-      );
+          error: erro,
+          message: 'Não foi possível inicializar a classe [ACCESS]! Verifique.',
+          origin: this.runtimeType.toString());
     } // catch(erro) { ... }
   } // Access({int id, String description, String hash}) { ... }
+
+  factory Access.fromJson(Map<String, dynamic> value) {
+    Access vData;
+    vData.id          = value['id'];
+    vData.description = value['description'];
+    vData.hash        = value['hash'];
+
+    return vData;
+  } // factory Access.fromJson(Map<String, dynamic> value) { ... }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   int get id => this._id;
@@ -37,9 +45,9 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
   String get hash => this._hash;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-  set id(int id){
+  set id(int id) {
     try {
-      if(id.toString().trim().isNotEmpty) {
+      if (id.toString().trim().isNotEmpty) {
         this._id = id;
         notifyListeners();
       } // if(id.toString().trim().isNotEmpty) { ... }
@@ -47,18 +55,18 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
         throw Exception('Parâmetro inválido! Verifique.');
       } // else { ... }
     } // try { ... }
-    catch(erro){
+    catch (erro) {
       throw new EPragaException(
-        error: erro,
-        message: 'Não foi possível inicializar a classe [ACCESS][ID]! Verifique.',
-        origin: this.runtimeType.toString()
-      );
+          error: erro,
+          message:
+              'Não foi possível inicializar a classe [ACCESS][ID]! Verifique.',
+          origin: this.runtimeType.toString());
     } // catch(erro){ ... }
   } // set id(int id){ ... }
 
   set description(String description) {
     try {
-      if(description.trim().isNotEmpty) {
+      if (description.trim().isNotEmpty) {
         this._description = description;
         notifyListeners();
       } // if(description.trim().isNotEmpty) { ... }
@@ -66,18 +74,18 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
         throw Exception('Parâmetro inválido! Verifique.');
       } // else { ... }
     } // try { ... }
-    catch(erro){
+    catch (erro) {
       throw new EPragaException(
-        error: erro,
-        message: 'Não foi possível inicializar a classe [ACCESS][DESCRIPTION]! Verifique.',
-        origin: this.runtimeType.toString()
-      );
+          error: erro,
+          message:
+              'Não foi possível inicializar a classe [ACCESS][DESCRIPTION]! Verifique.',
+          origin: this.runtimeType.toString());
     } // catch(erro){ ... }
   } // set description(String description) { ... }
 
   set hash(String hash) {
     try {
-      if(hash.trim().isNotEmpty) {
+      if (hash.trim().isNotEmpty) {
         this._hash = hash;
         notifyListeners();
       } // if(hash.trim().isNotEmpty) { ... }
@@ -85,12 +93,12 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
         throw Exception('Parâmetro inválido! Verifique.');
       } // else { ... }
     } // try { ... }
-    catch(erro){
+    catch (erro) {
       throw new EPragaException(
-        error: erro,
-        message: 'Não foi possível inicializar a classe [ACCESS][HASH]! Verifique.',
-        origin: this.runtimeType.toString()
-      );
+          error: erro,
+          message:
+              'Não foi possível inicializar a classe [ACCESS][HASH]! Verifique.',
+          origin: this.runtimeType.toString());
     } // catch(erro){ ... }
   } // set description(String description) { ... }
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
