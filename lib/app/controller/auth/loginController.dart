@@ -12,7 +12,7 @@ class LoginController {
       Login login = Login(accessCode: user, password: password);
 
       // Requisita ao servidor EPRAGA as informações
-      response = await WsLogin().getLogin(login);
+      //response = await WsLogin().getLogin(login);
     } // try { ... }
     catch (erro) {} // catch(erro) { ... }
   } // Future<bool> getLogin(String user, String passwrd) { ... }
