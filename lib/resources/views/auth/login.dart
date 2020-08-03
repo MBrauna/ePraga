@@ -32,12 +32,12 @@ class _Login extends State<Login> {
   MaskTextInputFormatter  _cpfMask = MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
 
   void _requestLogin(BuildContext context) {
-    if(!this._blockButton) {
+    if(!this._blockButton || this._password == null || this._user == null) {
       Message(context).error('Preencha os dados corretamente');
       return;
     } // if(!this._blockButton) { ... }
     else {
-      Navigator.pushReplacement(context, FadePageRoute(WaitRoom(this._user.trim(),this._password.trim())));
+      Navigator.push(context, FadePageRoute(WaitRoom(this._user.trim(),this._password.trim())));
     } // else { ... }
   } // void _requestLogin(BuildContext context) { ... }
 
@@ -57,6 +57,7 @@ class _Login extends State<Login> {
         builder: (context) {
           if(widget._message != null){
             Message(context).error(widget._message);
+            widget._message = null;
           }
 
           return Center(
@@ -149,7 +150,7 @@ class _Login extends State<Login> {
                         color: Colors.indigo[900],
                         textColor: Colors.white,
                         onPressed: () {
-                          if((this._passwordController.text.length < 3) && (this._cpfMask.getUnmaskedText().length < 11)) {
+                          if((this._passwordController.text.length < 3) || (this._cpfMask.getUnmaskedText().length < 11)) {
                             setState(() {
                               this._blockButton = false;
                             });

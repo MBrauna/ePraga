@@ -1,5 +1,5 @@
 import './../wservice/wsLogin.dart';
-import './../../../model/allModels.dart' show Login;
+import './../../../model/allModels.dart' show Login, Access;
 
 class LoginController {
   LoginController();
@@ -10,10 +10,15 @@ class LoginController {
     try {
       // Monta a classe de login para requisição
       Login login = Login(accessCode: user, password: password);
-
-      // Requisita ao servidor EPRAGA as informações
-      //response = await WsLogin().getLogin(login);
+      response    = await WsLogin().getLogin(login);
+      response['login']  = login;
+      return response;
     } // try { ... }
-    catch (erro) {} // catch(erro) { ... }
+    catch (erro) {
+      response = Map<String, dynamic>();
+      response['code']   = 999;
+      response['error']  = 'Você não possui permissão para acesso! Verifique.';
+      return response;
+    } // catch(erro) { ... }
   } // Future<bool> getLogin(String user, String passwrd) { ... }
 } // class LoginController { ... }

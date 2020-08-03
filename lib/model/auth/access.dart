@@ -31,12 +31,11 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
   } // Access({int id, String description, String hash}) { ... }
 
   factory Access.fromJson(Map<String, dynamic> value) {
-    Access vData;
-    vData.id          = value['id'];
-    vData.description = value['description'];
-    vData.hash        = value['hash'];
-
-    return vData;
+    return Access(
+      id: value['id'],
+      description: value['description'],
+      hash: value['hash'],
+    );
   } // factory Access.fromJson(Map<String, dynamic> value) { ... }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
