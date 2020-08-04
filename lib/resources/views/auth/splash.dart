@@ -28,6 +28,7 @@ class _Splash extends State<Splash> {
 
     return Scaffold(
       key: Key('Splash'),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Align(
         alignment: Alignment.center,
         child: SingleChildScrollView(

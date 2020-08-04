@@ -53,6 +53,7 @@ class _Login extends State<Login> {
 
     return Scaffold(
       key: Key('Login'),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Builder(
         builder: (context) {
           if(widget._message != null){

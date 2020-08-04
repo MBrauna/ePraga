@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './../../../model/allModels.dart' show Access, Login;
 import './../../../config.dart' as config;
@@ -29,6 +30,9 @@ class WsLogin {
         dataWS['access'].forEach((value) {
           this._loginData['access'].add(Access.fromJson(value));
         }); // dataWS['acesso'].forEach((key, value) { ... }
+
+        final sharedPref = await SharedPreferences.getInstance();
+        sharedPref.setInt('dataLogin', DateTime.now().millisecondsSinceEpoch);
       } // if(response.statusCode == 200) { ... }
       else {
         this._loginData['error'] = dataWS['error'];
