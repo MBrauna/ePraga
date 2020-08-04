@@ -27,7 +27,7 @@ class _Splash extends State<Splash> {
     double logoSize = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
     return Scaffold(
-      key: Key('SplashScreen'),
+      key: Key('Splash'),
       body: Align(
         alignment: Alignment.center,
         child: SingleChildScrollView(

@@ -37,7 +37,7 @@ class _Login extends State<Login> {
       return;
     } // if(!this._blockButton) { ... }
     else {
-      Navigator.push(context, FadePageRoute(WaitRoom(this._user.trim(),this._password.trim())));
+      Navigator.pushReplacement(context, FadePageRoute(WaitRoom(this._user.trim(),this._password.trim())));
     } // else { ... }
   } // void _requestLogin(BuildContext context) { ... }
 
@@ -52,7 +52,7 @@ class _Login extends State<Login> {
     double logoSize = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
     return Scaffold(
-      key: Key('login'),
+      key: Key('Login'),
       body: Builder(
         builder: (context) {
           if(widget._message != null){
