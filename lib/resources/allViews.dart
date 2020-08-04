@@ -1,4 +1,4 @@
-export 'views/main.dart';
+export 'views/mainEpraga.dart';
 
 /// [AUTH] - Métodos de autenticação
 export 'views/auth/splash.dart';
