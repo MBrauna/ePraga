@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './../../../app/controller/util/networkController.dart';
-import './../../../app/util/message.dart';
 import './../../allViews.dart';
 import './../../../model/ePraga.dart';
 import './../../../app/util/fadePageRoute.dart';
 
+// ignore: must_be_immutable
 class WaitRoom extends StatefulWidget {
   String _user, _password;
 

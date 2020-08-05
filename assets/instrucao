@@ -1,0 +1,15 @@
+robot
+    - reposo
+    - reposo2
+    - buscando
+    - Cargando
+WorldSpin
+    -   roll
+Cosmos
+    -   Untitled
+maps
+    -   anim
+empty_state
+    -   idle
+no-conectivity
+    -   No-connection

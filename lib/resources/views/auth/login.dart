@@ -8,6 +8,7 @@ import './../../../app/util/message.dart';
 import './../../allViews.dart';
 import './../../../app/util/fadePageRoute.dart';
 
+// ignore: must_be_immutable
 class Login extends StatefulWidget {
   String _message;
 

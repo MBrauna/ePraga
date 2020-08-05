@@ -4,12 +4,15 @@ import './../../app/exception/ePragaException.dart';
 class Access extends ChangeNotifier with DiagnosticableTreeMixin {
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   int _id;
-  String _description;
-  String _hash;
+  String _name, _description, _hash;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-  Access({int id, String description, String hash}) {
+  Access({int id, String name, String description, String hash}) {
     try {
+      if (name.trim().isNotEmpty) {
+        this._name = name;
+      }
+
       if (id.toString().trim().isNotEmpty) {
         this._id = id;
       } // if(id.toString().trim().isNotEmpty) { ... }
@@ -33,6 +36,7 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
   factory Access.fromJson(Map<String, dynamic> value) {
     return Access(
       id: value['id'],
+      name: value['name'],
       description: value['description'],
       hash: value['hash'],
     );
@@ -40,6 +44,7 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   int get id => this._id;
+  String get name => this._name;
   String get description => this._description;
   String get hash => this._hash;
 
@@ -62,6 +67,25 @@ class Access extends ChangeNotifier with DiagnosticableTreeMixin {
           origin: this.runtimeType.toString());
     } // catch(erro){ ... }
   } // set id(int id){ ... }
+
+  set name(String name) {
+    try {
+      if (name.trim().isNotEmpty) {
+        this._name = name;
+        notifyListeners();
+      } // if(name.trim().isNotEmpty) { ... }
+      else {
+        throw Exception('Parâmetro inválido! Verifique.');
+      } // else { ... }
+    } // try { ... }
+    catch (erro) {
+      throw new EPragaException(
+          error: erro,
+          message:
+              'Não foi possível inicializar a classe [ACCESS][NAME]! Verifique.',
+          origin: this.runtimeType.toString());
+    } // catch(erro){ ... }
+  } // set name(String name) { ... }
 
   set description(String description) {
     try {

@@ -1,13 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-import './../../util/message.dart';
-
 class NetworkController {
-  BuildContext _context;
+  //BuildContext _context;
 
   NetworkController(BuildContext context) {
-    this._context = context;
+    //this._context = context;
   } // NetworkController(BuildContext context) { ... }
 
   Future<bool> verify() async {

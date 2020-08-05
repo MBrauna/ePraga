@@ -1,5 +1,5 @@
 import './../wservice/wsLogin.dart';
-import './../../../model/allModels.dart' show Login, Access;
+import './../../../model/allModels.dart' show Login;
 
 class LoginController {
   LoginController();

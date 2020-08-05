@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import './../allViews.dart';
+
 class MainEpraga extends StatefulWidget {
   @override
   _MainEpraga createState() => _MainEpraga();
 } // class MainEpraga extends StatefulWidget { ... }
 
 class _MainEpraga extends State<MainEpraga> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 1: Business',
     ),
@@ -22,9 +24,7 @@ class _MainEpraga extends State<MainEpraga> {
     Text(
       'Index 3: teste',
     ),
-    Text(
-      'Index 4: teste',
-    ),
+    User(),
   ];
 
   void _onItemTapped(int index) {
@@ -39,7 +39,6 @@ class _MainEpraga extends State<MainEpraga> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return Builder(
       builder: (context) => Scaffold(
@@ -77,7 +76,13 @@ class _MainEpraga extends State<MainEpraga> {
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ),
-        body: _widgetOptions.elementAt(_selectedIndex),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              _widgetOptions.elementAt(_selectedIndex),
+            ],
+          ),
+        ),
       ),
     );
   } // Widget build(BuildContext context) { ... }
