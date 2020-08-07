@@ -1,6 +1,8 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
+import './../../../app/controller/allControllers.dart' as controllers;
+
 class Splash extends StatefulWidget {
   @override
   _Splash createState() =>  _Splash();
@@ -10,6 +12,12 @@ class _Splash extends State<Splash> {
   @override
   void initState() {
     super.initState();
+
+    controllers.SplashController().determinaLogin().then((value) {
+      Future.delayed(Duration(seconds: 3), () {
+        Navigator.pushReplacement(context, value);
+      });
+    });
   } // void initState(){ ... }
 
 
