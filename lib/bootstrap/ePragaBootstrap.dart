@@ -1,26 +1,23 @@
+import 'package:epraga/resources/view/auth/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './../model/ePraga.dart';
-import './../resources/allViews.dart';
-import './../resources/theme/ePragaTheme.dart';
+import './../model/allModels.dart';
+import './../theme/ePragaTheme.dart';
 
-class EPraga extends StatelessWidget {
+class EPragaBootstrap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       key: Key('ePraga'),
       providers: [
         ChangeNotifierProvider(
-          create: (_) => Epraga(),
-        ),
+          create: (_) => EPraga(),
+        ), // ChangeNotifierProvider({...});
       ],
       child: MaterialApp(
         home: Splash(),
         theme: EpragaTheme.light,
-        routes: {
-          '/Login': (context) => Login(),
-        },
       ),
     );
   } // Widget build(BuildContext context) { ... }

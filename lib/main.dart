@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
-import './bootstrap/ePraga.dart';
+import './bootstrap/ePragaBootstrap.dart';
 
-void main() => runApp(EPraga());
+void main() => runApp(EPragaBootstrap());
