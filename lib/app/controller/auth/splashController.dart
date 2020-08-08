@@ -12,7 +12,7 @@ class SplashController {
       if (vPreferences.containsKey('dataLogin')) {
         if (vPreferences.getInt('dataLogin') <= DateTime.now().millisecondsSinceEpoch) {
           // Se ok envia para a tela principal
-          return FadePageRoute(views.Login());
+          return FadePageRoute(views.MainEpraga());
         } // if (value.getInt('dataLogin') <= DateTime.now().millisecondsSinceEpoch) { ... }
       } // if (value.containsKey('dataLogin')) { ...
 

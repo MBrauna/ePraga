@@ -46,7 +46,7 @@ class _Login extends State<Login> {
 
   void _validateLogin(BuildContext context) {
     try {
-      if((this._password.length < 3) || (this._codeAccess.length < 11)) {
+      if((this._password == null || this._codeAccess == null || this._password.length < 3) || (this._codeAccess.length < 11)) {
         Message(context).error('Dados não foram preenchidos corretamente! Verifique.');
         return;
       }

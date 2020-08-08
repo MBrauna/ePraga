@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import './../model/allModels.dart';
 import './../theme/ePragaTheme.dart';
+import './../database/ePragaDB.dart';
 
 class EPragaBootstrap extends StatelessWidget {
   @override
@@ -13,6 +14,9 @@ class EPragaBootstrap extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => EPraga(),
+        ), // ChangeNotifierProvider({...});
+        ChangeNotifierProvider(
+          create: (_) => EPragaDB(),
         ), // ChangeNotifierProvider({...});
       ],
       child: MaterialApp(

@@ -13,3 +13,5 @@ empty_state
     -   idle
 no-conectivity
     -   No-connection
+connection_error
+    -   connection

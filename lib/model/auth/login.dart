@@ -41,12 +41,18 @@ class Login extends ChangeNotifier {
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   factory Login.fromJson(Map<String, dynamic> data) {
-    return Login(
-      id: data['id'],
-      name: data['name'],
-      hash: data['hash'],
-      lastLogin: DateTime.fromMillisecondsSinceEpoch(int.parse(data['lastLogin'])),
-    );
+    try {
+      return Login(
+        id: data['id'],
+        name: data['name'],
+        hash: data['hash'],
+        lastLogin: DateTime.fromMillisecondsSinceEpoch(data['lastLogin']),
+      );
+    }
+    catch(erro) {
+      print(erro);
+      return Login();
+    }
   } // factory Login.fromJson(Map<String, dynamic> data) { ... }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //

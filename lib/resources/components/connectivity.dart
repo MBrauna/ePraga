@@ -1,9 +1,9 @@
-/*import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 
 import 'cardImage.dart';
-import './../../app/controller/util/networkController.dart';
+import './../../app/util/networkController.dart';
 
 class Connectivity extends StatefulWidget {
   @override
@@ -51,12 +51,11 @@ class _Connectivity extends State<Connectivity> {
         child: CardImage(
           title: 'Serviço de rede indisponível',
           subtitle: 'Atenção, você está operado no modo offline!',
-          image: 'assets/flare/no-conectivity.flr',
-          animation: 'No-connection',
+          image: 'assets/flare/connection_error.flr',
+          animation: 'idle',
           alert: true,
         ),
       );
     } // else { ... }
   }
 }
-*/

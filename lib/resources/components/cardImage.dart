@@ -43,7 +43,7 @@ class _CardImage extends State<CardImage> {
                 top: 10.0,
               ),
               child: Card(
-                color: (widget.alert) ? Colors.red : Theme.of(context).cardColor,
+                color: (widget.alert) ? Colors.red[100] : Theme.of(context).cardColor,
                 child: Padding(
                   padding: EdgeInsets.only(
                     left: 60.0,
