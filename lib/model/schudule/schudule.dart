@@ -43,10 +43,11 @@ class SchuduleEpraga extends ChangeNotifier {
     return SchuduleEpraga(
       id: data['id'],
       description: data['description'] ?? '',
-      startDate: DateTime.fromMillisecondsSinceEpoch(data['startDate']),
-      endDate: DateTime.fromMillisecondsSinceEpoch(data['endDate']),
-      execDate: DateTime.fromMillisecondsSinceEpoch(data['execDate']),
+      startDate: data['startDate'] == null ? null : DateTime.fromMillisecondsSinceEpoch(data['startDate']),
+      endDate: data['endDate'] == null ? null : DateTime.fromMillisecondsSinceEpoch(data['endDate']),
+      execDate: data['execDate'] == null ? null : DateTime.fromMillisecondsSinceEpoch(data['execDate']),
       status: data['status'] ?? true,
+      quantity: data['quantity'] ?? 0,
     );
   } // factory SchuduleEpraga.fromJson(Map<String, dynamic> data) { ... }
 
@@ -74,15 +75,15 @@ class SchuduleEpraga extends ChangeNotifier {
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   static Future<List<SchuduleEpraga>> getDB(Database database) async {
-    List request = await database.query('schudule',where: 'status = 1 and endDate is null');
+    List request = await database.query('schudule',where: 'status = 1 and end_date is null');
     List<SchuduleEpraga> returnData = List<SchuduleEpraga>();
 
     request.forEach((element) {
       returnData.add(SchuduleEpraga(
         id: element['id'],
         description: element['description'],
-        startDate: DateTime.fromMillisecondsSinceEpoch(element['start_date']),
-        endDate: DateTime.fromMillisecondsSinceEpoch(element['end_date']),
+        startDate: element['start_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['start_date']),
+        endDate: element['end_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['end_date']),
         execDate: DateTime.fromMillisecondsSinceEpoch(element['exec_date']),
         quantity: element['quantity'],
         status: (element['status'] == 1) ? true : false,
@@ -94,17 +95,20 @@ class SchuduleEpraga extends ChangeNotifier {
 
   static Future<bool> setDB(Database database, SchuduleEpraga data) async {
     try {
-      await database.transaction((txn) async {
-        await txn.rawInsert('insert into schudule(id, description, start_date, end_date, exec_date, status, quantity) values(?,?,?,?,?,?,?)',[
-          data.id,
-          data.description,
-          data.startDate == null ? null : data.startDate.millisecondsSinceEpoch,
-          data.endDate == null ? null : data.endDate.millisecondsSinceEpoch,
-          data.execDate.millisecondsSinceEpoch,
-          data.execDate,
-          data.quantity,
-        ]);
-      });
+      List request = await database.query('schudule',where: 'id = ${data.id}');
+      if(request.length <= 0) {
+        await database.transaction((txn) async {
+          await txn.rawInsert('insert into schudule(id, description, start_date, end_date, exec_date, status, quantity) values(?,?,?,?,?,?,?)',[
+            data.id,
+            data.description,
+            data.startDate == null ? null : data.startDate.millisecondsSinceEpoch,
+            data.endDate == null ? null : data.endDate.millisecondsSinceEpoch,
+            data.execDate.millisecondsSinceEpoch,
+            data.status,
+            data.quantity,
+          ]);
+        });
+      }
 
       return true;
     }

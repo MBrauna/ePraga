@@ -7,3 +7,6 @@ export 'page/auth/loginRoom.dart';
 
 /// [MAIN] - Main page
 export 'page/mainEpraga.dart';
+
+/// [SCHUDULE] - Schudule pages
+export 'page/schudule/schudule.dart';

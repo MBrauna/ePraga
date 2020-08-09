@@ -64,7 +64,7 @@ class Login extends ChangeNotifier {
 
     request.forEach((element) {
       return Login(
-        accessCode: element['accessCode'],
+        accessCode: element['access_code'],
         password: element['password'],
         hash: element['hash'],
         name: element['name'],
@@ -75,6 +75,7 @@ class Login extends ChangeNotifier {
 
   static Future<bool> setDB(Database database, Login data) async {
     try {
+      await database.delete('login');
       await database.transaction((txn) async {
         await txn.rawInsert('insert into login(access_code, password, name, hash, last_login) values(?,?,?,?,?)',[data.user, data.password, data.name, data.hash, data.lastLogin.millisecondsSinceEpoch]);
       });

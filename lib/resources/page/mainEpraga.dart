@@ -1,6 +1,8 @@
-import 'package:epraga/resources/component/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import './../component/connectivity.dart';
+import './../allPages.dart';
 
 class MainEpraga extends StatefulWidget {
   @override
@@ -11,65 +13,7 @@ class _MainEpraga extends State<MainEpraga> {
   int _selectedIndex = 0;
 
   List<Widget> _widgetOptions = <Widget>[
-    Column(
-      children: <Widget>[
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-        Text('Index 1: Agendamento\n'),
-      ],
-    ),
+    Schudule(),
     Text(
       'Index 2: Status',
     ),
