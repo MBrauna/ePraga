@@ -8,6 +8,7 @@ import './../../component/ePragaField.dart';
 import './../../../app/util/fadePageRoute.dart';
 import './../../allPages.dart' as pages;
 import './../../../app/util/cpfValidator.dart';
+import './../../../app/util/verifyNetwork.dart';
 
 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
@@ -47,17 +48,26 @@ class _Login extends State<Login> {
 
   void _validateLogin(BuildContext context) {
     try {
-      if((this._password == null || this._codeAccess == null || this._password.length < 3) || (this._codeAccess.length < 11)) {
-        Message(context).error('Dados não foram preenchidos corretamente! Verifique.');
-        return;
-      }
+      VerifyNetwork().verify().then((connected){
+        if(!connected) {
+          Message(context).error('Parece que você está offline! Para realizar esta operação é necessária conexão de rede.');
+          return;
+        } // if(!connected) { ... }
 
-      if(CPFValidator.validate(this._codeAccess)) {
-        Navigator.pushReplacement(context, FadePageRoute(null));
-      }
-      else {
-        Message(context).error('O CPF informado não representa um valor válido! Verifique.');
-      } // else { ... }
+        if((this._password == null || this._codeAccess == null || this._password.length < 3) || (this._codeAccess.length < 11)) {
+          Message(context).error('Dados não foram preenchidos corretamente! Verifique.');
+          return;
+        } // if((this._password == null || this._codeAccess == null || this._password.length < 3) || (this._codeAccess.length < 11)) { ... }
+
+        if(CPFValidator.validate(this._codeAccess)) {
+          Navigator.pushReplacement(context, FadePageRoute(null));
+          return;
+        } // if(CPFValidator.validate(this._codeAccess)) { ... }
+        else {
+          Message(context).error('O CPF informado não representa um valor válido! Verifique.');
+          return;
+        } // else { ... }
+      });
     }
     catch(erro) {
       Message(context).error('Não foi possível validar os dados de login! Verifique.');

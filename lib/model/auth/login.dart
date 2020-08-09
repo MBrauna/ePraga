@@ -5,9 +5,13 @@ import 'dart:convert';
 import './../../app/exception/ePragaException.dart';
 
 class Login extends ChangeNotifier {
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
   int _accessCode;
   DateTime _lastLogin;
   String _password, _name, _hash;
+
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   Login({int accessCode, String password, String hash, String name, DateTime lastLogin}) {
     if(accessCode == null || accessCode <= 0 || accessCode.toString().trim().isEmpty || password == null || password.length <= 0 || password.trim().isEmpty || hash == null || hash.trim().isEmpty || name == null || name.trim().isEmpty) {
@@ -31,8 +35,15 @@ class Login extends ChangeNotifier {
     }
   } // Login(int user, String password) { ... }
 
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
   int get user => this._accessCode;
   String get password => base64.encode(utf8.encode(this._accessCode.toString() + ':' + this._password));
+  String get name => this._name;
+  String get hash => this._hash;
+  DateTime get lastLogin => this._lastLogin;
+
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   static Future<Login> getDB(Database database) async {
     List request = await database.query('login');

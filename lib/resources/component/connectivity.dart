@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'cardImage.dart';
-import './../../app/util/networkController.dart';
+import './../../app/util/verifyNetwork.dart';
 
 class Connectivity extends StatefulWidget {
   @override
@@ -17,14 +17,14 @@ class _Connectivity extends State<Connectivity> {
   @override
   void initState() {
     super.initState();
-    NetworkController().verify().then((value) {
+    VerifyNetwork().verify().then((value) {
       setState(() {
         this._connectivity = value;
       });
     });
 
     this._lastTimer = Timer.periodic(Duration(seconds: 60), (timerData){
-      NetworkController().verify().then((value){
+      VerifyNetwork().verify().then((value){
         setState(() {
           this._connectivity  = value;
         });
