@@ -37,6 +37,18 @@ class Login extends ChangeNotifier {
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
+  factory Login.fromJson(Map<String, dynamic> data, {String password}) {
+    return Login(
+      accessCode: data['id'],
+      name: data['name'],
+      hash: data['hash'],
+      lastLogin: DateTime.fromMillisecondsSinceEpoch(data['lastLogin']),
+      password: password ?? 'SENHAVAZIA',
+    );
+  } // factory Login.fromJson(Map<String, dynamic> data) { ... }
+
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
   int get user => this._accessCode;
   String get password => base64.encode(utf8.encode(this._accessCode.toString() + ':' + this._password));
   String get name => this._name;
@@ -45,7 +57,23 @@ class Login extends ChangeNotifier {
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
+  // ignore: missing_return
   static Future<Login> getDB(Database database) async {
+    List request = await database.query('login');
+    //List<Login> returnData  = List<Login>();
+
+    request.forEach((element) {
+      return Login(
+        accessCode: element['accessCode'],
+        password: element['password'],
+        hash: element['hash'],
+        name: element['name'],
+        lastLogin: DateTime.fromMillisecondsSinceEpoch(element['last_login']),
+      );
+    });
+  } // Login getDB(Database database) { .. }
+
+  static Future<bool> setDB(Database database, Login data) async {
     List request = await database.query('login');
     List<Login> returnData  = List<Login>();
 
@@ -59,6 +87,6 @@ class Login extends ChangeNotifier {
       ));
     });
 
-    return returnData[0];
+    return true;
   } // Login getDB(Database database) { .. }
 }

@@ -60,7 +60,7 @@ class _Login extends State<Login> {
         } // if((this._password == null || this._codeAccess == null || this._password.length < 3) || (this._codeAccess.length < 11)) { ... }
 
         if(CPFValidator.validate(this._codeAccess)) {
-          Navigator.pushReplacement(context, FadePageRoute(null));
+          Navigator.pushReplacement(context, FadePageRoute(pages.LoginRoom(accessCode: this._codeAccess,password: this._password,)));
           return;
         } // if(CPFValidator.validate(this._codeAccess)) { ... }
         else {
