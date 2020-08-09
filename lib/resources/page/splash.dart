@@ -21,10 +21,7 @@ class _Splash extends State<Splash> {
     double  subfonteTitulo= ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
     double  logoSize      = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
-    SplashDecision().getRoute(context).then((customRoute){
-      Navigator.pushReplacement(context, customRoute);
-    });
-
+    SplashDecision().getRoute(context);
 
     return Builder(
       key: Key('Splash'),

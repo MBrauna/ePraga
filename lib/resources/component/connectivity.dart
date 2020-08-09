@@ -23,7 +23,7 @@ class _Connectivity extends State<Connectivity> {
       });
     });
 
-    this._lastTimer = Timer.periodic(Duration(seconds: 60), (timerData){
+    this._lastTimer = Timer.periodic(Duration(seconds: 30), (timerData){
       VerifyNetwork().verify().then((value){
         setState(() {
           this._connectivity  = value;

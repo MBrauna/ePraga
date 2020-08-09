@@ -6,4 +6,7 @@ import 'auth/login.dart';
 class App extends ChangeNotifier {
   Database database;
   Login login;
+
+  // Dados para agendamentos.
+  
 }

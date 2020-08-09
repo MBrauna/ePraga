@@ -74,19 +74,15 @@ class Login extends ChangeNotifier {
   } // Login getDB(Database database) { .. }
 
   static Future<bool> setDB(Database database, Login data) async {
-    List request = await database.query('login');
-    List<Login> returnData  = List<Login>();
+    try {
+      await database.transaction((txn) async {
+        await txn.rawInsert('insert into login(access_code, password, name, hash, last_login) values(?,?,?,?,?)',[data.user, data.password, data.name, data.hash, data.lastLogin.millisecondsSinceEpoch]);
+      });
 
-    request.forEach((element) {
-      returnData.add(Login(
-        accessCode: element['accessCode'],
-        password: element['password'],
-        hash: element['hash'],
-        name: element['name'],
-        lastLogin: DateTime.fromMillisecondsSinceEpoch(element['last_login']),
-      ));
-    });
-
-    return true;
+      return true;
+    }
+    catch(error) {
+      return false;
+    }
   } // Login getDB(Database database) { .. }
 }

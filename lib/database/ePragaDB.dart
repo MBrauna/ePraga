@@ -22,8 +22,8 @@ class EPragaDB extends ChangeNotifier{
   void _populateDB(Database db, int version) async {
     // Salvar dados de login
     await db.execute('create table login(access_code integer primary key, password text, name text, hash text, last_login integer)');
-    await db.execute('create table schudule(id integer primary key, description text, id_company integer, id_location integer, end integer, exec integer)');
-    await db.execute('create table task(id integer primary key, id_location integer, hash text, description text, exec integer)');
+    await db.execute('create table schudule(id integer, description text, start_date integer, end_date integer, exec_date integer, status integer, quantity integer)');
+    //await db.execute('create table task(id integer primary key, id_location integer, hash text, description text, exec integer)');
   } // void _populatedDB(Database db, int version) { ... }
 
   void _upgradeDB(Database db, int lastVersion, int actualVersion) {

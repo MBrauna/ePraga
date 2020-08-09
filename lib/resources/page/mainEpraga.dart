@@ -1,3 +1,4 @@
+import 'package:epraga/resources/component/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,17 +11,73 @@ class _MainEpraga extends State<MainEpraga> {
   int _selectedIndex = 0;
 
   List<Widget> _widgetOptions = <Widget>[
+    Column(
+      children: <Widget>[
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+        Text('Index 1: Agendamento\n'),
+      ],
+    ),
     Text(
-      'Index 2: School',
+      'Index 2: Status',
     ),
     Text(
       'Index 3: teste',
     ),
     Text(
-      'Index 3: teste',
-    ),
-    Text(
-      'Index 3: teste',
+      'Index 4: config',
     ),
   ];
 
@@ -38,6 +95,7 @@ class _MainEpraga extends State<MainEpraga> {
   Widget build(BuildContext context) {
 
     return Builder(
+      key: Key('MainEPraga'),
       builder: (context) => Scaffold(
         extendBody: true,
         bottomNavigationBar: BottomNavigationBar(
@@ -52,7 +110,7 @@ class _MainEpraga extends State<MainEpraga> {
             ),
             BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.solidComments),
-              title: Text('Status'),
+              title: Text('Comunicação'),
             ),
             BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.book),
@@ -60,15 +118,18 @@ class _MainEpraga extends State<MainEpraga> {
             ),
             BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.cogs),
-              title: Text('Configurações'),
+              title: Text('Configuração'),
             ),
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ),
         body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Connectivity(),
               _widgetOptions.elementAt(_selectedIndex),
             ],
           ),

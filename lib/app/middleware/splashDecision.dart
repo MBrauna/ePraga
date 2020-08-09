@@ -10,7 +10,7 @@ import './../../model/allModels.dart' as models;
 import './../../resources/allPages.dart' as pages;
 
 class SplashDecision {
-  Future<FadePageRoute> getRoute(BuildContext context) async{
+  Future getRoute(BuildContext context) async{
     try {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       // Inicializa a leitura ao Database --> Se necessário cria as tabelas.
@@ -23,10 +23,15 @@ class SplashDecision {
           context.read<models.App>().login  = await models.Login.getDB(database);
 
           Navigator.pushReplacement(context, FadePageRoute(pages.MainEpraga()));
+          return;
         } // if(sharedPreferences.getInt('dataLogin') <= DateTime.now().millisecondsSinceEpoch) { ... }
+        else {
+          sharedPreferences.remove('dataLogin');
+        }
       } // if(sharedPreferences.containsKey('dataLogin')) { ... }
 
-      return FadePageRoute(pages.Login());
+      Navigator.pushReplacement(context, FadePageRoute(pages.Login()));
+      return;
     }
     catch(erro) {
       throw new EPragaException(
