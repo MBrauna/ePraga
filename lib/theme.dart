@@ -22,7 +22,6 @@ class EpragaTheme {
     ),
   );
 
-
   /* ****************************************** *
    * ****************************************** */
   static final ThemeData dark = ThemeData(

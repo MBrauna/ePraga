@@ -1,2 +1,2 @@
-export 'ePraga.dart';
+export 'app.dart';
 export 'auth/login.dart';

@@ -1,8 +1,6 @@
 import 'dart:io';
 
-class NetworkController {
-
-
+class VerifyNetwork {
   Future<bool> verify() async {
     try {
       final result = await InternetAddress.lookup('google.com');

@@ -1,16 +1,17 @@
-import 'package:epraga/resources/view/auth/loginRoom.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import './../../../app/util/message.dart';
-import './../../components/ePragaField.dart';
+import './../../component/ePragaField.dart';
 import './../../../app/util/fadePageRoute.dart';
-import './../allViews.dart';
+import './../../allPages.dart' as pages;
+import './../../../app/util/cpfValidator.dart';
 
 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
+// ignore: must_be_immutable
 class Login extends StatefulWidget {
   String _message;
 
@@ -51,12 +52,12 @@ class _Login extends State<Login> {
         return;
       }
 
-      Navigator.pushReplacement(context, FadePageRoute(
-        LoginRoom(
-          codeAccess: this._codeAccess.trim(),
-          password: this._password.trim(),
-        ),
-      ));
+      if(CPFValidator.validate(this._codeAccess)) {
+        Navigator.pushReplacement(context, FadePageRoute(null));
+      }
+      else {
+        Message(context).error('O CPF informado não representa um valor válido! Verifique.');
+      } // else { ... }
     }
     catch(erro) {
       Message(context).error('Não foi possível validar os dados de login! Verifique.');
