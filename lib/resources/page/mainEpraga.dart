@@ -14,12 +14,8 @@ class _MainEpraga extends State<MainEpraga> {
 
   List<Widget> _widgetOptions = <Widget>[
     Schudule(),
-    Text(
-      'Index 2: Status',
-    ),
-    Text(
-      'Index 3: teste',
-    ),
+    Chat(),
+    Manual(),
     User(),
   ];
 
@@ -28,6 +24,7 @@ class _MainEpraga extends State<MainEpraga> {
       _selectedIndex = index;
     });
   }
+
   @override
   void initState(){
     super.initState();

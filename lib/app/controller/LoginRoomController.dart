@@ -16,7 +16,8 @@ class LoginRoomController {
     if(request['status'] == 200) {
       // Salva no banco de dados a informação
       models.Login login  = models.Login.fromJson(request,password: password);
-      models.Login.setDB(database, login);
+      await models.Login.setDB(database, login);
+
       // Salva na sessão os dados do usuário
       context.read<models.App>().login  = login;
       // Salva nas preferencias compartilhadas a data de expiração do Login

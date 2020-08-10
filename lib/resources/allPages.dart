@@ -13,3 +13,9 @@ export 'page/schudule/schudule.dart';
 
 /// [USER] - User Pages
 export 'page/user/user.dart';
+
+/// [CHAT] - Chat pages
+export 'page/message/chat.dart';
+
+/// [MANUAL] - MANUAL PAGES
+export 'page/book/manual.dart';

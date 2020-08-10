@@ -31,7 +31,7 @@ class _User extends State<User> {
           children: <Widget>[
 
             CardImage(
-              title: context.watch<models.App>().login == null ? 'teste' : 'outro',
+              title: context.watch<models.App>().login == null ? 'Refaça o login' : context.watch<models.App>().login.name,
               subtitle: context.watch<models.App>().login != null ?  'Último login em ${context.watch<models.App>().login.lastLogin.toString()}' : 'Carregando ...',
               image: 'assets/flare/robot.flr',
               animation: 'reposo',
