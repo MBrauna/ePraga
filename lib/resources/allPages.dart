@@ -10,3 +10,6 @@ export 'page/mainEpraga.dart';
 
 /// [SCHUDULE] - Schudule pages
 export 'page/schudule/schudule.dart';
+
+/// [USER] - User Pages
+export 'page/user/user.dart';

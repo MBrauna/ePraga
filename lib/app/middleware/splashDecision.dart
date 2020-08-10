@@ -20,7 +20,9 @@ class SplashDecision {
       if(sharedPreferences.containsKey('dataLogin')) {
         if(sharedPreferences.getInt('dataLogin') >= DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch) {
           // Se chegou aqui então possui login válido! Carrega ao contexto as tabelas.
-          context.read<models.App>().login  = await models.Login.getDB(database);
+          models.Login login  = await models.Login.getDB(database);
+          context.read<models.App>().login  = login;
+          print(login);
 
           Navigator.pushReplacement(context, FadePageRoute(pages.MainEpraga()));
           return;

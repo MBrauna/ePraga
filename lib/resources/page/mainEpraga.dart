@@ -20,9 +20,7 @@ class _MainEpraga extends State<MainEpraga> {
     Text(
       'Index 3: teste',
     ),
-    Text(
-      'Index 4: config',
-    ),
+    User(),
   ];
 
   void _onItemTapped(int index) {

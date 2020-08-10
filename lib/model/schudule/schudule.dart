@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 import './../../app/exception/ePragaException.dart';
+import 'task.dart';
 
 class SchuduleEpraga extends ChangeNotifier {
   int       _id, _quantity;
   String    _description;
   DateTime  _execDate, _startDate, _endDate;
   bool      _status;
+  List<Task> _listTask = List<Task>();
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
@@ -18,7 +20,8 @@ class SchuduleEpraga extends ChangeNotifier {
     DateTime execDate,
     DateTime startDate,
     DateTime endDate,
-    bool status
+    bool status,
+    List<Task> tasks,
   }) {
     if(id == null || id <= 0) {
       throw EPragaException(
@@ -35,11 +38,20 @@ class SchuduleEpraga extends ChangeNotifier {
     this._startDate   = startDate;
     this._endDate     = endDate;
     this._status      = status ?? true;
+    this._listTask    = tasks == null ? List<Task>() : tasks;
   }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   factory SchuduleEpraga.fromJson(Map<String, dynamic> data) {
+    List<Task> listTask = List<Task>();
+
+    if(data.containsKey('task')) {
+      data['task'].forEach((element){
+        listTask.add(Task.fromJson(element));
+      });
+    }
+
     return SchuduleEpraga(
       id: data['id'],
       description: data['description'] ?? '',
@@ -48,6 +60,7 @@ class SchuduleEpraga extends ChangeNotifier {
       execDate: data['execDate'] == null ? null : DateTime.fromMillisecondsSinceEpoch(data['execDate']),
       status: data['status'] ?? true,
       quantity: data['quantity'] ?? 0,
+      tasks: listTask,
     );
   } // factory SchuduleEpraga.fromJson(Map<String, dynamic> data) { ... }
 
@@ -60,6 +73,7 @@ class SchuduleEpraga extends ChangeNotifier {
   DateTime get endDate    =>  this._endDate;
   DateTime get execDate   =>  this._execDate;
   bool get status         =>  this._status ?? true;
+  List<Task> get task     =>  this._listTask;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
@@ -72,13 +86,33 @@ class SchuduleEpraga extends ChangeNotifier {
     this._endDate = date;
     notifyListeners();
   }
+
+  set task(List<Task> task){
+    if(task == null || task.length <= 0) {
+      this._listTask  = List<Task>();
+    }
+    else {
+      this._listTask  = task;
+    }
+    notifyListeners();
+  }
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   static Future<List<SchuduleEpraga>> getDB(Database database) async {
     List request = await database.query('schudule',where: 'status = 1 and end_date is null');
+    List<Task> taskRequest = await Task.getListDB(database);
     List<SchuduleEpraga> returnData = List<SchuduleEpraga>();
+    
 
     request.forEach((element) {
+      List<Task> tmpTask  = List<Task>();
+
+      taskRequest.forEach((taskElement) {
+        if(element['id'] == taskElement.idSchudule) {
+          tmpTask.add(taskElement);
+        } // if(element['id'] == taskElement.idSchudule) { ... }
+      });
+
       returnData.add(SchuduleEpraga(
         id: element['id'],
         description: element['description'],
@@ -87,9 +121,9 @@ class SchuduleEpraga extends ChangeNotifier {
         execDate: DateTime.fromMillisecondsSinceEpoch(element['exec_date']),
         quantity: element['quantity'],
         status: (element['status'] == 1) ? true : false,
+        tasks: tmpTask,
       ));
     });
-
     return returnData;
   } // static Future<List<SchuduleEpraga>> getDB(Database database) async { ... }
 
@@ -108,6 +142,13 @@ class SchuduleEpraga extends ChangeNotifier {
             data.quantity,
           ]);
         });
+        print(data.task.length);
+
+        if(data.task.length > 0){
+          data.task.forEach((element) async {
+            await Task.setDB(database, element);
+          });
+        } // if(data.task.length > 0){ ... }
       }
 
       return true;

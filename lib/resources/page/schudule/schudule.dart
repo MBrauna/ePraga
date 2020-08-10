@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import './../../../model/allModels.dart' as models;
 import './../../../app/controller/SchuduleController.dart';
+import './../../../app/util/message.dart';
 
 class Schudule extends StatefulWidget {
   @override
@@ -109,12 +110,39 @@ class _Schudule extends State<Schudule> {
                 
                 
                 Container(
-                  alignment: Alignment.topLeft,
                   width: double.infinity,
-                  child: Center(
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      children: <Widget>[
+                  //height: 120.0,
+                  padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    bottom: 5.0,
+                    top: 5.0,
+                  ),
+                  child: Card(
+                    color: Theme.of(context).cardColor,
+                    child: ExpansionTile(
+                      title: Text(
+                        '${e.description}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontFamily: 'Roboto',
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      subtitle: Text(
+                        '${e.quantity} tarefas com código #${e.id} de agendamento',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey[950],
+                          fontFamily: 'Roboto',
+                          fontSize: 12.0,
+                        ),
+                      ),
+                      children: e.task.map((t) => 
+
+
                         Container(
                           width: double.infinity,
                           //height: 120.0,
@@ -125,47 +153,92 @@ class _Schudule extends State<Schudule> {
                             top: 5.0,
                           ),
                           child: Card(
-                            color: Theme.of(context).cardColor,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: 90.0,
-                              ),
-                              child: ExpansionTile(
-                                title: Text(
-                                  '${e.description}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontFamily: 'PassionOne',
-                                    //fontSize: 30.0,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  '${e.quantity} tarefas',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Roboto',
-                                    color: Theme.of(context).primaryColor,
-                                  ),
+                            color: t.execDate == null ? Colors.grey[100] : Colors.green[100],
+                            child: ExpansionTile(
+                              title: Text(
+                                '${t.description}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.bold
                                 ),
                               ),
+                              subtitle: Text(
+                                '${t.quantityImages ?? 0} imagens são esperadas para a tarefa #${t.id.toString()}\nNota: ${t.note}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.grey[950],
+                                  fontFamily: 'Roboto',
+                                  fontSize: 10.0,
+                                ),
+                              ),
+                              children: [
+
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+
+                                    SizedBox(
+                                      width: (size.width/2) - (size.width/9),
+                                      child: RaisedButton(
+                                        onPressed: (){
+                                          Message(context).info('A tarefa #${t.id} foi marcada como iniciada!\nLog será coletado até sua finalização.');
+                                        },
+                                        child: Text(
+                                          'Iniciar tarefa',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (size.width/2) - (size.width/9),
+                                      child: RaisedButton(
+                                        onPressed: (){
+                                          Message(context).info('A tarefa #${t.id} foi marcada como finalizada!');
+                                        },
+                                        child: Text(
+                                          'Finalizar tarefa',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        color: Theme.of(context).errorColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+
+                                SizedBox(
+                                  width: size.width,
+                                  child: RaisedButton(
+                                    onPressed: (){
+                                      Message(context).info('A tarefa atual foi marcada como não dependente de imagens!');
+                                    },
+                                    child: Text(
+                                      'Adicionar imagens',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                ),
+                              ]
                             ),
                           ),
                         ),
-                        Container(
-                          height: 120.0,
-                          width: 120.0,
-                          color: Colors.transparent,
-                          child: new FlareActor(
-                            'assets/flare/WorldSpin.flr',
-                            animation: 'roll',
-                          ),
-                        ),
-                      ],
+
+
+                      ).toList()
                     ),
                   ),
-                )
+                ),
 
               ).toList(),
             )
