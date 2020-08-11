@@ -18,6 +18,7 @@ class EPraga extends StatelessWidget {
       child: MaterialApp(
         theme: EpragaTheme.light,
         home: Splash(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   } // Widget build(BuildContext context) { ... }
