@@ -28,14 +28,9 @@ flutter:
    - assets/logo/
    - assets/flare/
   fonts:
-    - family: AlfaSlabOne
+    - family: SystemAnalysis
       fonts:
-        - asset: fonts/AlfaSlabOne-Regular.ttf
+        - asset: fonts/SystemAnalysis/SystemAnalysis.ttf
     - family: Roboto
       fonts:
         - asset: fonts/Roboto/Roboto-Regular.ttf
-    - family: PassionOne
-      fonts:
-        - asset: fonts/Passion_One/PassionOne-Regular.ttf
-        - asset: fonts/Passion_One/PassionOne-Black.ttf
-        - asset: fonts/Passion_One/PassionOne-Bold.ttf

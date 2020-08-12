@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './../../config.dart' as config;
+import 'package:epraga/config/config.dart' as config;
 
 class EPragaException implements Exception {
   String _origin;

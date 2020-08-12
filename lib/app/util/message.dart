@@ -12,6 +12,7 @@ class Message {
       final snackbar = SnackBar(
         content: Text(
           message,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -35,6 +36,7 @@ class Message {
       final snackbar = SnackBar(
         content: Text(
           message,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

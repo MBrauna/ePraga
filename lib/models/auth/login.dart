@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'dart:convert';
 
-import './../../app/exception/ePragaException.dart';
+import 'package:epraga/allFiles.dart';
 
 class Login extends ChangeNotifier {
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
@@ -57,33 +56,4 @@ class Login extends ChangeNotifier {
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
-  // ignore: missing_return
-  static Future<Login> getDB(Database database) async {
-    List request = await database.query('login');
-    //List<Login> returnData  = List<Login>();
-
-    request.forEach((element) {
-      return Login(
-        accessCode: element['access_code'],
-        password: element['password'],
-        hash: element['hash'],
-        name: element['name'],
-        lastLogin: DateTime.fromMillisecondsSinceEpoch(element['last_login']),
-      );
-    });
-  } // Login getDB(Database database) { .. }
-
-  static Future<bool> setDB(Database database, Login data) async {
-    try {
-      await database.delete('login');
-      await database.transaction((txn) async {
-        await txn.rawInsert('insert into login(access_code, password, name, hash, last_login) values(?,?,?,?,?)',[data.user, data.password, data.name, data.hash, data.lastLogin.millisecondsSinceEpoch]);
-      });
-
-      return true;
-    }
-    catch(error) {
-      return false;
-    }
-  } // Login getDB(Database database) { .. }
 }

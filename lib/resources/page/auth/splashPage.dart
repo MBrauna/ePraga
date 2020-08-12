@@ -1,18 +1,17 @@
+import 'package:epraga/allFiles.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
-import './../../app/middleware/splashDecision.dart';
-
-class Splash extends StatefulWidget {
+class SplashPage extends StatefulWidget {
   @override
-  _Splash createState() => _Splash();
-} // class Splash extends StatefulWidget { ... }
+  _SplashPage createState() => _SplashPage();
+} // class SplashPage extends StatefulWidget { ... }
 
-class _Splash extends State<Splash> {
+class _SplashPage  extends State<SplashPage> {
   @override
-  void initState() {
+  void initState(){
     super.initState();
-  } // void initState(){ ... }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,26 +20,40 @@ class _Splash extends State<Splash> {
     double  subfonteTitulo= ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
     double  logoSize      = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
-    SplashDecision().getRoute(context);
+    Future.delayed(Duration(seconds: 3),(){
+      SplashController.getRoute(context);
+    });
 
     return Builder(
-      key: Key('Splash'),
-      builder: (context) {
+      builder: (context){
+
         return Scaffold(
+          key: Key('Splash'),
           body: Center(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+
                   Text('ePraga',
                     style: TextStyle(
-                      color: Colors.blue,
-                      fontFamily: 'PassionOne',
+                      fontFamily: 'SystemAnalysis',
+                      color: Theme.of(context).primaryColor,
                       fontSize: fonteTitulo,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
+                  Text('Tec Solution',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontFamily: 'Roboto',
+                      fontSize: subfonteTitulo,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
                   Container(
                     alignment: Alignment.center,
                     height: logoSize,
@@ -52,20 +65,14 @@ class _Splash extends State<Splash> {
                       fit: BoxFit.fitHeight,
                     ),
                   ),
-                  Text('Tec Solution',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontFamily: 'Roboto',
-                      fontSize: subfonteTitulo,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+
                 ],
               ),
             ),
           ),
         );
-      },
+
+      }
     );
   } // Widget build(BuildContext context) { ... }
-}
+} // class _SplashPage extends State<SplashPage> { ... }
