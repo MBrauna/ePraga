@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:epraga/allFiles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,12 +21,27 @@ class SplashController {
           bool dataControllerResp = await DataController.getDatabaseData(context);
 
           if(dataControllerResp) {
+            Message(context).info('Para tela principal');
             return;
           }
         } // if(sharedPreferences.getInt('dataLogin') >= DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch) { ... }
       } // if(sharedPreferences.containsKey('lastLogin')) { ... }
 
-      return;
+      bool verifyNetwork = false;
+      while(!verifyNetwork) {
+        verifyNetwork = await VerifyNetwork().verify();
+        
+        if(verifyNetwork) {
+          Navigator.pushReplacement(context, FadePageRoute(LoginPage()));
+          return;
+        }
+        else {
+          await Future.delayed(Duration(seconds: 5),(){
+            Message(context).error('[ATENÇÃO] - SISTEMA OFFLINE\nA operação a seguir necessita de rede! Verifique.\nTentaremos novamente em 5 segundos',tempo: 3);
+          });
+        }
+      } // while(!verifyNetwork) { ... }
+
     }
     catch(erro) {
       // Envia uma mensagem de alerta

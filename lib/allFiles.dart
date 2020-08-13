@@ -2,9 +2,14 @@
 export 'config/database.dart';
 export 'config/theme.dart';
 
-/// [APP] - Controladores da aplicação
-export 'package:epraga/app/controlller/dataController.dart';
-export 'package:epraga/app/controlller/auth/splashController.dart';
+/// [CONTROLLER] - Controladores da aplicação
+export 'package:epraga/app/controller/dataController.dart';
+export 'package:epraga/app/controller/auth/splashController.dart';
+export 'package:epraga/app/controller/auth/loginController.dart';
+
+/// [WSCOM] - Comunicador da aplicação
+export 'package:epraga/app/controller/wscom/loginRequest.dart';
+export 'package:epraga/app/controller/wscom/schuduleRequest.dart';
 
 /// [UTIL] - Utilitários da aplicação
 export 'package:epraga/app/util/cpfValidator.dart';
@@ -19,5 +24,12 @@ export 'package:epraga/app/exception/ePragaException.dart';
 export 'package:epraga/models/app.dart';
 export 'package:epraga/models/auth/login.dart';
 
+/// [COMPONENTS] - Componentes para criação da aplicação
+export 'package:epraga/resources/component/cardImage.dart';
+export 'package:epraga/resources/component/connectivity.dart';
+export 'package:epraga/resources/component/ePragaField.dart';
+
 /// [PAGES] - Páginas da aplicação
 export 'package:epraga/resources/page/auth/splashPage.dart';
+export 'package:epraga/resources/page/auth/loginPage.dart';
+export 'package:epraga/resources/page/auth/LoginRoomPage.dart';

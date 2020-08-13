@@ -7,7 +7,7 @@ class Message {
     this._context = context;
   } // Message(BuildContext context) { ...}
 
-  Future error(String message) {
+  Future error(String message,{int tempo = 10}) {
     try {
       final snackbar = SnackBar(
         content: Text(
@@ -18,6 +18,7 @@ class Message {
             fontWeight: FontWeight.bold,
           ),
         ),
+        duration: Duration(seconds: tempo),
         backgroundColor: Colors.red,
         key: Key('MessageError'),
       ); // final snacbar = SnackBar( ... );
@@ -31,7 +32,7 @@ class Message {
   } // Future error(String message) { ... }
 
 
-  Future info(String message) {
+  Future info(String message,{int tempo = 10}) {
     try {
       final snackbar = SnackBar(
         content: Text(
@@ -42,6 +43,7 @@ class Message {
             fontWeight: FontWeight.bold,
           ),
         ),
+        duration: Duration(seconds: tempo),
         backgroundColor: Colors.indigo[900],
         key: Key('MessageInfo'),
       ); // final snacbar = SnackBar( ... );

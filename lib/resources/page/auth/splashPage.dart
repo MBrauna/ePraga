@@ -20,9 +20,6 @@ class _SplashPage  extends State<SplashPage> {
     double  subfonteTitulo= ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
     double  logoSize      = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
-    Future.delayed(Duration(seconds: 3),(){
-      SplashController.getRoute(context);
-    });
 
     return Builder(
       builder: (context){
@@ -45,13 +42,21 @@ class _SplashPage  extends State<SplashPage> {
                     ),
                   ),
 
-                  Text('Tec Solution',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontFamily: 'Roboto',
-                      fontSize: subfonteTitulo,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Builder(
+                    builder: (context){
+                      Future.delayed(Duration(seconds: 3),(){
+                        SplashController.getRoute(context);
+                      });
+
+                      return Text('Tec Solution',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontFamily: 'Roboto',
+                          fontSize: subfonteTitulo,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
                   ),
 
                   Container(
@@ -65,6 +70,7 @@ class _SplashPage  extends State<SplashPage> {
                       fit: BoxFit.fitHeight,
                     ),
                   ),
+
 
                 ],
               ),
