@@ -13,15 +13,11 @@ class LoginRoomPage extends StatefulWidget {
 } // class LoginRoomPage extends StatefulWidget { ... }
 
 class _LoginRoomPage extends State<LoginRoomPage> {
-  bool initValidate = false;
+  bool initValidate = true;
 
   @override
   void initState(){
     super.initState();
-
-    setState(() {
-      this.initValidate = true;
-    }); // setState(() { .. });
   } // void initState(){ ... }
 
 
@@ -33,18 +29,17 @@ class _LoginRoomPage extends State<LoginRoomPage> {
     double  subfonteTitulo= ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
     double  logoLoad        = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
+    if(initValidate) {
+      setState(() {
+        this.initValidate = false;
+      });
+
+      LoginController.getDecision(context, widget.accessCode, widget.password);
+    } // if(initValidate) { ... }
 
     return Scaffold(
       body: Builder(
         builder: (context){
-
-          if(initValidate) {
-            setState(() {
-              this.initValidate = false;
-            });
-
-            LoginController.getDecision(context, widget.accessCode, widget.password);
-          } // if(initValidate) { ... }
 
           return Center(
             child: SingleChildScrollView(

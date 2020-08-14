@@ -23,6 +23,7 @@ class DataController {
       });
       // Armazena os dados de login na sessão.
       context.read<App>().login = login;
+
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
@@ -47,7 +48,7 @@ class DataController {
       if(login != null && login.hash != null && login.hash.isNotEmpty && login.user != null && login.user.toString().isNotEmpty) {
         List counterLogin = await context.read<App>().database.rawQuery('select count(1) as counter from login');
 
-        if(counterLogin.length > 0 && counterLogin[0].counter <= 0) {
+        if(counterLogin.length > 0 && counterLogin[0]['counter'] <= 0) {
           // Se existe dados de login, então limpa o login existente.
           // Para preencher novamente com os dados da sessão.
           await context.read<App>().database.delete('login');
