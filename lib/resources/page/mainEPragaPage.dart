@@ -14,7 +14,7 @@ class _MainEpragaPage extends State<MainEpragaPage> {
     Text('123'),
     Text('123'),
     Text('123'),
-    Text('123'),
+    UserPage(),
   ]; // List<Widget> _widgetOptions = <Widget>[ ... ]
 
   void _onItemTapped(int index) {

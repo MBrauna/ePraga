@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:epraga/allFiles.dart';
+import 'package:epraga/resources/page/mainEPragaPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,15 +17,15 @@ class SplashController {
       context.read<App>().database  = database;
 
       if(sharedPreferences.containsKey('lastLogin')) {
-        if(sharedPreferences.getInt('dataLogin') >= DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch) {
+        if(DateTime.now().millisecondsSinceEpoch <= sharedPreferences.getInt('lastLogin')) {
           // Se já estiver logado e estiver tudo ok ...
           bool dataControllerResp = await DataController.getDatabaseData(context);
 
           if(dataControllerResp) {
-            Message(context).info('Para tela principal');
+            Navigator.pushReplacement(context, FadePageRoute(MainEpragaPage()));
             return;
           }
-        } // if(sharedPreferences.getInt('dataLogin') >= DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch) { ... }
+        } // if(sharedPreferences.getInt('lastLogin') >= DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch) { ... }
       } // if(sharedPreferences.containsKey('lastLogin')) { ... }
 
       bool verifyNetwork = false;

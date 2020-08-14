@@ -9,7 +9,7 @@ class DataController {
     try {
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
       // Gera uma consulta ao banco de dados para a tabela de login
-      List dataLogin  = await context.watch<App>().database.query('login',limit: 1);
+      List dataLogin  = await context.read<App>().database.query('login',limit: 1);
       // Cria os dados de login
       Login login;
       dataLogin.forEach((element) {
@@ -32,6 +32,7 @@ class DataController {
       return true;
     } // try { ... }
     catch(erro) {
+      print(erro);
       return false;
     } // catch(erro) { ... }
   } // static Future<bool> getDatabaseData(BuildContext context) async { ... }
@@ -48,11 +49,11 @@ class DataController {
       if(login != null && login.hash != null && login.hash.isNotEmpty && login.user != null && login.user.toString().isNotEmpty) {
         List counterLogin = await context.read<App>().database.rawQuery('select count(1) as counter from login');
 
-        if(counterLogin.length > 0 && counterLogin[0]['counter'] <= 0) {
+        if(counterLogin.length > 0) {
           // Se existe dados de login, então limpa o login existente.
           // Para preencher novamente com os dados da sessão.
           await context.read<App>().database.delete('login');
-        }
+        } // if(counterLogin.length > 0) { ... }
 
         await context.read<App>().database.transaction((txn) async {
           await txn.rawInsert('insert into login(access_code, password, name, hash, last_login) values(?,?,?,?,?)',[login.user, login.password, login.name, login.hash, login.lastLogin.millisecondsSinceEpoch]);
@@ -67,7 +68,6 @@ class DataController {
       return true;
     } // try { ... }
     catch(erro) {
-      print(erro);
       return false;
     } // catch(erro) { ... }
   } // static Future<bool> setDatabaseData(BuildContext context) { ... }

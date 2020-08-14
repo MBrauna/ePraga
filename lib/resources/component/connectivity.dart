@@ -49,8 +49,23 @@ class _Connectivity extends State<Connectivity> {
       return Container(
         width: double.infinity,
         child: CardImage(
-          title: 'Serviço de rede indisponível',
-          subtitle: 'Atenção, você está operado no modo offline!',
+          title: Text(
+            'Serviço de rede indisponível',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontFamily: 'Roboto',
+                //fontSize: 30.0,
+                fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            'Atenção, você está operado no modo offline!',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Roboto',
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
           image: 'assets/flare/connection_error.flr',
           animation: 'idle',
           alert: true,

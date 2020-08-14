@@ -33,3 +33,4 @@ export 'package:epraga/resources/component/ePragaField.dart';
 export 'package:epraga/resources/page/auth/splashPage.dart';
 export 'package:epraga/resources/page/auth/loginPage.dart';
 export 'package:epraga/resources/page/auth/LoginRoomPage.dart';
+export 'package:epraga/resources/page/user/userPage.dart';

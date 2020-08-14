@@ -15,6 +15,8 @@ class LoginRequest {
       return dataWS;
     }
     catch(erro) {
+      print(erro);
+      print(config.ENDPOINT_LOGIN);
       Map<String, dynamic> dataWS     = Map<String, dynamic>();
       dataWS.putIfAbsent('status', () => 404);
       return dataWS;

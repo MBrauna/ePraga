@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CardImage extends StatefulWidget {
-  String title, subtitle, image, animation;
+  String image, animation;
   bool alert;
+  Widget title, subtitle;
 
   CardImage({
-    this.title = '',
-    this.subtitle = '',
+    this.title,
+    this.subtitle,
     this.image = 'robot',
     this.animation = 'reposo',
     this.alert = false,
@@ -49,23 +50,8 @@ class _CardImage extends State<CardImage> {
                     left: 60.0,
                   ),
                   child: ListTile(
-                    title: Text(
-                      '${widget.title}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: (widget.alert) ? Colors.white : Theme.of(context).primaryColor,
-                          fontFamily: 'PassionOne',
-                          //fontSize: 30.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      '${widget.subtitle}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Roboto',
-                        color: (widget.alert) ? Colors.white : Theme.of(context).primaryColor,
-                      ),
-                    ),
+                    title: widget.title,
+                    subtitle: widget.subtitle,
                   ),
                 ),
               ),
