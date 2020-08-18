@@ -137,8 +137,8 @@ class _GuidePage extends State<GuidePage> {
                 ),
 
                 CardImage(
-                  image: 'assets/flare/robot.flr',
-                  animation: 'reposo',
+                  image: 'assets/flare/books.flr',
+                  animation: 'anim',
                   title: Text(
                     'Guias e manuais de intruções',
                     textAlign: TextAlign.center,

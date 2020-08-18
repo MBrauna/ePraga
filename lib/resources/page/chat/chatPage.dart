@@ -24,8 +24,8 @@ class _ChatPage extends State<ChatPage> {
         '\n\n\n\nBip bip bop!\nIrei informar quando algo chegar!',
         textAlign: TextAlign.center,
       ),
-      image: 'assets/flare/robot.flr',
-      animation: 'reposo',
+      image: 'assets/flare/message.flr',
+      animation: 'go',
     );
   }
 }
