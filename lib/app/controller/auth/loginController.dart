@@ -21,8 +21,13 @@ class LoginController {
         } // try { ... }
         catch(erro) {} // catch(erro) { ... }
 
+        try {
+          await SchuduleController.getGuide(context);
+        }
+        catch(erro){}
+
         // Por fim persiste os dados no banco.
-        await DataController.setDatabaseData(context,['guide']);
+        //await DataController.setDatabaseData(context,['guide','schudule']);
 
         if(!execController) {
           Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Ocorreu um erro ao realizar o login! Verifique.',)));

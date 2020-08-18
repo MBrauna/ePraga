@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'package:epraga/allFiles.dart';
 
 class App extends ChangeNotifier {
@@ -9,7 +8,7 @@ class App extends ChangeNotifier {
 
   Database _database;
   Login _login;
-  List<Guide> _listGuide;
+  List<Guide> _listGuide        = List<Guide>();
   List<Schudule> _listSchudule  = List<Schudule>();
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
@@ -42,4 +41,14 @@ class App extends ChangeNotifier {
     }
     notifyListeners();
   } // set guide(List<Guide> guide) { ... }
+
+  set schudule(List<Schudule> data) {
+    if(data == null) {
+      this._listSchudule = List<Schudule>();
+    } // if(data == null) { ... }
+    else {
+      this._listSchudule  = data;
+    } // else { ... }
+    notifyListeners();
+  } // set schudule(List<Schudule> data) { ... }
 } // class App extends ChangeNotifier { ... }

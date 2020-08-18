@@ -25,7 +25,8 @@ class DataController {
         // Armazena os dados de login na sessão.
         context.read<App>().login = login;
       } //  if(modules.contains('login')) { ... }
-      
+
+      // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
       
       if(modules.contains('guide')) {
         // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
@@ -50,6 +51,27 @@ class DataController {
       } //else if(modules.contains('guide')) { ... }
 
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
+      if(modules.contains('schudule')){
+        List dataSchudule = await context.read<App>().database.query('schudule',orderBy: 'start_date asc');
+        List<Schudule> schuduleList = List<Schudule>();
+
+        if(dataSchudule.length > 0) {
+          dataSchudule.forEach((element) {
+            Schudule schudule = Schudule(
+              id: element['id'],
+              description: element['description'],
+              latitude: num.parse(element['latitude']),
+              longitude: num.parse(element['longitude']),
+              startDate: element['start_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['start_date']),
+              dueDate: element['due_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['due_date']),
+            );
+            schuduleList.add(schudule);
+          });
+        } // if(dataSchudule.length > 0) { .. }
+
+        context.read<App>().schudule  = schuduleList;
+      } // if(modules.contains('schudule')){ ... }
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
       return true;
@@ -119,9 +141,54 @@ class DataController {
         } // for (var i = 0; i < guideList.length; i++) { ... }
         
         // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
       } // else if(modules.contains('guide')) { ... }
 
-      
+      if(modules.contains('schudule')) {
+        // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+        // Dados de agendamento
+        List<Schudule> schuduleList = context.read<App>().schudule;
+
+        for (var i = 0; i < schuduleList.length; i++) {
+          List counterSchudule = await context.read<App>().database.rawQuery('select id from schudule where id = ?',[schuduleList.elementAt(i).id]);
+          if(counterSchudule.length <= 0) {
+            // Se não existir realizar o insert
+            await context.read<App>().database.transaction((txn) async {
+              await txn.rawInsert('insert into schudule(id, description, latitude, longitude, start_date, due_date, edit_date) values(?,?,?,?,?,?,?)',
+              [
+                schuduleList.elementAt(i).id,
+                schuduleList.elementAt(i).description,
+                schuduleList.elementAt(i).latitude.toString(),
+                schuduleList.elementAt(i).longitude.toString(),
+                schuduleList.elementAt(i).startDate == null ? DateTime.now().millisecondsSinceEpoch : schuduleList.elementAt(i).startDate.millisecondsSinceEpoch,
+                schuduleList.elementAt(i).dueDate == null ? null : schuduleList.elementAt(i).dueDate.millisecondsSinceEpoch,
+                schuduleList.elementAt(i).editDate == null ? DateTime.now().millisecondsSinceEpoch : schuduleList.elementAt(i).editDate.millisecondsSinceEpoch,
+              ]
+              );
+            });
+          }
+          else {
+            // Se existir realiza update
+            for(var j = 0; j < counterSchudule.length; j++) {
+              await context.read<App>().database.transaction((txn) async {
+                await txn.rawInsert('update schudule set description = ?, latitude = ?, longitude = ?, start_date = ?, due_date = ?, edit_date = ? where id = ? and edit_date < ?',
+                [
+                  schuduleList.elementAt(i).description,
+                  schuduleList.elementAt(i).latitude.toString(),
+                  schuduleList.elementAt(i).longitude.toString(),
+                  schuduleList.elementAt(i).startDate == null ? DateTime.now().millisecondsSinceEpoch : schuduleList.elementAt(i).startDate.millisecondsSinceEpoch,
+                  schuduleList.elementAt(i).dueDate == null ? null : schuduleList.elementAt(i).dueDate.millisecondsSinceEpoch,
+                  schuduleList.elementAt(i).editDate == null ? DateTime.now().millisecondsSinceEpoch : schuduleList.elementAt(i).editDate.millisecondsSinceEpoch,
+                  counterSchudule.elementAt(j).id,
+                  schuduleList.elementAt(i).editDate.millisecondsSinceEpoch
+                ]
+                );
+              });
+            } // for(var j = 0; j < counterSchudule.length; j++) { ... }
+          } // else { ... }
+        } // for (var i = 0; i < schuduleList.length; i++) { ... }
+        // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+      } // if(modules.contains('schudule')) { ... }
 
       return true;
     } // try { ... }

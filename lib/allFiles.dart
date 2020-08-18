@@ -7,6 +7,7 @@ export 'package:epraga/app/controller/dataController.dart';
 export 'package:epraga/app/controller/auth/splashController.dart';
 export 'package:epraga/app/controller/auth/loginController.dart';
 export 'package:epraga/app/controller/guide/guideController.dart';
+export 'package:epraga/app/controller/schudule/schuduleController.dart';
 
 /// [WSCOM] - Comunicador da aplicação
 export 'package:epraga/app/controller/wscom/loginRequest.dart';
