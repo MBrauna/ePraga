@@ -20,8 +20,7 @@ class EPragaDB {
   static void populateDB(Database db, int version) async {
     // Salvar dados de login
     await db.execute('create table login(access_code integer primary key, password text, name text, hash text, last_login integer)');
-    await db.execute('create table schudule(id integer primary key, description text, start_date integer, end_date integer, exec_date integer, status integer, quantity integer)');
-    await db.execute('create table task(id integer primary key, id_schudule integer, description text, id_prague integer, latitude NUMERIC, longitude numeric, note text, qtde_img integer, exec_date integer)');
+    await db.execute('create table manual(id integer primary key, title text, body text, manual_date integer)');
     //await db.execute('create table task(id integer primary key, id_location integer, hash text, description text, exec integer)');
   } // void _populatedDB(Database db, int version) { ... }
 
