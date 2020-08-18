@@ -15,7 +15,7 @@ class LoginController {
 
         // Salva na sessão os dados do usuário
         context.read<App>().login  = login;
-        bool execController = await DataController.setDatabaseData(context);
+        bool execController = await DataController.setDatabaseData(context,['login']);
 
         if(!execController) {
           Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Ocorreu um erro ao realizar o login! Verifique.',)));

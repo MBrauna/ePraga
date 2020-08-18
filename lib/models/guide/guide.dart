@@ -1,14 +1,14 @@
 import 'package:epraga/app/exception/ePragaException.dart';
 import 'package:flutter/material.dart';
 
-class Manual extends ChangeNotifier {
+class Guide extends ChangeNotifier {
   int _id;
   String _title, _body;
-  DateTime _manualDate;
+  DateTime _guideDate;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # --
 
-  Manual({int id, String title, String body, DateTime manualDate}) {
+  Guide({int id, String title, String body, DateTime guideDate}) {
     if(id <= 0 || id == null || id.toString().trim().length <= 0) {
       throw new EPragaException(
         origin: this.runtimeType.toString(),
@@ -42,22 +42,22 @@ class Manual extends ChangeNotifier {
       this._body = body;
     }
 
-    if(manualDate == null) {
-      this._manualDate  = DateTime.now();
+    if(guideDate == null) {
+      this._guideDate  = DateTime.now();
     }
     else {
-       this._manualDate  = manualDate;
+       this._guideDate  = guideDate;
     }
-  } // Manual({int id, String title, DateTime manualDate}) { ... }
+  } // Guide({int id, String title, DateTime guideDate}) { ... }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # --
 
-  factory Manual.fromJson(Map<String, dynamic> data) {
-    return Manual(
+  factory Guide.fromJson(Map<String, dynamic> data) {
+    return Guide(
       id: data['id'],
       title: data['title'],
       body: data['body'],
-      manualDate: data['manualDate'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(data['manualDate']),
+      guideDate: data['guideDate'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(data['guideDate']),
     );
   } // factory Manual.fromJson(Map<String, dynamic> data) { ... }
 
@@ -66,7 +66,7 @@ class Manual extends ChangeNotifier {
   int get id => this._id;
   String get title => this._title;
   String get body => this._body;
-  DateTime get createdAt => this._manualDate;
+  DateTime get createdAt => this._guideDate;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # --
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # --

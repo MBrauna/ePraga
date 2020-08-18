@@ -9,10 +9,12 @@ class App extends ChangeNotifier {
 
   Database _database;
   Login _login;
+  List<Guide> _listGuide;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   Database get database => this._database;
   Login get login => this._login;
+  List<Guide> get guide => this._listGuide;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   set database(Database database) {
@@ -28,4 +30,14 @@ class App extends ChangeNotifier {
       notifyListeners();
     } // if(login != null) { ... }
   } // set login(Login login) { ... }
+
+  set guide(List<Guide> guide) {
+    if(guide.length <= 0 || guide == null) {
+      this._listGuide = List<Guide>();
+    } // if(guide.length <= 0 || guide == null) { ... }
+    else {
+      this._listGuide = guide;
+    }
+    notifyListeners();
+  } // set guide(List<Guide> guide) { ... }
 } // class App extends ChangeNotifier { ... }

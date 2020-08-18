@@ -23,7 +23,7 @@ export 'package:epraga/app/exception/ePragaException.dart';
 /// [MODEL] - Arquivos para contenção dos dados da aplicação
 export 'package:epraga/models/app.dart';
 export 'package:epraga/models/auth/login.dart';
-export 'package:epraga/models/manual/manual.dart';
+export 'package:epraga/models/guide/guide.dart';
 
 /// [COMPONENTS] - Componentes para criação da aplicação
 export 'package:epraga/resources/component/cardImage.dart';

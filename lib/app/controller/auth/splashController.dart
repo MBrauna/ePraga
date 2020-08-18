@@ -19,7 +19,7 @@ class SplashController {
       if(sharedPreferences.containsKey('lastLogin')) {
         if(DateTime.now().millisecondsSinceEpoch <= sharedPreferences.getInt('lastLogin')) {
           // Se já estiver logado e estiver tudo ok ...
-          bool dataControllerResp = await DataController.getDatabaseData(context);
+          bool dataControllerResp = await DataController.getDatabaseData(context,['login','guide']);
 
           if(dataControllerResp) {
             Navigator.pushReplacement(context, FadePageRoute(MainEpragaPage()));
