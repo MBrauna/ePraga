@@ -1,5 +1,4 @@
 import 'package:epraga/allFiles.dart';
-import 'package:epraga/resources/page/mainEPragaPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +15,14 @@ class LoginController {
         // Salva na sessão os dados do usuário
         context.read<App>().login  = login;
         bool execController = await DataController.setDatabaseData(context,['login']);
+
+        try {
+          await GuideController.getGuide(context);
+        } // try { ... }
+        catch(erro) {} // catch(erro) { ... }
+
+        // Por fim persiste os dados no banco.
+        await DataController.setDatabaseData(context,['guide']);
 
         if(!execController) {
           Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Ocorreu um erro ao realizar o login! Verifique.',)));

@@ -6,10 +6,12 @@ export 'config/theme.dart';
 export 'package:epraga/app/controller/dataController.dart';
 export 'package:epraga/app/controller/auth/splashController.dart';
 export 'package:epraga/app/controller/auth/loginController.dart';
+export 'package:epraga/app/controller/guide/guideController.dart';
 
 /// [WSCOM] - Comunicador da aplicação
 export 'package:epraga/app/controller/wscom/loginRequest.dart';
 export 'package:epraga/app/controller/wscom/schuduleRequest.dart';
+export 'package:epraga/app/controller/wscom/guideRequest.dart';
 
 /// [UTIL] - Utilitários da aplicação
 export 'package:epraga/app/util/cpfValidator.dart';
@@ -34,4 +36,7 @@ export 'package:epraga/resources/component/ePragaField.dart';
 export 'package:epraga/resources/page/auth/splashPage.dart';
 export 'package:epraga/resources/page/auth/loginPage.dart';
 export 'package:epraga/resources/page/auth/LoginRoomPage.dart';
+export 'package:epraga/resources/page/mainEPragaPage.dart';
 export 'package:epraga/resources/page/user/userPage.dart';
+export 'package:epraga/resources/page/guide/guidePage.dart';
+export 'package:epraga/resources/page/chat/chatPage.dart';

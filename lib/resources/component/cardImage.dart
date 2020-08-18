@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class CardImage extends StatefulWidget {
   String image, animation;
-  bool alert;
+  Color background;
   Widget title, subtitle;
 
   CardImage({
@@ -12,7 +12,7 @@ class CardImage extends StatefulWidget {
     this.subtitle,
     this.image = 'robot',
     this.animation = 'reposo',
-    this.alert = false,
+    this.background = Colors.white,
   });
 
   @override
@@ -38,13 +38,11 @@ class _CardImage extends State<CardImage> {
               width: double.infinity,
               //height: 120.0,
               padding: EdgeInsets.only(
-                left: 15.0,
-                right: 15.0,
                 bottom: 10.0,
                 top: 10.0,
               ),
               child: Card(
-                color: (widget.alert) ? Colors.red[900] : Theme.of(context).cardColor,
+                color: widget.background,
                 child: Padding(
                   padding: EdgeInsets.only(
                     left: 60.0,
@@ -57,7 +55,7 @@ class _CardImage extends State<CardImage> {
               ),
             ),
             Container(
-              height: 120.0,
+              height: 100.0,
               width: 120.0,
               color: Colors.transparent,
               child: new FlareActor(

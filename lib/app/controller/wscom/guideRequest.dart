@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import './../../../config/config.dart' as config;
 
-class LoginRequest {
-  static Future<Map<String, dynamic>> getLogin({int accessCode, String password}) async{
+class GuideRequest {
+  static Future<Map<String, dynamic>> getGuide(String hash) async{
     try {
       // Realiza a requisição e fica aguardando a resposta para prosseguimento
       //final request                   = {'accessCode' : accessCode,'password' : password,};
-      final response                  = await http.get(config.ENDPOINT_LOGIN);
+      final response                  = await http.get(config.ENDPOINT_GUIDE);
       Map<String, dynamic> dataWS     = jsonDecode(response.body);
 
       dataWS.putIfAbsent('status', () => response.statusCode);

@@ -12,8 +12,8 @@ class _MainEpragaPage extends State<MainEpragaPage> {
 
   List<Widget> _widgetOptions = <Widget>[
     Text('123'),
-    Text('123'),
-    Text('123'),
+    ChatPage(),
+    GuidePage(),
     UserPage(),
   ]; // List<Widget> _widgetOptions = <Widget>[ ... ]
 
@@ -64,7 +64,16 @@ class _MainEpragaPage extends State<MainEpragaPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Connectivity(),
-                _widgetOptions.elementAt(_selectedIndex),
+
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(
+                    bottom: 50.0,
+                    left: 15.0,
+                    right: 15.0,
+                  ),
+                  child: _widgetOptions.elementAt(_selectedIndex),
+                ),
               ],
             ),
           ),

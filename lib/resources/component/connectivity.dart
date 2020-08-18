@@ -53,7 +53,7 @@ class _Connectivity extends State<Connectivity> {
             'Serviço de rede indisponível',
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).backgroundColor,
                 fontFamily: 'Roboto',
                 //fontSize: 30.0,
                 fontWeight: FontWeight.bold),
@@ -63,12 +63,12 @@ class _Connectivity extends State<Connectivity> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: 'Roboto',
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).backgroundColor,
             ),
           ),
           image: 'assets/flare/connection_error.flr',
           animation: 'idle',
-          alert: true,
+          background: Colors.red[600],
         ),
       );
     } // else { ... }

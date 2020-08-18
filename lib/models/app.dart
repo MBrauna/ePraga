@@ -32,7 +32,7 @@ class App extends ChangeNotifier {
   } // set login(Login login) { ... }
 
   set guide(List<Guide> guide) {
-    if(guide.length <= 0 || guide == null) {
+    if(guide == null) {
       this._listGuide = List<Guide>();
     } // if(guide.length <= 0 || guide == null) { ... }
     else {

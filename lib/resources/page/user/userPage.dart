@@ -1,6 +1,4 @@
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:epraga/allFiles.dart';
 
@@ -22,10 +20,10 @@ class _UserPage extends State<UserPage> {
 
 
     return Container(
-      padding: EdgeInsets.only(
+      /*padding: EdgeInsets.only(
         left: 15.0,
         right: 15.0,
-      ),
+      ),*/
       child: Column(
         children: <Widget>[
 

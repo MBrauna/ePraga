@@ -10,6 +10,7 @@ class DataController {
         // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
         // Gera uma consulta ao banco de dados para a tabela de login
         List dataLogin  = await context.read<App>().database.query('login',limit: 1);
+
         // Cria os dados de login
         Login login;
         dataLogin.forEach((element) {
@@ -24,22 +25,26 @@ class DataController {
         // Armazena os dados de login na sessão.
         context.read<App>().login = login;
       } //  if(modules.contains('login')) { ... }
-      else if(modules.contains('guide')) {
+      
+      
+      if(modules.contains('guide')) {
         // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
         // Coleta os dados de manuais e guias.
         List dataGuide = await context.read<App>().database.query('guide',orderBy: 'guide_date desc');
-        List<Guide> guideList;
+        List<Guide> guideList = List<Guide>();
         // Cria os dados do manual - Guia
-        dataGuide.forEach((element) {
-          Guide tmpGuide  = Guide(
-            id: element['id'],
-            title: element['title'],
-            body: element['body'],
-            guideDate: (element['guide_date'] == null) ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(element['guide_date']),
-          );
+        if(dataGuide.length > 0) {
+          dataGuide.forEach((element) {
+            Guide tmpGuide  = Guide(
+              id: element['id'],
+              title: element['title'],
+              body: element['body'],
+              guideDate: (element['guide_date'] == null) ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(element['guide_date']),
+            );
+            guideList.add(tmpGuide);
+          });
+        } // if(dataGuide.length > 0) { ... }
 
-          guideList.add(tmpGuide);
-        });
         // Armazena os dados de guias na sessão
         context.read<App>().guide = guideList;
       } //else if(modules.contains('guide')) { ... }
@@ -47,11 +52,9 @@ class DataController {
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
-
       return true;
     } // try { ... }
     catch(erro) {
-      print(erro);
       return false;
     } // catch(erro) { ... }
   } // static Future<bool> getDatabaseData(BuildContext context) async { ... }
@@ -83,14 +86,14 @@ class DataController {
           Message(context).error('[ATENÇÃO] Não foi possível atualizar os dados de login! Verifique.',tempo: 5);
           return false;
         }
-
         // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
       } // if(modules.contains('login')) { ... }
-      else if(modules.contains('guide')) {
+
+      if(modules.contains('guide')) {
         // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
         // GUIDE - Coleta do contexto os dados de guias e manuais e armazena.
         List<Guide> guideList = context.read<App>().guide;
-        await context.read<App>().database.delete('login');
+        await context.read<App>().database.delete('guide');
 
 
         // Usa-se for e não forEach devido o await, deve ser sincrono.
