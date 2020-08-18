@@ -10,11 +10,13 @@ class App extends ChangeNotifier {
   Database _database;
   Login _login;
   List<Guide> _listGuide;
+  List<Schudule> _listSchudule  = List<Schudule>();
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   Database get database => this._database;
   Login get login => this._login;
   List<Guide> get guide => this._listGuide;
+  List<Schudule> get schudule => this._listSchudule;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
   set database(Database database) {

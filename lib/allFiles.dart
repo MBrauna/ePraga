@@ -26,6 +26,7 @@ export 'package:epraga/app/exception/ePragaException.dart';
 export 'package:epraga/models/app.dart';
 export 'package:epraga/models/auth/login.dart';
 export 'package:epraga/models/guide/guide.dart';
+export 'package:epraga/models/schudule/schudule.dart';
 
 /// [COMPONENTS] - Componentes para criação da aplicação
 export 'package:epraga/resources/component/cardImage.dart';
@@ -40,3 +41,4 @@ export 'package:epraga/resources/page/mainEPragaPage.dart';
 export 'package:epraga/resources/page/user/userPage.dart';
 export 'package:epraga/resources/page/guide/guidePage.dart';
 export 'package:epraga/resources/page/chat/chatPage.dart';
+export 'package:epraga/resources/page/schudule/schuduleHeader.dart';

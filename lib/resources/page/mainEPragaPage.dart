@@ -11,7 +11,7 @@ class _MainEpragaPage extends State<MainEpragaPage> {
   int _selectedIndex = 0;
 
   List<Widget> _widgetOptions = <Widget>[
-    Text('123'),
+    SchuduleHeader(),
     ChatPage(),
     GuidePage(),
     UserPage(),

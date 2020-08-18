@@ -20,3 +20,10 @@ books.flr
 message.flr
     -   go
     -   name
+Mouse.flr
+    -   walking (w/ hood)
+    -   cape flick
+    -   idle
+    -   correct
+    -   wrong
+    -   walking (proud)
