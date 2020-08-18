@@ -42,4 +42,4 @@ export 'package:epraga/resources/page/mainEPragaPage.dart';
 export 'package:epraga/resources/page/user/userPage.dart';
 export 'package:epraga/resources/page/guide/guidePage.dart';
 export 'package:epraga/resources/page/chat/chatPage.dart';
-export 'package:epraga/resources/page/schudule/schuduleHeader.dart';
+export 'package:epraga/resources/page/schudule/schuduleHeaderPage.dart';

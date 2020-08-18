@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import './../../../config/config.dart' as config;
-import 'package:epraga/allFiles.dart';
 
 class SchuduleRequest {
   static Future<Map<String, dynamic>> getSchudule(String hash) async{ 
