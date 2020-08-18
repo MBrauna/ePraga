@@ -41,7 +41,7 @@ class _GuidePage extends State<GuidePage> {
                         });
 
                         bool refresh  = await GuideController.getGuide(context,hash: hash);
-                        print('deu ' + refresh.toString());
+
                         if(refresh) {
                           Message(context).info('Guias atualizados!',tempo: 2);
                         } // if(value) { ... }
