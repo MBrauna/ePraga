@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:map_launcher/map_launcher.dart';
-
 import 'package:intl/intl.dart';
 
 class SchuduleHeaderPage extends StatefulWidget {
@@ -12,10 +11,8 @@ class SchuduleHeaderPage extends StatefulWidget {
 }
 
 class _SchuduleHeader extends State<SchuduleHeaderPage> {
-  openMapsSheet(context) async {
+  openMapsSheet(BuildContext context, Schudule e) async {
     try {
-      final coords = Coords(37.759392, -122.5107336);
-      final title = "Ocean Beach";
       final availableMaps = await MapLauncher.installedMaps;
 
       showModalBottomSheet(
@@ -29,8 +26,9 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                     for (var map in availableMaps)
                       ListTile(
                         onTap: () => map.showMarker(
-                          coords: coords,
-                          title: title,
+                          coords: Coords(e.latitude, e.longitude),
+                          title: e.description,
+                          description: 'Agendamento #' + e.id.toString(),
                         ),
                         title: Text(map.mapName),
                         leading: Image(
@@ -58,7 +56,8 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size    size          = MediaQuery.of(context).size;
+    double  fonteTitulo   = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 20) : (size.width / 10));
     double widthButton =  ((size.width - 60.0)/3);
 
     return Container(
@@ -150,17 +149,19 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                 CardImage(
                   image: 'assets/flare/Mouse.flr',
                   animation: 'wrong',
-                  background: Theme.of(context).accentColor,
+                  background: Theme.of(context).primaryColor,
                   title: Text(
-                    'Agendamento',
+                    'EPraga',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'SystemAnalysis',
                       color: Theme.of(context).backgroundColor,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold,
+                      fontSize: fonteTitulo,
                     ),
                   ),
                   subtitle: Text(
-                    '\n\n\nAbaixo todos os agendamentos disponíveis.',
+                    '${context.watch<App>().schudule.length} disponíveis para ' + DateFormat('dd/MM/yyyy').format(DateTime.now()),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Theme.of(context).backgroundColor,
@@ -214,13 +215,13 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                                     width: widthButton,
                                     child: Ink(
                                       decoration: const ShapeDecoration(
-                                        color: Color(0xff003994),
+                                        color: Color(0xff002b70),
                                         shape: StadiumBorder(),
                                       ),
                                       child: IconButton(
                                         icon: FaIcon(FontAwesomeIcons.mapMarked),
                                         color: Theme.of(context).backgroundColor,
-                                        onPressed: () => openMapsSheet(context),
+                                        onPressed: () => openMapsSheet(context,e),
                                       ),
                                     ),
                                   ),
@@ -229,7 +230,7 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                                     width: widthButton,
                                     child: Ink(
                                       decoration: const ShapeDecoration(
-                                        color: Color(0xff003994),
+                                        color: Color(0xff077000),
                                         shape: StadiumBorder(),
                                       ),
                                       child: IconButton(
@@ -244,7 +245,7 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                                     width: widthButton,
                                     child: Ink(
                                       decoration: const ShapeDecoration(
-                                        color: Color(0xff003994),
+                                        color: Color(0xff002b70),
                                         shape: StadiumBorder(),
                                       ),
                                       child: IconButton(
