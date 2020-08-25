@@ -146,6 +146,7 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                   ),
                 ),
 
+                /*
                 CardImage(
                   image: 'assets/flare/Mouse.flr',
                   animation: 'wrong',
@@ -170,6 +171,7 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                     ),
                   ),
                 ),
+                */
 
 
                 Column(
@@ -236,7 +238,9 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                                       child: IconButton(
                                         icon: FaIcon(FontAwesomeIcons.playCircle),
                                         color: Theme.of(context).backgroundColor,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(context, FadePageRoute(SchuduleItemPage(title: e.description,)));
+                                        },
                                       ),
                                     ),
                                   ),
@@ -251,7 +255,9 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                                       child: IconButton(
                                         icon: FaIcon(FontAwesomeIcons.chartPie),
                                         color: Theme.of(context).backgroundColor,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Message(context).info('Gráficos indisponíveis para este agendamento! Verifique.');
+                                        },
                                       ),
                                     ),
                                   ),
