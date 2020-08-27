@@ -9,6 +9,12 @@ class LoginController {
       Map<String, dynamic> request = await LoginRequest.getLogin(accessCode: int.parse(accessCode), password: password);
 
       if(request['status'] == 200) {
+        if(!request['mobile_access']) {
+          // Se o usuário não tiver acesso mobile liberado.
+          Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Usuário não possui liberação! Verifique.',)));
+          return;
+        } // if(!request['mobile_access']) { ... }
+
         // Salva no banco de dados a informação
         Login login  = Login.fromJson(request,password: password);
 
@@ -31,7 +37,7 @@ class LoginController {
 
         if(!execController) {
           Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Ocorreu um erro ao realizar o login! Verifique.',)));
-          return;  
+          return;
         } // if(!execController) { ... }
 
         // Salva nas preferencias compartilhadas a data de expiração do Login
@@ -43,11 +49,11 @@ class LoginController {
         return;
       } // if(request['status'] == 200) { ... }
       else if(request['status'] == 401) {
-        Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Dados informados são inválidos! Verifique.',)));
+        Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: request['error']['message'],)));
         return;
       } // else if(request['status'] == 401) { ... }
       else if(request['status'] == 404) {
-        Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Servidor não encontrado! Verifique.',)));
+        Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Servidor não encontrado! Verifique.' + request.toString(),)));
         return;
       } // else if(request['status'] == 404) { ... }
       else if(request['status'] == 408) {
@@ -68,6 +74,9 @@ class LoginController {
       } // else { ... }
     }
     catch(error) {
+      print('-------');
+      print(error);
+      print('-------');
       Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Erro grave ao realizar o login! Aguarde.',)));
       return;
     }

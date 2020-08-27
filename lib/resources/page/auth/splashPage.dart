@@ -8,6 +8,7 @@ class SplashPage extends StatefulWidget {
 } // class SplashPage extends StatefulWidget { ... }
 
 class _SplashPage  extends State<SplashPage> {
+  
   @override
   void initState(){
     super.initState();
@@ -19,7 +20,6 @@ class _SplashPage  extends State<SplashPage> {
     double  fonteTitulo   = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 16) : (size.width / 8));
     double  subfonteTitulo= ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
     double  logoSize      = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
-
 
     return Builder(
       builder: (context){

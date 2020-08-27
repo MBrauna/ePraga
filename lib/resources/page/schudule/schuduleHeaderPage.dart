@@ -80,7 +80,13 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                 SizedBox(
                   width: double.infinity,
                   child: RaisedButton(
-                    onPressed: (){
+                    onPressed: () async {
+                      try {
+                        await SchuduleController.getGuide(context);
+                      }
+                      catch(erro){
+                        print(erro);
+                      }
                     },
                     color: Theme.of(context).accentColor,
                     child: Text(
@@ -129,24 +135,6 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-                SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    onPressed: () {},
-                    color: Theme.of(context).accentColor,
-                    child: Text(
-                      'Atualizar agendamento',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).backgroundColor,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                ),
-
-                /*
                 CardImage(
                   image: 'assets/flare/Mouse.flr',
                   animation: 'wrong',
@@ -171,7 +159,31 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                     ),
                   ),
                 ),
-                */
+
+
+                SizedBox(
+                  width: double.infinity,
+                  child: RaisedButton(
+                    onPressed: () async {
+                      try {
+                        await SchuduleController.getGuide(context);
+                      }
+                      catch(erro){
+                        print(erro);
+                      }
+                    },
+                    color: Theme.of(context).accentColor,
+                    child: Text(
+                      'Atualizar agendamento',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).backgroundColor,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ),
+
 
 
                 Column(

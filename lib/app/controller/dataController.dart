@@ -20,10 +20,15 @@ class DataController {
             hash: element['hash'],
             name: element['name'],
             lastLogin: element['last_login'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(element['last_login']),
+            tokenDate: element['token_date'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(element['token_date']),
           );
         });
         // Armazena os dados de login na sessão.
         context.read<App>().login = login;
+
+        if(login.tokenDate.isBefore(DateTime.now())) {
+          Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Sessão expirou! Refaça o login',)));
+        } // if(login.tokenDate.isBefore(DateTime.now())) { ... }
       } //  if(modules.contains('login')) { ... }
 
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
@@ -65,6 +70,9 @@ class DataController {
               longitude: num.parse(element['longitude']),
               startDate: element['start_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['start_date']),
               dueDate: element['due_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['due_date']),
+              editDate: element['edit_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['edit_date']),
+              locationDescription: element['local_desc'],
+              locationName: element['local_name'],
             );
             schuduleList.add(schudule);
           });
@@ -100,8 +108,10 @@ class DataController {
             await context.read<App>().database.delete('login');
           } // if(counterLogin.length > 0) { ... }
 
+          print(login.tokenDate.toString() + ' -----  ' + login.lastLogin.toString());
+
           await context.read<App>().database.transaction((txn) async {
-            await txn.rawInsert('insert into login(access_code, password, name, hash, last_login) values(?,?,?,?,?)',[login.user, login.password, login.name, login.hash, login.lastLogin.millisecondsSinceEpoch]);
+            await txn.rawInsert('insert into login(access_code, password, name, hash, last_login, token_date) values(?,?,?,?,?,?)',[login.user, login.password, login.name, login.hash, login.lastLogin.millisecondsSinceEpoch, login.tokenDate.millisecondsSinceEpoch]);
           }); // await context.read<App>().database.transaction((txn) async { ... }
         } // if(login == null && login.hash != null && login.hash.isNotEmpty && login.user != null && login.user.toString().isNotEmpty) { ... }
         else {
@@ -150,11 +160,12 @@ class DataController {
         List<Schudule> schuduleList = context.read<App>().schudule;
 
         for (var i = 0; i < schuduleList.length; i++) {
-          List counterSchudule = await context.read<App>().database.rawQuery('select id from schudule where id = ?',[schuduleList.elementAt(i).id]);
+          List counterSchudule = await context.read<App>().database.rawQuery('select id, edit_date from schudule where id = ?',[schuduleList.elementAt(i).id]);
+
           if(counterSchudule.length <= 0) {
             // Se não existir realizar o insert
             await context.read<App>().database.transaction((txn) async {
-              await txn.rawInsert('insert into schudule(id, description, latitude, longitude, start_date, due_date, edit_date) values(?,?,?,?,?,?,?)',
+              await txn.rawInsert('insert into schudule(id, description, latitude, longitude, start_date, due_date, edit_date, location_name, location_description) values(?,?,?,?,?,?,?,?,?)',
               [
                 schuduleList.elementAt(i).id,
                 schuduleList.elementAt(i).description,
@@ -163,6 +174,8 @@ class DataController {
                 schuduleList.elementAt(i).startDate == null ? DateTime.now().millisecondsSinceEpoch : schuduleList.elementAt(i).startDate.millisecondsSinceEpoch,
                 schuduleList.elementAt(i).dueDate == null ? null : schuduleList.elementAt(i).dueDate.millisecondsSinceEpoch,
                 schuduleList.elementAt(i).editDate == null ? DateTime.now().millisecondsSinceEpoch : schuduleList.elementAt(i).editDate.millisecondsSinceEpoch,
+                schuduleList.elementAt(i).locationName,
+                schuduleList.elementAt(i).locationDesc
               ]
               );
             });
@@ -179,7 +192,7 @@ class DataController {
                   schuduleList.elementAt(i).startDate == null ? DateTime.now().millisecondsSinceEpoch : schuduleList.elementAt(i).startDate.millisecondsSinceEpoch,
                   schuduleList.elementAt(i).dueDate == null ? null : schuduleList.elementAt(i).dueDate.millisecondsSinceEpoch,
                   schuduleList.elementAt(i).editDate == null ? DateTime.now().millisecondsSinceEpoch : schuduleList.elementAt(i).editDate.millisecondsSinceEpoch,
-                  counterSchudule.elementAt(j).id,
+                  counterSchudule.elementAt(j)['id'],
                   schuduleList.elementAt(i).editDate.millisecondsSinceEpoch
                 ]
                 );

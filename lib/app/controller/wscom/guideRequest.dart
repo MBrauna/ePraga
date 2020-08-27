@@ -8,7 +8,7 @@ class GuideRequest {
     try {
       // Realiza a requisição e fica aguardando a resposta para prosseguimento
       //final request                   = {'accessCode' : accessCode,'password' : password,};
-      final response                  = await http.get(config.ENDPOINT_GUIDE);
+      final response                  = await http.post(config.ENDPOINT_GUIDE);
       Map<String, dynamic> dataWS     = jsonDecode(response.body);
 
       dataWS.putIfAbsent('status', () => response.statusCode);

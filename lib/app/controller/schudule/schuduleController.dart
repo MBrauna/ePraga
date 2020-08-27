@@ -18,14 +18,24 @@ class SchuduleController {
 
         context.read<App>().schudule = schuduleList;
         await DataController.setDatabaseData(context, ['schudule']);
+        Message(context).info('Agendamento atualizado!');
         return true;
       } // if(request['status'] == 200) { ... }
+      else if(request['status'] == 401) {
+        Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Acesso não autorizado! Verifique.',)));
+        return false;
+      }
+      else if(request['status'] == 500) {
+        Message(context).error('Não foi possível atualizar os dados! Erro interno.');
+        return false;
+      }
       else {
         return false;
       }
     }
     catch(error) {
-      Message(context).error('Não foi possível atualizar os manuais!',tempo: 2);
+      print(error);
+      Message(context).error('Não foi possível atualizar o agendamento!',tempo: 2);
       return false;
     }
   } // static Future<bool> getGuide(BuildContext context) async { ... }

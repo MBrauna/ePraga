@@ -7,12 +7,12 @@ class Login extends ChangeNotifier {
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   int _accessCode;
-  DateTime _lastLogin;
+  DateTime _lastLogin, _tokenDate;
   String _password, _name, _hash;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
-  Login({int accessCode, String password, String hash, String name, DateTime lastLogin}) {
+  Login({int accessCode, String password, String hash, String name, DateTime lastLogin, DateTime tokenDate}) {
     if(accessCode == null || accessCode <= 0 || accessCode.toString().trim().isEmpty || password == null || password.length <= 0 || password.trim().isEmpty || hash == null || hash.trim().isEmpty || name == null || name.trim().isEmpty) {
       throw EPragaException(
         error: 'Parâmetro inválido! Verifique.',
@@ -25,6 +25,7 @@ class Login extends ChangeNotifier {
     this._password = password;
     this._name  = name;
     this._hash  = hash;
+    this._tokenDate = tokenDate;
 
     if(lastLogin == null) {
       this._lastLogin = DateTime.now();
@@ -40,9 +41,10 @@ class Login extends ChangeNotifier {
     return Login(
       accessCode: data['id'],
       name: data['name'],
-      hash: data['hash'],
-      lastLogin: DateTime.fromMillisecondsSinceEpoch(data['lastLogin']),
+      hash: data['api_token'],
+      lastLogin: DateTime.parse(data['last_login']),
       password: password ?? 'SENHAVAZIA',
+      tokenDate: data['api_expiring'].toString().isEmpty ? null : DateTime.parse(data['api_expiring']),
     );
   } // factory Login.fromJson(Map<String, dynamic> data) { ... }
 
@@ -53,7 +55,18 @@ class Login extends ChangeNotifier {
   String get name => this._name;
   String get hash => this._hash;
   DateTime get lastLogin => this._lastLogin;
+  DateTime get tokenDate => this._tokenDate;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
+  set tokenDate(DateTime date) {
+    this._tokenDate = date;
+    notifyListeners();
+  } // set tokenDate(DateTime date) { ... }
+
+  set hash(String token) {
+    this._hash = token;
+    notifyListeners();
+  }
 
 }

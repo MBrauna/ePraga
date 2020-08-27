@@ -6,17 +6,26 @@ import './../../../config/config.dart' as config;
 class SchuduleRequest {
   static Future<Map<String, dynamic>> getSchudule(String hash) async{ 
     try {
-      // Realiza a requisição e fica aguardando a resposta para prosseguimento
-      //final request                   = {'accessCode' : accessCode,'password' : password,};
-      final response                  = await http.get(config.ENDPOINT_SCHUDULE);
-      Map<String, dynamic> dataWS     = jsonDecode(response.body);
+      Map<String, dynamic> body     = Map<String, dynamic>();
+      Map<String, String> headers  = Map<String, String>();
+      headers.putIfAbsent('accept',       () => 'application/json');
+      headers.putIfAbsent('authorization',() => 'Bearer ' + hash);
+
+      final response                  = await http.post(
+                                          config.ENDPOINT_SCHUDULE,
+                                          body: body,
+                                          headers: headers,
+                                        );
+      Map<String, dynamic> dataWS     = Map<String, dynamic>();
+      dataWS.putIfAbsent('schudule', () => jsonDecode(response.body));
       dataWS.putIfAbsent('status', () => response.statusCode);
       return dataWS;
-    } // try { ... }
-    catch(error){
+    }
+    catch(erro) {
       Map<String, dynamic> dataWS     = Map<String, dynamic>();
+      dataWS.putIfAbsent('schudule', () => List());
       dataWS.putIfAbsent('status', () => 404);
       return dataWS;
-    } // catch(error){ ... }
+    }
   } // static Future<Map<String, dynamic>> getSchudule({models.Login data}) async { ... }
 }

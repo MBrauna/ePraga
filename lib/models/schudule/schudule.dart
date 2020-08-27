@@ -5,7 +5,7 @@ class Schudule extends ChangeNotifier {
   int _id;
   DateTime _dateStart, _dateDue, _editDate;
   num _latitude, _longitude;
-  String _description;
+  String _description, _locationName, _locationDescription;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
@@ -17,6 +17,8 @@ class Schudule extends ChangeNotifier {
     DateTime editDate,
     num latitude,
     num longitude,
+    String locationName,
+    String locationDescription,
   }) {
     if(id == null || id <= 0) {
       throw EPragaException(
@@ -26,13 +28,15 @@ class Schudule extends ChangeNotifier {
       );
     } // if(id == null || id <= 0) { ... }
 
-    this._id          = id;
-    this._description = description ?? '';
-    this._dateStart   = startDate ?? DateTime.now();
-    this._editDate    = editDate == null ? DateTime.now() : editDate;
-    this._dateDue     = dueDate;
-    this._latitude    = latitude;
-    this._longitude   = longitude;
+    this._id            = id;
+    this._description   = description ?? '';
+    this._dateStart     = startDate ?? DateTime.now();
+    this._editDate      = editDate == null ? DateTime.now() : editDate;
+    this._dateDue       = dueDate;
+    this._latitude      = latitude;
+    this._longitude     = longitude;
+    this._locationName  = locationName;
+    this._locationDescription = locationDescription;
   }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
@@ -40,13 +44,15 @@ class Schudule extends ChangeNotifier {
   factory Schudule.fromJson(Map<String, dynamic> data) {
     
     return Schudule(
-      id: data['id'],
+      id: data['id_schudule'],
       description: data['description'] ?? '',
-      startDate: data['startDate'] == null ? null : DateTime.fromMillisecondsSinceEpoch(data['startDate']),
-      dueDate: data['dueDate'] == null ? null : DateTime.fromMillisecondsSinceEpoch(data['dueDate']),
-      editDate: data['editDate'] == null ? null : DateTime.fromMillisecondsSinceEpoch(data['editDate']),
-      latitude: data['location']['latitude'],
-      longitude: data['location']['longitude'],
+      startDate: data['start_date'] == null ? null : DateTime.parse(data['start_date']),
+      dueDate: data['end_date'] == null ? null : DateTime.parse(data['end_date']),
+      editDate: data['last_alt_at'] == null ? null : DateTime.parse(data['last_alt_at']),
+      latitude: double.parse(data['subsidiary']['latitude']),
+      longitude: double.parse(data['subsidiary']['longitude']),
+      locationName: data['subsidiary']['name'],
+      locationDescription: data['subsidiary']['description'],
     );
   } // factory Schudule.fromJson(Map<String, dynamic> data) { ... }
 
@@ -59,6 +65,8 @@ class Schudule extends ChangeNotifier {
   DateTime get editDate   =>  this._editDate;
   num get latitude        =>  this._latitude;
   num get longitude       =>  this._longitude;
+  String get locationName =>  this._locationName;
+  String get locationDesc =>  this._locationDescription;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
