@@ -28,6 +28,7 @@ export 'package:epraga/models/app.dart';
 export 'package:epraga/models/auth/login.dart';
 export 'package:epraga/models/guide/guide.dart';
 export 'package:epraga/models/schudule/schudule.dart';
+export 'package:epraga/models/schudule/schuduleItem.dart';
 
 /// [COMPONENTS] - Componentes para criação da aplicação
 export 'package:epraga/resources/component/cardImage.dart';

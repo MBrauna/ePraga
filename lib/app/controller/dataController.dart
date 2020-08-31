@@ -28,6 +28,7 @@ class DataController {
 
         if(login.tokenDate.isBefore(DateTime.now())) {
           Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Sessão expirou! Refaça o login',)));
+          return false;
         } // if(login.tokenDate.isBefore(DateTime.now())) { ... }
       } //  if(modules.contains('login')) { ... }
 
@@ -60,7 +61,7 @@ class DataController {
       if(modules.contains('schudule')){
         List dataSchudule = await context.read<App>().database.query('schudule',orderBy: 'start_date asc');
         List<Schudule> schuduleList = List<Schudule>();
-
+        print(dataSchudule);
         if(dataSchudule.length > 0) {
           dataSchudule.forEach((element) {
             Schudule schudule = Schudule(
@@ -73,6 +74,7 @@ class DataController {
               editDate: element['edit_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['edit_date']),
               locationDescription: element['local_desc'],
               locationName: element['local_name'],
+              schuduleItemList: List(),
             );
             schuduleList.add(schudule);
           });
@@ -85,6 +87,7 @@ class DataController {
       return true;
     } // try { ... }
     catch(erro) {
+      print(erro);
       return false;
     } // catch(erro) { ... }
   } // static Future<bool> getDatabaseData(BuildContext context) async { ... }

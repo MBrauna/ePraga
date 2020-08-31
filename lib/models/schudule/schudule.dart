@@ -6,6 +6,7 @@ class Schudule extends ChangeNotifier {
   DateTime _dateStart, _dateDue, _editDate;
   num _latitude, _longitude;
   String _description, _locationName, _locationDescription;
+  List<SchuduleItem> _listSchuduleItem;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
@@ -19,6 +20,7 @@ class Schudule extends ChangeNotifier {
     num longitude,
     String locationName,
     String locationDescription,
+    List<SchuduleItem> schuduleItemList,
   }) {
     if(id == null || id <= 0) {
       throw EPragaException(
@@ -37,12 +39,25 @@ class Schudule extends ChangeNotifier {
     this._longitude     = longitude;
     this._locationName  = locationName;
     this._locationDescription = locationDescription;
+
+    if(schuduleItemList.length <= 0) {
+      this._listSchuduleItem  = List<SchuduleItem>();
+    }
+    else {
+      this._listSchuduleItem  = schuduleItemList;
+    }
   }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   factory Schudule.fromJson(Map<String, dynamic> data) {
-    
+    List<SchuduleItem> itemList = List<SchuduleItem>();
+
+    data['item'].forEach((element) {
+      SchuduleItem dataItem = SchuduleItem.fromJson(element);
+      itemList.add(dataItem);
+    }); // data['item'].forEach((element) { ... }
+
     return Schudule(
       id: data['id_schudule'],
       description: data['description'] ?? '',
@@ -53,6 +68,7 @@ class Schudule extends ChangeNotifier {
       longitude: double.parse(data['subsidiary']['longitude']),
       locationName: data['subsidiary']['name'],
       locationDescription: data['subsidiary']['description'],
+      schuduleItemList: itemList,
     );
   } // factory Schudule.fromJson(Map<String, dynamic> data) { ... }
 
@@ -67,6 +83,7 @@ class Schudule extends ChangeNotifier {
   num get longitude       =>  this._longitude;
   String get locationName =>  this._locationName;
   String get locationDesc =>  this._locationDescription;
+  List<SchuduleItem> get listSchuduleItem => this._listSchuduleItem;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 

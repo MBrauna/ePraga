@@ -150,7 +150,7 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                     ),
                   ),
                   subtitle: Text(
-                    '${context.watch<App>().schudule.length} disponíveis para ' + DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                    '${context.watch<App>().schudule.length} itens disponíveis\npara atendimento em ' + DateFormat('dd/MM/yyyy').format(DateTime.now()),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Theme.of(context).backgroundColor,
@@ -197,6 +197,7 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            
                             Text(
                               e.description,
                               textAlign: TextAlign.center,
@@ -207,6 +208,44 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                                 fontSize: 17.0,
                               ),
                             ),
+
+                            Text(
+                              '${e.locationName}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Theme.of(context).accentColor,
+                                fontFamily: 'Roboto',
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.0,
+                              ),
+                            ),
+
+
+                            Text(
+                              '${e.listSchuduleItem.length} tarefas disponíveis',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Theme.of(context).accentColor,
+                                fontFamily: 'Roboto',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0,
+                              ),
+                            ),
+
+
+                            Text(
+                              '---\n${e.locationDesc}\n---\n',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontFamily: 'Roboto',
+                                fontStyle: FontStyle.italic,
+                                fontSize: 12.0,
+                              ),
+                            ),
+
 
                             Text(
                               '\n\nAgendamento previsto para ' + DateFormat('dd/MM/yyyy').format(e.startDate),
@@ -251,7 +290,9 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                                         icon: FaIcon(FontAwesomeIcons.playCircle),
                                         color: Theme.of(context).backgroundColor,
                                         onPressed: () {
-                                          Navigator.push(context, FadePageRoute(SchuduleItemPage(title: e.description,)));
+                                          Navigator.push(context, FadePageRoute(SchuduleItemPage(
+                                            schudule: e,
+                                          )));
                                         },
                                       ),
                                     ),
@@ -268,7 +309,7 @@ class _SchuduleHeader extends State<SchuduleHeaderPage> {
                                         icon: FaIcon(FontAwesomeIcons.chartPie),
                                         color: Theme.of(context).backgroundColor,
                                         onPressed: () {
-                                          Message(context).info('Gráficos indisponíveis para este agendamento! Verifique.');
+                                          Message(context).info('Gráficos indisponíveis para este agendamento! Verifique.',tempo: 2);
                                         },
                                       ),
                                     ),

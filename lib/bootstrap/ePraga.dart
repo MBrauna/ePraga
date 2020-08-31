@@ -13,7 +13,7 @@ class EPraga extends StatelessWidget {
       ],
       child: MaterialApp(
         key: Key('ePraga'),
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
         darkTheme: EpragaTheme.dark,
         theme: EpragaTheme.light,
         home: SplashPage(),
