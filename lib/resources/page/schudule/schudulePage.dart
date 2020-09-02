@@ -33,6 +33,7 @@ class _SchudulePage extends State<SchudulePage> {
                       onPressed: () async {
                         try {
                           await SchuduleController.requestSchudule(context);
+                          print('executou --> ' + context.watch<App>().listSchudule.length.toString());
                         } // try { ... }
                         catch(erro){
                           Message(context).error('Não foi possível atualizar! Falha no sistema.');
@@ -116,6 +117,7 @@ class _SchudulePage extends State<SchudulePage> {
                       onPressed: () async {
                         try {
                           await SchuduleController.requestSchudule(context);
+                          print('executou');
                         }
                         catch(erro){
                           print(erro);

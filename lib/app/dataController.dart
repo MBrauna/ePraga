@@ -80,7 +80,9 @@ class DataController {
       return true;
     } // try { ... }
     catch(erro) {
+      print('---->');
       print(erro);
+      print('---->');
       return false;
     } // catch(erro) { ... }
   } // static Future<bool> getDatabaseData(BuildContext context) async { ... }

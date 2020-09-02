@@ -36,7 +36,7 @@ class SplashScreenController {
       context.read<App>().database  = database;
 
       // Coleta do banco de dados as informações previamente cadastradas
-      bool dataDB = await DataController.getDatabaseData(context, ['login']);
+      bool dataDB = await DataController.getDatabaseData(context, ['login','schudule']);
       Login login = context.read<App>().login;
 
       if(dataDB) {

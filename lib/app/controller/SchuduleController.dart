@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class SchuduleController {
   static Future<bool> requestSchudule(BuildContext context) async {
     try {
-      Login login = context.watch<App>().login;
+      Login login = context.read<App>().login;
       if(login == null || login.expiredLogin.millisecondsSinceEpoch <= DateTime.now().millisecondsSinceEpoch || login.token.trim().isEmpty) {
         Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Sua sessão expirou! Verifique.',)));
         return false;
@@ -78,6 +78,9 @@ class SchuduleController {
       return true;
     }
     catch(erro) {
+      print('------------');
+      print(erro);
+      print('------------');
       return false;
     }
   } // static Future<bool> requestSchudule(BuildContext context) { ... }
