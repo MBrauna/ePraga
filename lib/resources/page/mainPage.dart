@@ -1,19 +1,20 @@
-import 'package:epraga/allFiles.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:epraga/allFiles.dart';
 
-class MainEpragaPage extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
-  _MainEpragaPage createState() => _MainEpragaPage();
-} // class MainEpragaPage extends StatefulWidget { ... }
+  _MainPage createState() => _MainPage();
+} // class MainPage extends StatefulWidget { ... }
 
-class _MainEpragaPage extends State<MainEpragaPage> {
+class _MainPage extends State<MainPage> {
   int _selectedIndex = 0;
 
   List<Widget> _widgetOptions = <Widget>[
-    SchuduleHeaderPage(),
+    SchudulePage(),
     ChatPage(),
-    GuidePage(),
+    Text('3'),
     UserPage(),
   ]; // List<Widget> _widgetOptions = <Widget>[ ... ]
 
@@ -25,6 +26,11 @@ class _MainEpragaPage extends State<MainEpragaPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Ficará monitorando o login, no momento que expirar irá enviar a tela de login
+    if(context.watch<App>().login == null  || context.watch<App>().login.expiredLogin.millisecondsSinceEpoch <= DateTime.now().millisecondsSinceEpoch) {
+      Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Sessão expirou! Realize o login para prosseguir.',)));
+    } // if(context.watch<App>().login == null  || context.watch<App>().login.expiredLogin.millisecondsSinceEpoch <= DateTime.now().millisecondsSinceEpoch) { ... }
 
     return Scaffold(
       key: Key('mainEpragaPage'),
@@ -81,5 +87,4 @@ class _MainEpragaPage extends State<MainEpragaPage> {
       ),
     );
   } // Widget build(BuildContext context) { ... }
-
-} // class _MainEpragaPage extends State<MainEpragaPage> { ... }
+} // class _MainPage extends State<MainPage> { ... }

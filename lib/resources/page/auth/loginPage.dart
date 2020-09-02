@@ -1,29 +1,24 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:epraga/allFiles.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 // ignore: must_be_immutable
 class LoginPage extends StatefulWidget {
-  String _message;
+  String message;
 
-  LoginPage({String message = ''}) {
-    if(message.trim().isEmpty) {
-      this._message = null;
-    } // if(message.trim().isEmpty) { ... }
-    else {
-      this._message = message.trim();
-    } // else { ... }
-  } // Login({String message}) { ... }
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
+  LoginPage({this.message});
+
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   @override
   _LoginPage createState() => _LoginPage();
 } // class LoginPage extends StatefulWidget { ... }
 
 class _LoginPage extends State<LoginPage> {
-
   // ------------ # DADOS INTERNOS # ------------ //
   bool    _blockField = false;
   String  _codeAccess, _password;
@@ -62,7 +57,7 @@ class _LoginPage extends State<LoginPage> {
         } // if(this._password.length <= 3) { ... }
 
         if(CPFValidator.validate(this._codeAccess)) {
-          Navigator.pushReplacement(context, FadePageRoute(LoginRoomPage(accessCode: this._codeAccess,password: this._password,)));
+          Navigator.pushReplacement(context, FadePageRoute(LoginRoomPage(this._codeAccess,this._password,)));
           return;
         } // if(CPFValidator.validate(this._codeAccess)) { ... }
         else {
@@ -75,6 +70,8 @@ class _LoginPage extends State<LoginPage> {
       Message(context).error('[ERRO] Não foi possível validar o acesso!',tempo: 2);
     }
   } // void _validateLogin() { ... }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +86,9 @@ class _LoginPage extends State<LoginPage> {
       body: Builder(
         builder: (context) {
 
-          if(widget._message != null){
-            Message(context).error(widget._message);
-            widget._message = null;
+          if(widget.message != null){
+            Message(context).error(widget.message);
+            widget.message = null;
           } // if(widget._message != null){ ... }
 
           return Center(
@@ -220,6 +217,7 @@ class _LoginPage extends State<LoginPage> {
                         color: Colors.indigo[900],
                         textColor: Colors.white,
                         onPressed: () {
+                          // Envia para a validação
                           this._validateLogin(context);
                         },
                       ),

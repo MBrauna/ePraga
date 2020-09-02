@@ -19,10 +19,8 @@ class EPragaDB {
 
   static void populateDB(Database db, int version) async {
     // Salvar dados de login
-    await db.execute('create table login(access_code integer primary key, password text, name text, hash text, last_login integer, token_date integer)');
-    await db.execute('create table guide(id integer primary key, title text, body text, guide_date integer)');
-    await db.execute('create table schudule(id integer primary key, description text, latitude text, longitude text, start_date integer, due_date integer, edit_date integer, location_name text, location_description text)');
-    //await db.execute('create table task(id integer primary key, id_location integer, hash text, description text, exec integer)');
+    await db.execute('create table login(id integer primary key,name text,identity text,email text,device text,token text,last integer,expired integer)');
+    await db.execute('create table schudule(id integer primary key,description text,id_subsidiary integer,id_responsible integer,last_alt integer,start_date integer,end_date integer,status integer,created_at integer,updated_at integer)');
   } // void _populatedDB(Database db, int version) { ... }
 
   static void upgradeDB(Database db, int lastVersion, int actualVersion) {

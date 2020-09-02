@@ -1,10 +1,9 @@
 const bool  DEBUG             = true;
 const int   APP_VERSION       = 1;
 
-const String ENDPOINT_URL     = 'https://epragambrauna1.websiteseguro.com/api/';
-
-const String ENDPOINT_LOGIN   = ENDPOINT_URL + 'getToken';
-const String ENDPOINT_SCHUDULE= ENDPOINT_URL + 'JarJarBinks/Schudule/get';
+const String ENDPOINT_PING    = 'http://epraga.mbrauna.com/api/ping';
+const String ENDPOINT_LOGIN   = 'http://epraga.mbrauna.com/api/getToken';
+const String ENDPOINT_SCHUDULE= 'http://epraga.mbrauna.com/api/JarJarBinks/Schudule/get';
 const String ENDPOINT_GUIDE   = 'https://pastebin.com/raw/NENKiW2y';
 
 const int   DATABASE_VERSION  = 1;

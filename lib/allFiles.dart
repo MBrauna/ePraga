@@ -1,47 +1,39 @@
-/// [CONFIG] - Configurações da aplicação
-export 'config/database.dart';
-export 'config/theme.dart';
+/// [CONTROLLERS] - Controladores para ePraga Mobile
+export 'package:epraga/app/dataController.dart';
+export 'package:epraga/app/controller/splashScreenController.dart';
+export 'package:epraga/app/controller/loginController.dart';
+export 'package:epraga/app/controller/SchuduleController.dart';
 
-/// [CONTROLLER] - Controladores da aplicação
-export 'package:epraga/app/controller/dataController.dart';
-export 'package:epraga/app/controller/auth/splashController.dart';
-export 'package:epraga/app/controller/auth/loginController.dart';
-export 'package:epraga/app/controller/guide/guideController.dart';
-export 'package:epraga/app/controller/schudule/schuduleController.dart';
-
-/// [WSCOM] - Comunicador da aplicação
-export 'package:epraga/app/controller/wscom/loginRequest.dart';
-export 'package:epraga/app/controller/wscom/schuduleRequest.dart';
-export 'package:epraga/app/controller/wscom/guideRequest.dart';
-
-/// [UTIL] - Utilitários da aplicação
+/// [UTIL] - Métodos utilitários para ePraga Mobile.
 export 'package:epraga/app/util/cpfValidator.dart';
 export 'package:epraga/app/util/fadePageRoute.dart';
 export 'package:epraga/app/util/message.dart';
 export 'package:epraga/app/util/verifyNetwork.dart';
 
-/// [EXCEPTION] - Tratativa de excessões da aplicação
+/// [CONFIG] - Configurações para ePraga Mobile
+export 'package:epraga/config/config.dart';
+export 'package:epraga/config/database.dart';
+export 'package:epraga/config/theme.dart';
+
+/// [EXCEPTION] - Exceções para ePraga Mobile
 export 'package:epraga/app/exception/ePragaException.dart';
 
-/// [MODEL] - Arquivos para contenção dos dados da aplicação
-export 'package:epraga/models/app.dart';
-export 'package:epraga/models/auth/login.dart';
-export 'package:epraga/models/guide/guide.dart';
-export 'package:epraga/models/schudule/schudule.dart';
-export 'package:epraga/models/schudule/schuduleItem.dart';
+/// [MODELS] - Modelos para ePraga Mobile
+export 'package:epraga/model/app.dart';
+export 'package:epraga/model/login.dart';
+export 'package:epraga/model/schudule/schudule.dart';
 
-/// [COMPONENTS] - Componentes para criação da aplicação
+/// [COMPONENT] - Componentes para ePraga
+export 'package:epraga/resources/component/ePragaField.dart';
 export 'package:epraga/resources/component/cardImage.dart';
 export 'package:epraga/resources/component/connectivity.dart';
-export 'package:epraga/resources/component/ePragaField.dart';
 
-/// [PAGES] - Páginas da aplicação
-export 'package:epraga/resources/page/auth/splashPage.dart';
+
+/// [PAGES] - Páginas para ePraga
+export 'package:epraga/resources/page/splashPage.dart';
 export 'package:epraga/resources/page/auth/loginPage.dart';
 export 'package:epraga/resources/page/auth/LoginRoomPage.dart';
-export 'package:epraga/resources/page/mainEPragaPage.dart';
-export 'package:epraga/resources/page/user/userPage.dart';
-export 'package:epraga/resources/page/guide/guidePage.dart';
+export 'package:epraga/resources/page/mainPage.dart';
+export 'package:epraga/resources/page/auth/userPage.dart';
 export 'package:epraga/resources/page/chat/chatPage.dart';
-export 'package:epraga/resources/page/schudule/schuduleHeaderPage.dart';
-export 'package:epraga/resources/page/schudule/schuduleItemPage.dart';
+export 'package:epraga/resources/page/schudule/schudulePage.dart';

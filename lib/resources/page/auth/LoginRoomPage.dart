@@ -4,38 +4,36 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class LoginRoomPage extends StatefulWidget {
-  String accessCode, password;
-
-  LoginRoomPage({this.accessCode, this.password});
+  String usuario, senha;
+  LoginRoomPage(this.usuario, this.senha);
 
   @override
   _LoginRoomPage createState() => _LoginRoomPage();
 } // class LoginRoomPage extends StatefulWidget { ... }
 
 class _LoginRoomPage extends State<LoginRoomPage> {
-  bool initValidate = true;
+  bool execValidate = false;
 
   @override
   void initState(){
     super.initState();
   } // void initState(){ ... }
 
-
-
   @override
   Widget build(BuildContext context) {
     Size    size            = MediaQuery.of(context).size;
-    double  fonteTitulo   = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 16) : (size.width / 8));
-    double  subfonteTitulo= ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
+    double  fonteTitulo     = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 16) : (size.width / 8));
+    double  subfonteTitulo  = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
     double  logoLoad        = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
-    if(initValidate) {
+    if(!execValidate) {
+      // Marca como já executado
       setState(() {
-        this.initValidate = false;
+        execValidate = true;
       });
-
-      LoginController.getDecision(context, widget.accessCode, widget.password);
-    } // if(initValidate) { ... }
+      // Executa o método e aguarda a finalização
+      LoginController.requestLogin(context, widget.usuario, widget.senha);
+    } // if(!execValidate) { ... }
 
     return Scaffold(
       body: Builder(

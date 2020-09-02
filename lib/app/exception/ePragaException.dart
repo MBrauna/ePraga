@@ -17,8 +17,10 @@ class EPragaException implements Exception {
 
     // Se estivermos no ambiente de debug irá
     if (config.DEBUG) {
+      print('---------------------------->> LOG - INIT - EPRAGA EXCEPTION');
       print('[' + this._origin + '] - ' + this._message);
       print('[' + this._origin + '] - ' + this._error.toString());
+      print('---------------------------->> LOG - END - EPRAGA EXCEPTION');
     } // if(config.DEBUG) { ... }
   } // EPragaException({String origin = '', dynamic error, String message}) { ... }
 

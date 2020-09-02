@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'cardImage.dart';
 import './../../app/util/verifyNetwork.dart';
 

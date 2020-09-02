@@ -60,7 +60,7 @@ class _UserPage extends State<UserPage> {
                   fontWeight: FontWeight.bold),
             ),
             subtitle: Text(
-              'Código do usuário ' + context.watch<App>().login.user.toString() + '\n' +
+              'Código do usuário ' + context.watch<App>().login.identity + '\n' +
               'Última conexão em ' + DateFormat('dd/MM/yyyy kk:mm').format(context.watch<App>().login.lastLogin),
               textAlign: TextAlign.center,
               style: TextStyle(
