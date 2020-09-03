@@ -22,6 +22,8 @@ export 'package:epraga/app/exception/ePragaException.dart';
 export 'package:epraga/model/app.dart';
 export 'package:epraga/model/login.dart';
 export 'package:epraga/model/schudule/schudule.dart';
+export 'package:epraga/model/schudule/schuduleItem.dart';
+export 'package:epraga/model/company/subsidiary.dart';
 
 /// [COMPONENT] - Componentes para ePraga
 export 'package:epraga/resources/component/ePragaField.dart';
@@ -37,3 +39,6 @@ export 'package:epraga/resources/page/mainPage.dart';
 export 'package:epraga/resources/page/auth/userPage.dart';
 export 'package:epraga/resources/page/chat/chatPage.dart';
 export 'package:epraga/resources/page/schudule/schudulePage.dart';
+export 'package:epraga/resources/page/schudule/subsidiaryPage.dart';
+export 'package:epraga/resources/page/schudule/schuduleItemPage.dart';
+export 'package:epraga/resources/page/guide/guidePage.dart';

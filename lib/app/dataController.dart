@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 class DataController {
   static Future<bool> getDatabaseData(BuildContext context, List<String> modules) async {
+
     try {
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
@@ -42,6 +43,8 @@ class DataController {
 
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
+      // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
       if(modules.contains('schudule')) {
         List dataSchudule = await context.read<App>().database.query('schudule',
           distinct: true,
@@ -75,12 +78,76 @@ class DataController {
         } // else { ... }
       } // if(modules.contains('schudule')) { ... }
 
-      // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+      if(modules.contains('subsidiary')) {
+        List dataSubsidiary = await context.read<App>().database.query('subsidiary',
+          distinct: true,
+        ); // List dataSchudule = await context.read<App>().database.query('schudule', distinct: true,);
+
+        if(dataSubsidiary.length <= 0) {
+          context.read<App>().listSubsidiary  = List<Subsidiary>();
+        } // if(dataSubsidiary.length <= 0) { ... }
+        else {
+          List<Subsidiary> listSubsidiary = List<Subsidiary>();
+          dataSubsidiary.forEach((element) {
+            Subsidiary tmpSubsidiary  = Subsidiary(
+              id: element['id'],
+              idCompany: element['id_company'],
+              name: element['name'],
+              address: element['address'],
+              description: element['description'],
+              latitude: num.parse(element['latitude']),
+              longitude: num.parse(element['longitude']),
+            );
+
+            listSubsidiary.add(tmpSubsidiary);
+          });
+
+          // Salvar dados no context
+          context.read<App>().listSubsidiary = listSubsidiary;
+        } // else { ... }
+      } // if(modules.contains('subsidiary')) { ... }
+
+
+      if(modules.contains('schuduleItem')) {
+        List dataSchudule = await context.read<App>().database.query('schudule_item',
+          distinct: true,
+        ); // List dataSchudule = await context.read<App>().database.query('schudule', distinct: true,);
+
+        if(dataSchudule.length <= 0) {
+          context.read<App>().listSchuduleItem  = List<SchuduleItem>();
+        } // if(dataSubsidiary.length <= 0) { ... }
+        else {
+          List<SchuduleItem> listSchuduleItem = List<SchuduleItem>();
+          dataSchudule.forEach((element) {
+            SchuduleItem tmpSchuduleItem  = SchuduleItem(
+              id: element['id'],
+              idSchudule: element['id_schudule'],
+              lastAlt: DateTime.fromMillisecondsSinceEpoch(element['last_alt']),
+              note: element['note'],
+              qtdeImage: element['qtde_image'],
+              sequence: element['sequence'],
+              description: element['description'],
+              latitude: num.parse(element['latitude']),
+              longitude: num.parse(element['longitude']),
+              visit: element['visit'] == 0 ? false : true,
+              accept: element['accept'] == 0 ? false : true,
+              combat: element['combat'] == 0 ? false : true,
+              status: element['status'] == 0 ? false : true,
+            );
+
+            listSchuduleItem.add(tmpSchuduleItem);
+          });
+
+          // Salvar dados no context
+          context.read<App>().listSchuduleItem = listSchuduleItem;
+        } // else { ... }
+      } // if(modules.contains('subsidiary')) { ... }
 
       return true;
     } // try { ... }
-    catch(erro) {
+    catch(erro, stacktrace) {
       print('---->');
+      print(stacktrace);
       print(erro);
       print('---->');
       return false;
@@ -145,9 +212,63 @@ class DataController {
         }
       } // if(modules.contains('schudule')) { ... }
 
+      if(modules.contains('subsidiary')) {
+        List<Subsidiary> listSubsidiary = context.read<App>().listSubsidiary;
+
+        // Limpa os dados do armazenamento.
+        context.read<App>().database.delete('subsidiary');
+
+        for (var i = 0; i < listSubsidiary.length; i++) {
+          await context.read<App>().database.transaction((txn) async {
+            await txn.rawInsert('insert into subsidiary(id, id_company, latitude, longitude, name, description, address) values(?,?,?,?,?,?,?)',
+            [
+              listSubsidiary.elementAt(i).id,
+              listSubsidiary.elementAt(i).idCompany,
+              listSubsidiary.elementAt(i).latitude.toString(),
+              listSubsidiary.elementAt(i).longitude.toString(),
+              listSubsidiary.elementAt(i).name,
+              listSubsidiary.elementAt(i).description,
+              listSubsidiary.elementAt(i).address,
+            ]);
+          });
+        }
+      } // if(modules.contains('subsidiary')) { ... }
+
+      if(modules.contains('subsidiaryItem')) {
+        List<SchuduleItem> listSchuduleItem = context.read<App>().listSchuduleItem;
+
+        // Limpa os dados do armazenamento.
+        context.read<App>().database.delete('subsidiary_item');
+
+        for (var i = 0; i < listSchuduleItem.length; i++) {
+          await context.read<App>().database.transaction((txn) async {
+            await txn.rawInsert('insert into subsidiary_item(id, id_schudule, sequence, qtde_image, latitude, longitude, visit, combat, accept, status, note, description, last_alt) values(?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            [
+              listSchuduleItem.elementAt(i).id,
+              listSchuduleItem.elementAt(i).idSchudule,
+              listSchuduleItem.elementAt(i).sequence,
+              listSchuduleItem.elementAt(i).qtdeImage,
+              listSchuduleItem.elementAt(i).latitude.toString(),
+              listSchuduleItem.elementAt(i).longitude.toString(),
+              listSchuduleItem.elementAt(i).visit ? 1 : 0,
+              listSchuduleItem.elementAt(i).combat ? 1 : 0,
+              listSchuduleItem.elementAt(i).accept ? 1 : 0,
+              listSchuduleItem.elementAt(i).status ? 1 : 0,
+              listSchuduleItem.elementAt(i).note,
+              listSchuduleItem.elementAt(i).description,
+              listSchuduleItem.elementAt(i).lastAlt.millisecondsSinceEpoch,
+            ]); // await txn.rawInsert('insert into subsidiary_item(id, id_schudule, sequence, qtde_image, latitude, longitude, visit, combat, accept, status, note, description, last_alt) values(?,?,?,?,?,?,?,?,?,?,?,?,?)', ...
+          }); // await context.read<App>().database.transaction((txn) async { ... }
+        } // for (var i = 0; i < listSchuduleItem.length; i++) { ... }
+      } // if(modules.contains('subsidiaryItem')) { ... }
+
       return true;
     } // try { ... }
-    catch(erro) {
+    catch(erro, stacktrace) {
+      print('-->> dados <<--');
+      print(erro);
+      print(stacktrace);
+      print('-->> dados <<--');
       return false;
     } // catch(erro) { ... }
   } // static Future<bool> setDatabaseData(BuildContext context) { ... }

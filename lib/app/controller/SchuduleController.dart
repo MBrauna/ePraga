@@ -40,18 +40,30 @@ class SchuduleController {
               else {
                 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
                 List<Schudule> dataSchudule = List<Schudule>();
+                List<SchuduleItem> dataSchuduleItem = List<SchuduleItem>();
+                List<Subsidiary> dataSubsidiary = List<Subsidiary>();
 
                 // Gera os schudules para o sistema.
                 dataResponse['schudule'].forEach((element) {
-                  Schudule tmpSchudule  = Schudule.fromJson(element);
+                  Schudule tmpSchudule          = Schudule.fromJson(element);
+                  Subsidiary tmpSubsidiary      = Subsidiary.fromJson(element['subsidiary']);
+
                   // Adiciona o registro a lista
                   dataSchudule.add(tmpSchudule);
+                  dataSubsidiary.add(tmpSubsidiary);
+
+                  if(element['item'].length > 0) {
+                    element['item'].forEach((elementItem){
+                      SchuduleItem tmpSchuduleItem = SchuduleItem.fromJson(elementItem);
+                      dataSchuduleItem.add(tmpSchuduleItem);
+                    });
+                  } // if(element['item'].length > 0) { ... }
                 }); // dataResponse['schudule'].forEach((element) { ... }
                 // Gera os schudules para o sistema.
 
                 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
-                dataSchudule.forEach((element) {
+                /*dataSchudule.forEach((element) {
                   List<Schudule> qtdeReg  = context.read<App>().listSchudule.where((valueContext)=> valueContext.id == element.id).toList();
 
                   if(qtdeReg.length <= 0) {
@@ -60,12 +72,32 @@ class SchuduleController {
                   } // if(qtdeReg.length <= 0) { ... }
                   else if(qtdeReg.length == 1){
                     // Existe registros -- Verifica qual o mais recente
-                    context.read<App>().listSchudule.where((valueContext)=> ((valueContext.id == element.id) && (valueContext.lastAlt.isBefore(element.lastAlt)))).toList().removeLast();
+                    context.read<App>().listSchudule.where((valueContext)=> ((valueContext.id == element.id) && (valueContext.lastAlt.isBefore(element.lastAlt)))).toList().forEach((elementRemove) {
+                      context.read<App>().listSchudule.remove(elementRemove);
+                    });
                     context.read<App>().listSchudule.add(element);
                   } // else { ... }
-                }); // dataSchudule.forEach((element) { ... }
+                }); // dataSchudule.forEach((element) { ... }*/
+                context.read<App>().listSchudule  = dataSchudule;
 
-                DataController.setDatabaseData(context, ['schudule']);
+                dataSubsidiary.forEach((element) {
+                  List<Subsidiary> qtdeReg  = context.read<App>().listSubsidiary.where((valueContext) => valueContext.id == element.id).toList();
+
+                  if(qtdeReg.length <= 0) {
+                    context.read<App>().listSubsidiary.add(element);
+                  } // if(qtdeReg.length <= 0) { ... }
+                }); // dataSubsidiary.forEach((element) { ... });
+
+                dataSchuduleItem.forEach((element) {
+                  List<SchuduleItem> qtdeReg  = context.read<App>().listSchuduleItem.where((valueContext) => valueContext.id == element.id).toList();
+
+                  if(qtdeReg.length <= 0) {
+                    context.read<App>().listSchuduleItem.add(element);
+                  } // if(qtdeReg.length <= 0) { ... }
+                }); // dataSubsidiary.forEach((element) { ... });
+
+                DataController.setDatabaseData(context, ['schudule','subsidiary','schuduleItem']);
+                Message(context).info('Dados atualizados!');
 
                 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
               } // else { ... }
@@ -77,10 +109,11 @@ class SchuduleController {
 
       return true;
     }
-    catch(erro) {
-      print('------------');
+    catch(erro, stacktrace) {
+      print('><><><><><><');
       print(erro);
-      print('------------');
+      print(stacktrace);
+      print('><><><><><><');
       return false;
     }
   } // static Future<bool> requestSchudule(BuildContext context) { ... }

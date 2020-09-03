@@ -19,6 +19,20 @@ class Subsidiary extends ChangeNotifier {
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
+  factory Subsidiary.fromJson(Map<String, dynamic> data){
+    return Subsidiary(
+      id: data['id_subsidiary'],
+      idCompany: data['id_company'],
+      name: data['name'],
+      description: data['description'],
+      address: data['address'],
+      latitude: data['latitude'],
+      longitude: data['longitude'],
+    );
+  } // factory Subsidiary.fromJson(Map<String, dynamic> data){ ... }
+
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
   int get id => this._id;
   int get idCompany => this._idCompany;
   num get latitude => this._latitude;

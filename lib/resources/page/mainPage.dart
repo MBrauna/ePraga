@@ -14,7 +14,7 @@ class _MainPage extends State<MainPage> {
   List<Widget> _widgetOptions = <Widget>[
     SchudulePage(),
     ChatPage(),
-    Text('3'),
+    GuidePage(),
     UserPage(),
   ]; // List<Widget> _widgetOptions = <Widget>[ ... ]
 
@@ -23,6 +23,11 @@ class _MainPage extends State<MainPage> {
       _selectedIndex = index;
     });
   } // void _onItemTapped(int index) { ... }
+
+  @override
+  void initState(){
+    super.initState();
+  } // void initState(){ ... }
 
   @override
   Widget build(BuildContext context) {
@@ -63,27 +68,33 @@ class _MainPage extends State<MainPage> {
         onTap: _onItemTapped,
       ),
       body: Builder(
-        builder: (context) => Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Connectivity(),
+        builder: (context) => Padding(
+          padding: EdgeInsets.only(
+            left: 15.0,
+            right: 15.0,
+          ),
+          child: Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Connectivity(),
 
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.only(
-                    bottom: 50.0,
-                    left: 15.0,
-                    right: 15.0,
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(
+                      bottom: 50.0,
+                      left: 15.0,
+                      right: 15.0,
+                    ),
+                    child: _widgetOptions.elementAt(_selectedIndex),
                   ),
-                  child: _widgetOptions.elementAt(_selectedIndex),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
+        )
       ),
     );
   } // Widget build(BuildContext context) { ... }

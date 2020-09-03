@@ -59,6 +59,7 @@ class SplashScreenController {
 
     } // try { ... }
     catch(erro) {
+      print(erro);
       Message(context).error('Não foi possível iniciar a aplicação! Erro fatal');
       return;
     } // catch(erro) { ... }
