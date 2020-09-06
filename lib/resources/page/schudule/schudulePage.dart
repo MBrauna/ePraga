@@ -1,325 +1,519 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:epraga/allFiles.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class SchudulePage extends StatefulWidget {
   @override
   _SchudulePage createState() => _SchudulePage();
-} // class SchudulePage extends StatefulWidget { ... }
+} // class MainPage extends StatefulWidget { ... }
 
 class _SchudulePage extends State<SchudulePage> {
-  @override
-  Widget build(BuildContext context) {
-    Size    size        = MediaQuery.of(context).size;
-    double  fonteTitulo = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 20) : (size.width / 10));
-    //double  widthButton = ((size.width - 60.0)/3);
+  bool execAtt  = false;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      key: Key('SchudulePage'),
-      child: Builder(
-        builder: (ctx) {
-          // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-          if(context.read<App>().listSchudule.length <= 0) {
-            return Column(
-              children: [
+  void openSubsidiary(BuildContext context, Schudule data) {
+    Subsidiary subsidiary  = Provider.of<ListData>(context, listen: false).listSubsidiary.where((element) => element.id == data.idSubsidiary).first;
 
-                SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    onPressed: () async {
-                      try {
-                        await SchuduleController.requestSchudule(context);
-                        Navigator.pushReplacement(context, FadePageRoute(MainPage()));
-                      } // try { ... }
-                      catch(erro){
-                        Message(context).error('Não foi possível atualizar! Falha no sistema.');
-                      } // catch(erro){ ... }
-                    },
-                    color: Theme.of(context).accentColor,
-                    child: Text(
-                      'Atualizar agendamento',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).backgroundColor,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
+    Size    size                    = MediaQuery.of(context).size;
+    double  fonteTitulo             = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 16) : (size.width / 8));
+    double  subfonteTitulo          = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                
+
+                Text('ePraga',
+                  style: TextStyle(
+                    fontFamily: 'SystemAnalysis',
+                    color: Theme.of(context).primaryColor,
+                    fontSize: fonteTitulo,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
 
 
-                CardImage(
-                  image: 'assets/flare/Mouse.flr',
-                  animation: 'walking (w/ hood)',
-                  background: Theme.of(context).errorColor,
-                  title: Text(
-                    'Nenhum agendamento disponível!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).backgroundColor,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  subtitle: Text(
-                    '\n\n\nNão há agendas disponíveis\n\nTente atualizar a lista ou solicite ao administrador do sistema.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).backgroundColor,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.normal
-                    ),
+                Text(
+                  'Tec Solution',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontFamily: 'Roboto',
+                    fontSize: subfonteTitulo,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
 
 
-              ],
-            );
-          } // if(context.watch<App>().listSchudule.length <= 0) { ... }
-          // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-          else {
-
-            return Column(
-              children: [
-
-                SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    onPressed: () async {
-                      try {
-                        await SchuduleController.requestSchudule(context);
-                        //Navigator.pushReplacement(context, FadePageRoute(MainPage()));
-                      } // try { ... }
-                      catch(erro){
-                        Message(context).error('Não foi possível atualizar! Falha no sistema.');
-                      } // catch(erro){ ... }
-                    },
-                    color: Theme.of(context).accentColor,
-                    child: Text(
-                      'Atualizar agendamento',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).backgroundColor,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: 40.0,
                   ),
                 ),
-
-
-
-                CardImage(
-                  image: 'assets/flare/Mouse.flr',
-                  animation: 'wrong',
-                  background: Theme.of(context).primaryColor,
-                  title: Text(
-                    'EPraga',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'SystemAnalysis',
-                      color: Theme.of(context).backgroundColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: fonteTitulo,
-                    ),
-                  ),
-                  subtitle: Text(
-                    '${context.read<App>().listSchudule.length} itens disponíveis\npara atendimento em ' + DateFormat('dd/MM/yyyy').format(DateTime.now()),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).backgroundColor,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ),
-
 
 
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: context.read<App>().listSchudule.map((e) => 
-                    Card(
-                      color: Theme.of(context).cardColor,
-                      elevation: 5.0,
-                      child: Container(
-                        width: double.infinity,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            
-                            Text(
-                              e.description,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17.0,
-                              ),
-                            ),
-
-
-
-
-                            Text(
-                              '_________',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 9.0,
-                              ),
-                            ),
-
-                            
-
-
-                            Text(
-                              ' tarefas disponíveis',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Theme.of(context).accentColor,
-                                fontFamily: 'Roboto',
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0,
-                              ),
-                            ),
-
-
-                            Text(
-                              '_________',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 9.0,
-                              ),
-                            ),
-
-
-                            Text(
-                              '\n\nAgendamento previsto para ' + DateFormat('dd/MM/yyyy').format(e.startDate),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontFamily: 'Roboto',
-                                fontStyle: FontStyle.italic,
-                                fontSize: 12.0,
-                              ),
-                            ),
-
-                            SizedBox(
-                              width: double.infinity,
-                              child: RaisedButton(
-                                color: Theme.of(context).accentColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.mapMarked,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                    Text(
-                                      'Dados do local',
-                                      style: TextStyle(
-                                        color: Theme.of(context).backgroundColor,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                    FaIcon(
-                                      FontAwesomeIcons.mapMarked,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                  ],
-                                ),
-                                onPressed: (){
-                                  // Abre um popup com informações
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              SubsidiaryPage(e),
-                                            ],
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          RaisedButton(
-                                            color: Theme.of(context).accentColor,
-                                            child: Text('fechar'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-
-
-                            SizedBox(
-                              width: double.infinity,
-                              child: RaisedButton(
-                                color: Theme.of(context).accentColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.play,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                    Text(
-                                      'Iniciar tratamento',
-                                      style: TextStyle(
-                                        color: Theme.of(context).backgroundColor,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                    FaIcon(
-                                      FontAwesomeIcons.play,
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                                  ],
-                                ),
-                                onPressed: (){
-                                  Navigator.push(context, FadePageRoute(SchuduleItemPage(e)));
-                                },
-                              ),
-                            ),
-
-
-
-
-
-
-                          ],
-                        ),
+                  children: [
+                    Text(
+                      '#' + subsidiary.id.toString() + ' - ' + subsidiary.name,
+                      style: TextStyle(
+                        color: Theme.of(context).accentColor,
+                        fontFamily: 'Roboto',
+                        fontSize: subfonteTitulo,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
 
-                  ).toList(),
+                    Text(
+                      subsidiary.description,
+                      style: TextStyle(
+                        color: Theme.of(context).accentColor,
+                        fontFamily: 'Roboto',
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 40.0,
+                      ),
+                    ),
+
+
+                    Text(
+                      'Endereço: ' + subsidiary.address,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontFamily: 'Roboto',
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+
+                    Text(
+                      subsidiary.latitude == null ? 'Sem coordenadas cadastradas' : 'Coods: ' + subsidiary.latitude.toString() + 'W, ' + subsidiary.longitude.toString() + 'L',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontFamily: 'Roboto',
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
 
 
+
+
+
               ],
-            );
+            ),
+          ),
+          actions: <Widget>[
+            RaisedButton(
+              color: Theme.of(context).primaryColor,
+              child: Text('Fechar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-          } // else { ... }
-          // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
+
+  void openImage(BuildContext context, Schudule data) {
+    Subsidiary subsidiary = Provider.of<ListData>(context, listen: false).listSubsidiary.where((element) => element.id == data.idSubsidiary).first;
+    if(subsidiary != null && subsidiary.id != null && subsidiary.croqui != null && subsidiary.croqui.trim().length > 0) {
+
+      Uint8List _bytesImage = Base64Decoder().convert(subsidiary.croqui);
+      showDialog(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Image.memory(_bytesImage),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              RaisedButton(
+                color: Theme.of(context).primaryColor,
+                child: Text('Fechar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
         },
+      );
+    }
+    else {
+      Message(context).error('Nenhum croqui adicionado a este local! Verifique com o administrador do sistema.',tempo: 1);
+    } // else { ... }
+  }
+
+
+  openMapsSheet(BuildContext context, Schudule data) async {
+    try {
+      Subsidiary tmpSubsidiary  = Provider.of<ListData>(context, listen: false).listSubsidiary.where((element) => element.id == data.idSubsidiary).first;
+
+      if(tmpSubsidiary.latitude == null) {
+        Message(context).error('Localização não definida para esta filial! Verifique.');
+      }
+      else {
+        try {
+          final coords = Coords(tmpSubsidiary.latitude, tmpSubsidiary.longitude);
+          final title = data.description;
+          final availableMaps = await MapLauncher.installedMaps;
+
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Wrap(
+                      children: <Widget>[
+                        for (var map in availableMaps)
+                          ListTile(
+                            onTap: (){ 
+                              map.showMarker(
+                              coords: coords,
+                              title: title,
+                              );
+                            },
+                            title: Text(map.mapName),
+                            leading: Image(
+                              image: map.icon,
+                              height: 30.0,
+                              width: 30.0,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          Message(context).error('Erro ao carregar mapa!',tempo: 1);
+        }
+      }
+    }
+    catch(erro) {
+      print(erro);
+      Message(context).error('Não foi possível abrir mapas! Verifique.', tempo: 1);
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    Size    size                = MediaQuery.of(context).size;
+    double  fonteTitulo         = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 40) : (size.width / 20));
+
+    List<Schudule> listSchudule = Provider.of<ListData>(context).listSchudule;
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        verticalDirection: VerticalDirection.down,
+        key: Key('SchudulePage'),
+        children: [
+          // -- PARA VERIFICAR CONEXÃO DE REDE -- //
+          Connectivity(),
+
+          // -- OPÇÃO DE ATUALIZAÇÃO DOS DADOS -- //
+          SizedBox(
+            width: double.infinity,
+            child: RaisedButton(
+              color:  Theme.of(context).accentColor,
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.syncAlt,
+                    color: Theme.of(context).backgroundColor,
+                  ),
+
+                  Text(
+                    'Atualizar agendamento',
+                    style: TextStyle(
+                      color: Theme.of(context).backgroundColor,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+
+                  FaIcon(
+                    FontAwesomeIcons.syncAlt,
+                    color: Theme.of(context).backgroundColor,
+                  ),
+                ],
+              ),
+              onPressed: () async {
+                if(!execAtt) {
+                  setState(() {
+                    execAtt = true;
+                  });
+
+                  bool verifyConn = await VerifyNetwork().verify();
+
+                  if(verifyConn) {
+                    bool requestData  = await RequestController.requestSchudule(context);
+                    if(requestData) {
+                      Message(context).info('Dados atualizados!',tempo: 1);
+                    }
+                    else {
+                      Message(context).error('Não foi possível atualizar!',tempo: 1);
+                    }
+                  } // if(verifyConn) { ... }
+                  else {
+                    await DataController.getDatabaseData(context, ['schudule']);
+                  } // else { ... }
+
+                  setState(() {
+                    execAtt = false;
+                  });
+                }
+                else {
+                  Message(context).info('Aguarde finalizar a atualização atual!',tempo: 1);
+                }
+              },
+            ),
+          ),
+
+
+
+          // -- APRESENTAÇÃO - ICONE DE TODOS OS DADOS -- //
+          CardImage(
+            image: 'assets/flare/Mouse.flr',
+            animation: 'wrong',
+            background: Theme.of(context).primaryColor,
+            title: Text(
+              'EPraga',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'SystemAnalysis',
+                color: Theme.of(context).backgroundColor,
+                fontWeight: FontWeight.bold,
+                fontSize: fonteTitulo,
+              ),
+            ),
+            subtitle: Text(
+              '${listSchudule.length} ${listSchudule.length <= 1 ? "item disponível" : "itens disponíveis"}\n' + DateFormat('dd/MM/yyyy').format(DateTime.now()),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).backgroundColor,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+          
+          
+          // -- LISTA DE TODOS OS AGENDAMENTOS EXISTENTES -- //
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: listSchudule.length,
+            itemBuilder: (BuildContext ctx, int idx) {
+
+              return new Padding(
+                padding: EdgeInsets.only(
+                  bottom: 10.0,
+                ),
+                child: Card(
+                  key: Key('schudule_' + listSchudule.elementAt(idx).id.toString()),
+                  elevation: 2.5,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 5.0,
+                      right: 5.0,
+                      top: 10.0,
+                      bottom: 10.0,
+                    ),
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: Column(
+                      verticalDirection: VerticalDirection.down,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // ->> # <<- ->> # <<- ->> # <<- ->> # <<- ->> # <<- ->> # <<- ->> # <<- ->> # <<- //
+                        Text(
+                          listSchudule.elementAt(idx).description,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                            fontSize: fonteTitulo,
+                            fontFamily: 'Roboto',
+                          ),
+                        ),
+
+                        Text(
+                          '______________',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 8.0,
+                            fontFamily: 'Roboto',
+                          ),
+                        ),
+
+                        Text(
+                          'Agendamento para ' + DateFormat('dd/MM/yyyy').format(listSchudule.elementAt(idx).updatedAt),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 12.0,
+                            fontFamily: 'Roboto',
+                          ),
+                        ),
+
+                        Text(
+                          (listSchudule.elementAt(idx).status ? 'Aguardando conclusão' : 'Concluído'),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                            color: (listSchudule.elementAt(idx).status ? Theme.of(context).errorColor : Theme.of(context).accentColor),
+                            fontSize: 12.0,
+                            fontFamily: 'Roboto',
+                          ),
+                        ),
+
+                        Text(
+                          '______________\n\n',
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 8.0,
+                            fontFamily: 'Roboto',
+                          ),
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+
+                            // Botão de empresa
+                            MaterialButton(
+                              color: Theme.of(context).primaryColor,
+                              highlightColor: Theme.of(context).accentColor,
+                              focusColor: Theme.of(context).accentColor,
+                              hoverColor: Theme.of(context).accentColor,
+                              splashColor: Theme.of(context).accentColor,
+                              textColor: Colors.white,
+                              child: FaIcon(
+                                FontAwesomeIcons.city,
+                                size: 20.0,
+                              ),
+                              padding: EdgeInsets.all(10.0),
+                              //shape: CircleBorder(),
+                              onPressed: () {
+                                this.openSubsidiary(context,listSchudule.elementAt(idx));
+                              },
+                            ),
+
+                            // Botão para dados da agenda
+                            MaterialButton(
+                              color: Theme.of(context).accentColor,
+                              highlightColor: Theme.of(context).primaryColor,
+                              focusColor: Theme.of(context).primaryColor,
+                              hoverColor: Theme.of(context).primaryColor,
+                              splashColor: Theme.of(context).primaryColor,
+                              textColor: Colors.white,
+                              child: FaIcon(
+                                FontAwesomeIcons.eye,
+                                size: 20.0,
+                              ),
+                              padding: EdgeInsets.all(10.0),
+                              //shape: CircleBorder(),
+                              onPressed: () {},
+                            ),
+
+                            // Botão para ir até o local
+                            MaterialButton(
+                              color: Theme.of(context).primaryColor,
+                              highlightColor: Theme.of(context).accentColor,
+                              focusColor: Theme.of(context).accentColor,
+                              hoverColor: Theme.of(context).accentColor,
+                              splashColor: Theme.of(context).accentColor,
+                              textColor: Colors.white,
+                              child: FaIcon(
+                                FontAwesomeIcons.mapMarkedAlt,
+                                size: 20.0,
+                              ),
+                              padding: EdgeInsets.all(10.0),
+                              //shape: CircleBorder(),
+                              onPressed: () {
+                                this.openMapsSheet(context,listSchudule.elementAt(idx));
+                              },
+                            ),
+                          ],
+                        ),
+
+                        
+
+                        SizedBox(
+                          width: double.infinity,
+                          child: RaisedButton(
+                            color: Theme.of(context).primaryColor,
+                            textColor: Theme.of(context).backgroundColor,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FaIcon(FontAwesomeIcons.mapPin),
+                                Text(
+                                  'Área de instalação',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Theme.of(context).backgroundColor,
+                                    fontWeight: FontWeight.bold,
+                                  )
+                                ),
+                                FaIcon(FontAwesomeIcons.mapPin),
+                              ],
+                            ),
+                            onPressed: (){
+                              this.openImage(context, listSchudule.elementAt(idx) );
+                            },
+                          )
+                        ),
+
+                      ],
+                    )
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   } // Widget build(BuildContext context) { ... }

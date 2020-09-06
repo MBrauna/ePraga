@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:epraga/config/config.dart' as config;
+import 'package:epraga/allFiles.dart';
 
 class EPragaException implements Exception {
   String _origin;
@@ -16,7 +15,7 @@ class EPragaException implements Exception {
     this._message = message;
 
     // Se estivermos no ambiente de debug irá
-    if (config.DEBUG) {
+    if (DEBUG) {
       print('---------------------------->> LOG - INIT - EPRAGA EXCEPTION');
       print('[' + this._origin + '] - ' + this._message);
       print('[' + this._origin + '] - ' + this._error.toString());

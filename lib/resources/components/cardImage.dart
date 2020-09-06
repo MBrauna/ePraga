@@ -1,11 +1,11 @@
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/material.dart';
-
 // ignore: must_be_immutable
+import 'package:epraga/allFiles.dart';
+
 class CardImage extends StatefulWidget {
   String image, animation;
   Color background;
   Widget title, subtitle;
+  double elevation;
 
   CardImage({
     this.title,
@@ -13,6 +13,7 @@ class CardImage extends StatefulWidget {
     this.image = 'robot',
     this.animation = 'reposo',
     this.background = Colors.white,
+    this.elevation  = 3.0,
   });
 
   @override
@@ -42,6 +43,7 @@ class _CardImage extends State<CardImage> {
                 top: 10.0,
               ),
               child: Card(
+                elevation: widget.elevation,
                 color: widget.background,
                 child: Padding(
                   padding: EdgeInsets.only(

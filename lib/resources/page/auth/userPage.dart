@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:epraga/allFiles.dart';
-
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -20,11 +16,8 @@ class _UserPage extends State<UserPage> {
 
 
     return Container(
-      /*padding: EdgeInsets.only(
-        left: 15.0,
-        right: 15.0,
-      ),*/
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
 
           Text('ePraga',
@@ -51,8 +44,9 @@ class _UserPage extends State<UserPage> {
           CardImage(
             image: 'assets/flare/robot.flr',
             animation: 'reposo',
+            elevation: 3.0,
             title: Text(
-              context.watch<App>().login.name,
+              context.watch<EPraga>().login.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
@@ -60,8 +54,8 @@ class _UserPage extends State<UserPage> {
                   fontWeight: FontWeight.bold),
             ),
             subtitle: Text(
-              'Código do usuário ' + context.watch<App>().login.identity + '\n' +
-              'Última conexão em ' + DateFormat('dd/MM/yyyy kk:mm').format(context.watch<App>().login.lastLogin),
+              'Código do usuário ' + context.watch<EPraga>().login.identity + '\n' +
+              'Última conexão em ' + DateFormat('dd/MM/yyyy kk:mm').format(context.watch<EPraga>().login.lastLogin),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -85,8 +79,7 @@ class _UserPage extends State<UserPage> {
               ),
               color: Theme.of(context).errorColor,
               onPressed: () async {
-                SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-                sharedPreferences.remove('lastLogin');
+                await context.read<EPraga>().database.delete('login');
                 Navigator.pushReplacement(context, FadePageRoute(LoginPage()));
               },
             ),

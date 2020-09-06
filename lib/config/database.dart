@@ -1,15 +1,12 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-
-import 'config.dart' as config;
+import 'package:epraga/allFiles.dart';
 
 class EPragaDB {
   static Future<Database> createDatabase() async {
     String databasesPath = await getDatabasesPath();
-    String dbPath = join(databasesPath, config.DATABASE_NAME);
+    String dbPath = join(databasesPath, DATABASE_NAME);
     Database database = await openDatabase(
       dbPath,
-      version: config.DATABASE_VERSION,
+      version: DATABASE_VERSION,
       onCreate: EPragaDB.populateDB,
       onUpgrade: EPragaDB.upgradeDB,
     );

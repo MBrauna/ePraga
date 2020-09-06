@@ -1,23 +1,25 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:epraga/allFiles.dart';
 
-class EPraga extends StatelessWidget {
+class EPragaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+      key: Key('ePragaApp'),
       providers: [
         ChangeNotifierProvider(
-          create: (_) =>  App(),
+          // Configurações das aplicações - EPraga
+          create: (context) => EPraga(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ListData(),
         ),
       ],
       child: MaterialApp(
-        key: Key('ePraga'),
         debugShowCheckedModeBanner: false,
         darkTheme: EpragaTheme.dark,
         theme: EpragaTheme.light,
         home: SplashPage(),
       ),
     );
-  } // Widget builld(BuildContext context) { ... }
-} // class EPraga extends StatefulWidget { ... }
+  }
+} // class EPragaApp extends StatelessWidget { .. }

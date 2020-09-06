@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:epraga/allFiles.dart';
 
 class Subsidiary extends ChangeNotifier {
   int _id, _idCompany;
   num _latitude, _longitude;
-  String _name, _description, _address;
+  String _name, _description, _address, _croqui;
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
-  Subsidiary({int id, int idCompany, num latitude, num longitude, String name, String description, String address}) {
+  Subsidiary({int id, int idCompany, num latitude, num longitude, String name, String description, String address, String croqui}) {
     this._id          = id;
     this._idCompany   = idCompany;
     this._latitude    = latitude;
@@ -15,6 +15,7 @@ class Subsidiary extends ChangeNotifier {
     this._name        = name;
     this._description = description;
     this._address     = address;
+    this._croqui      = croqui;
   } // Subsidiary({int id, int idCompany, num latitude, num longitude, String name, String description, String address}) { ... }
 
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
@@ -28,6 +29,7 @@ class Subsidiary extends ChangeNotifier {
       address: data['address'],
       latitude: data['latitude'],
       longitude: data['longitude'],
+      croqui: data['croqui_base64'],
     );
   } // factory Subsidiary.fromJson(Map<String, dynamic> data){ ... }
 
@@ -40,6 +42,7 @@ class Subsidiary extends ChangeNotifier {
   String get name => this._name;
   String get description => this._description;
   String get address => this._address;
+  String get croqui => this._croqui;
 
 
 } // class Subsidiary extends ChangeNotifier { ... }

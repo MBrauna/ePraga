@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:provider/provider.dart';
 import 'package:epraga/allFiles.dart';
 
 class SplashScreenController {
@@ -32,12 +28,12 @@ class SplashScreenController {
   static Future getRoute(BuildContext context) async {
     try {
       // Coleta os dados do database, e caso não exista, cria.
-      Database database             = await EPragaDB.createDatabase();
-      context.read<App>().database  = database;
+      Database database               = await EPragaDB.createDatabase();
+      context.read<EPraga>().database = database;
 
       // Coleta do banco de dados as informações previamente cadastradas
       bool dataDB = await DataController.getDatabaseData(context, ['login','schudule']);
-      Login login = context.read<App>().login;
+      Login login = context.read<EPraga>().login;
 
       if(dataDB) {
         if((login == null) || (login.expiredLogin.millisecondsSinceEpoch <= DateTime.now().millisecondsSinceEpoch)) {

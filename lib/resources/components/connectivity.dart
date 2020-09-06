@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'cardImage.dart';
-import './../../app/util/verifyNetwork.dart';
+
+import 'package:epraga/allFiles.dart';
 
 class Connectivity extends StatefulWidget {
   @override
@@ -58,6 +57,7 @@ class _Connectivity extends State<Connectivity> {
           ),
           subtitle: Text(
             'Atenção, você está operado no modo offline!',
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: 'Roboto',

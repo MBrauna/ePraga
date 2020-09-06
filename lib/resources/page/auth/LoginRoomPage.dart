@@ -1,8 +1,5 @@
 import 'package:epraga/allFiles.dart';
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class LoginRoomPage extends StatefulWidget {
   String usuario, senha;
   LoginRoomPage(this.usuario, this.senha);
@@ -26,18 +23,15 @@ class _LoginRoomPage extends State<LoginRoomPage> {
     double  subfonteTitulo  = ((MediaQuery.of(context).orientation == Orientation.landscape)? (size.width / 50) : (size.width / 25));
     double  logoLoad        = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
-    if(!execValidate) {
-      // Marca como já executado
-      setState(() {
-        execValidate = true;
-      });
-      // Executa o método e aguarda a finalização
-      LoginController.requestLogin(context, widget.usuario, widget.senha);
-    } // if(!execValidate) { ... }
-
     return Scaffold(
       body: Builder(
         builder: (context){
+
+          if(!execValidate) {
+            execValidate = true;
+            // Executa o método e aguarda a finalização
+            LoginController.requestLogin(context, widget.usuario, widget.senha);
+          } // if(!execValidate) { ... }
 
           return Center(
             child: SingleChildScrollView(

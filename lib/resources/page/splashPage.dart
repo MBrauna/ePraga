@@ -1,6 +1,4 @@
 import 'package:epraga/allFiles.dart';
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -8,18 +6,16 @@ class SplashPage extends StatefulWidget {
 } // class SplashPage extends StatefulWidget { ... }
 
 class _SplashPage extends State<SplashPage> {
-  bool permissionData = false;
+  bool _permissionData = false;
 
   @override
   void initState(){
-    super.initState();
     SplashScreenController.permissions().then((value){
       setState(() {
-        permissionData  = value;
+        this._permissionData  = value;
       }); // setState(() { .. });
     }); // SplashScreenController.decision().then((value){ ... });
   } // void initState(){ ... }
-
 
   @override
   Widget build(BuildContext context) {
@@ -29,26 +25,26 @@ class _SplashPage extends State<SplashPage> {
     double  logoSize      = (MediaQuery.of(context).orientation == Orientation.landscape) ? (size.height / 3) : (size.height / 6);
 
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: 15.0,
-          right: 15.0,
-        ),
-        child: Builder(
-          builder: (context){
+      key: Key('SplashPage'),
+      body: Builder(
+        builder: (context){
 
-            if(permissionData) {
-              Future.delayed(Duration(seconds: 3),(){
-                SplashScreenController.getRoute(context);
-              }); // Future.delayed(Duration(seconds: 3),(){ ... });
-            } // if(permissionData) { ... }
-
-            return Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          if(this._permissionData) {
+            Future.delayed(Duration(seconds: 3),(){
+              SplashScreenController.getRoute(context);
+            }); // Future.delayed(Duration(seconds: 3),(){ ... });
+          } // if(permissionData) { ... }
+          
+          return Center(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                left: 15.0,
+                right: 15.0,
+              ),
+              scrollDirection: Axis.vertical,
+              child: Column(
                   children: [
+
                     Text('ePraga',
                       style: TextStyle(
                         fontFamily: 'SystemAnalysis',
@@ -68,8 +64,6 @@ class _SplashPage extends State<SplashPage> {
                       ),
                     ),
 
-
-
                     Container(
                       alignment: Alignment.center,
                       height: logoSize,
@@ -83,13 +77,11 @@ class _SplashPage extends State<SplashPage> {
                     ),
 
                   ],
-                ),
               ),
-            );
-
-          },
-        ),
+            ),
+          );
+        }
       ),
     );
   } // Widget build(BuildContext context) { ... }
-} // class _SplashPage extends State<SplashPage> { ... }
+} // class _SplashPage extends State<SplashPage> { .. }

@@ -7,6 +7,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  camera_camera: ^1.0.34+1 # Para coleta de imagens
   flutter:
     sdk: flutter
   flare_flutter: any # Para animações

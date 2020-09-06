@@ -1,10 +1,7 @@
 import 'dart:convert';
 
 import 'package:epraga/allFiles.dart';
-import 'package:flutter/material.dart';
-import 'package:unique_identifier/unique_identifier.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 class LoginController {
   static Future<String> initUniqueIdentifierState() async {
@@ -47,6 +44,8 @@ class LoginController {
         else {
           // Declaração de variáveis
           String imeiData = await LoginController.initUniqueIdentifierState();
+
+          print(imeiData);
           
           Map<String, dynamic> body     = Map<String, dynamic>();
           body.putIfAbsent('cpf',           () => user.toString().padLeft(11,'0'));
@@ -77,11 +76,18 @@ class LoginController {
                 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
                 // Armazena os dados da resposta - Cria os dados de login
-                context.read<App>().login = Login.fromJson(dataResponse);
-                DataController.setDatabaseData(context, ['login']);
-                // Armazena os dados da resposta - Cria os dados de login
+                context.read<EPraga>().login = Login.fromJson(dataResponse);
+                bool validateData = await DataController.setDatabaseData(context, ['login']);
 
-                Navigator.pushReplacement(context, FadePageRoute(MainPage()));
+                // Armazena os dados da resposta - Cria os dados de login
+                if(validateData){
+                  Navigator.pushReplacement(context, FadePageRoute(MainPage()));
+                }
+                else {
+                  Navigator.pushReplacement(context, FadePageRoute(LoginPage(message: 'Não foi possível acessar o banco de dados!',)));
+                }
+                //Navigator.pushReplacement(context, FadePageRoute(MainPage()));
+
                 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
               } // else { ... }
 

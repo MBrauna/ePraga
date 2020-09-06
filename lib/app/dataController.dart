@@ -1,6 +1,4 @@
 import 'package:epraga/allFiles.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class DataController {
   static Future<bool> getDatabaseData(BuildContext context, List<String> modules) async {
@@ -10,13 +8,13 @@ class DataController {
 
       if(modules.contains('login')) {
         // Gera uma consulta ao banco de dados para coletar informações.
-        List dataLogin  = await context.read<App>().database.query('login',
+        List dataLogin  = await context.read<EPraga>().database.query('login',
           limit: 1,
           distinct: true,
         );
 
         if(dataLogin.length <= 0) {
-          context.read<App>().login = null;
+          context.read<EPraga>().login = null;
         } // if(dataLogin.length <= 0) { ... }
         else {
           // Inicia o cadastro do login
@@ -36,7 +34,7 @@ class DataController {
               lastLogin: DateTime.fromMillisecondsSinceEpoch(element['last']),
             );
             // Salva no contexto
-            context.read<App>().login = login;
+            context.read<EPraga>().login = login;
           }); // dataLogin.forEach((element) { ... });
         } // else { ... }
       } // if(modules.contains('login')) { ... }
@@ -46,102 +44,98 @@ class DataController {
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
       if(modules.contains('schudule')) {
-        List dataSchudule = await context.read<App>().database.query('schudule',
+        List dataSchudule = await context.read<EPraga>().database.query('schudule',
           distinct: true,
         ); // List dataSchudule = await context.read<App>().database.query('schudule', distinct: true,);
 
         if(dataSchudule.length <= 0) {
-          context.read<App>().listSchudule  = List<Schudule>();
+          context.read<ListData>().listSchudule  = List<Schudule>();
         } // if(dataSchudule.length <= 0) { ... }
         else {
           List<Schudule> listSchudule  = List<Schudule>();
-          dataSchudule.forEach((element) {
+
+          for (var i = 0; i < dataSchudule.length; i++) {
+            List<SchuduleItem> schuduleItem = List<SchuduleItem>();
+            List listDBItem = await context.read<EPraga>().database.query('schudule_item',
+              orderBy: 'sequence asc',
+              where: 'id_schudule = ?',
+              whereArgs: [
+                dataSchudule.elementAt(i)['id'],
+              ],
+              distinct: true,
+            ); // List listDBItem = await context.read<EPraga>().database.query('schudule_item', distinct: true);
+
+            // Monta os itens relacionados ao agendamento
+            for(var j = 0; j < listDBItem.length;j++) {
+              SchuduleItem tmpSchuduleItem  = SchuduleItem(
+                id: listDBItem.elementAt(j)['id'],
+                description: listDBItem.elementAt(j)['description'],
+                accept: listDBItem.elementAt(j)['accept'] == 0 ? false : true,
+                combat: listDBItem.elementAt(j)['combat'] == 0 ? false : true,
+                idSchudule: listDBItem.elementAt(j)['id_schudule'],
+                images: List<ImageBase64>(),
+                lastAlt: DateTime.fromMillisecondsSinceEpoch(listDBItem.elementAt(j)['last_alt']),
+                latitude: listDBItem.elementAt(j)['latitude'],
+                longitude: listDBItem.elementAt(j)['longitude'],
+                note: listDBItem.elementAt(j)['note'],
+                qtdeImage: listDBItem.elementAt(j)['qtde_image'],
+                sequence: listDBItem.elementAt(j)['sequence'],
+                status: listDBItem.elementAt(j)['status'] == 0 ? false : true,
+                visit: listDBItem.elementAt(j)['visit'] == 0 ? false : true,
+              );
+
+              schuduleItem.add(tmpSchuduleItem);
+            } // for(var j = 0; j < listDBItem.length;j++) { ... }
+
             Schudule tmpSchudule  = Schudule(
-              id: element['id'],
-              description: element['description'],
-              idSubsidiary: element['id_subsidiary'],
-              idResponsible: element['id_responsible'],
-              lastAlt: element['last_alt'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(element['last_alt']),
-              startDate: element['start_date'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(element['start_date']),
-              endDate: element['end_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(element['end_date']),
-              status: element['status'] == 1 ? true : false,
-              createdAt: element['created_at'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(element['created_at']),
-              updatedAt: element['updated_at'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(element['updated_at']),
+              id: dataSchudule.elementAt(i)['id'],
+              description: dataSchudule.elementAt(i)['description'],
+              idSubsidiary: dataSchudule.elementAt(i)['id_subsidiary'],
+              idResponsible: dataSchudule.elementAt(i)['id_responsible'],
+              lastAlt: dataSchudule.elementAt(i)['last_alt'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(dataSchudule.elementAt(i)['last_alt']),
+              startDate: dataSchudule.elementAt(i)['start_date'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(dataSchudule.elementAt(i)['start_date']),
+              endDate: dataSchudule.elementAt(i)['end_date'] == null ? null : DateTime.fromMillisecondsSinceEpoch(dataSchudule.elementAt(i)['end_date']),
+              status: dataSchudule.elementAt(i)['status'] == 1 ? true : false,
+              createdAt: dataSchudule.elementAt(i)['created_at'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(dataSchudule.elementAt(i)['created_at']),
+              updatedAt: dataSchudule.elementAt(i)['updated_at'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(dataSchudule.elementAt(i)['updated_at']),
+              schuduleItem: List<SchuduleItem>(),
             );
 
             // Adiciona a lista os dados coletados.
             listSchudule.add(tmpSchudule);
-          }); // dataSchudule.forEach((element) { ... });
+          } // for (var i = 0; i < dataSchudule.length; i++) { ... }
 
           // Seta na sessão os dados.
-          context.read<App>().listSchudule  = listSchudule;
+          context.read<ListData>().listSchudule = listSchudule;
         } // else { ... }
       } // if(modules.contains('schudule')) { ... }
 
       if(modules.contains('subsidiary')) {
-        List dataSubsidiary = await context.read<App>().database.query('subsidiary',
+        List dataSubsidiary = await context.read<EPraga>().database.query('subsidiary',
           distinct: true,
-        ); // List dataSchudule = await context.read<App>().database.query('schudule', distinct: true,);
+        ); // List dataSubsidiary = await context.read<App>().database.query('schudule', distinct: true,);
 
         if(dataSubsidiary.length <= 0) {
-          context.read<App>().listSubsidiary  = List<Subsidiary>();
+          context.read<ListData>().listSubsidiary  = List<Subsidiary>();
         } // if(dataSubsidiary.length <= 0) { ... }
         else {
-          List<Subsidiary> listSubsidiary = List<Subsidiary>();
-          dataSubsidiary.forEach((element) {
+          List<Subsidiary> listSchudule  = List<Subsidiary>();
+
+          for (var i = 0; i < dataSubsidiary.length; i++) {
             Subsidiary tmpSubsidiary  = Subsidiary(
-              id: element['id'],
-              idCompany: element['id_company'],
-              name: element['name'],
-              address: element['address'],
-              description: element['description'],
-              latitude: num.parse(element['latitude']),
-              longitude: num.parse(element['longitude']),
+              id: dataSubsidiary.elementAt(i)['id'],
+              idCompany: dataSubsidiary.elementAt(i)['id'],
+              latitude: num.parse(dataSubsidiary.elementAt(i)['latitude']),
+              longitude: num.parse(dataSubsidiary.elementAt(i)['longitude']),
+              address: dataSubsidiary.elementAt(i)['address'],
+              description: dataSubsidiary.elementAt(i)['description'],
+              name: dataSubsidiary.elementAt(i)['name'],
             );
 
-            listSubsidiary.add(tmpSubsidiary);
-          });
-
-          // Salvar dados no context
-          context.read<App>().listSubsidiary = listSubsidiary;
-        } // else { ... }
-      } // if(modules.contains('subsidiary')) { ... }
-
-
-      if(modules.contains('schuduleItem')) {
-        List dataSchudule = await context.read<App>().database.query('schudule_item',
-          distinct: true,
-        ); // List dataSchudule = await context.read<App>().database.query('schudule', distinct: true,);
-
-        if(dataSchudule.length <= 0) {
-          context.read<App>().listSchuduleItem  = List<SchuduleItem>();
-        } // if(dataSubsidiary.length <= 0) { ... }
-        else {
-          List<SchuduleItem> listSchuduleItem = List<SchuduleItem>();
-          dataSchudule.forEach((element) {
-            SchuduleItem tmpSchuduleItem  = SchuduleItem(
-              id: element['id'],
-              idSchudule: element['id_schudule'],
-              lastAlt: DateTime.fromMillisecondsSinceEpoch(element['last_alt']),
-              note: element['note'],
-              qtdeImage: element['qtde_image'],
-              sequence: element['sequence'],
-              description: element['description'],
-              latitude: num.parse(element['latitude']),
-              longitude: num.parse(element['longitude']),
-              visit: element['visit'] == 0 ? false : true,
-              accept: element['accept'] == 0 ? false : true,
-              combat: element['combat'] == 0 ? false : true,
-              status: element['status'] == 0 ? false : true,
-            );
-
-            listSchuduleItem.add(tmpSchuduleItem);
-          });
-
-          // Salvar dados no context
-          context.read<App>().listSchuduleItem = listSchuduleItem;
-        } // else { ... }
-      } // if(modules.contains('subsidiary')) { ... }
+            listSchudule.add(tmpSubsidiary);
+          } // for (var i = 0; i < dataSubsidiary.length; i++) { ... }
+        }
+      }
 
       return true;
     } // try { ... }
@@ -164,12 +158,12 @@ class DataController {
 
       if(modules.contains('login')) {
         // Coleta o login do contexto
-        Login login = context.read<App>().login;
+        Login login = context.read<EPraga>().login;
 
         // Limpa a base de login para setar novos dados.
-        await context.read<App>().database.delete('login');
+        await context.read<EPraga>().database.delete('login');
 
-        await context.read<App>().database.transaction((txn) async {
+        await context.read<EPraga>().database.transaction((txn) async {
           await txn.rawInsert('insert into login(id, name, identity, email, device, token, last, expired) values(?,?,?,?,?,?,?,?)',[
             login.id,
             login.name,
@@ -185,15 +179,16 @@ class DataController {
 
       // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
+      
       if(modules.contains('schudule')) {
         // Coleta os dados da lista de agendamentos
-        List<Schudule> listSchudule = context.read<App>().listSchudule;
+        List<Schudule> listSchudule = context.read<ListData>().listSchudule;
 
         // Limpa todos os dados do agendamento.
-        await context.read<App>().database.delete('schudule');
+        await context.read<EPraga>().database.delete('schudule');
 
         for (var i = 0; i < listSchudule.length; i++) {
-          await context.read<App>().database.transaction((txn) async {
+          await context.read<EPraga>().database.transaction((txn) async {
             await txn.rawInsert('insert into schudule(id, description, id_subsidiary, id_responsible, last_alt, start_date, end_date, status, created_at, updated_at) values(?,?,?,?,?,?,?,?,?,?)',
             [
               listSchudule.elementAt(i).id,
@@ -213,54 +208,28 @@ class DataController {
       } // if(modules.contains('schudule')) { ... }
 
       if(modules.contains('subsidiary')) {
-        List<Subsidiary> listSubsidiary = context.read<App>().listSubsidiary;
+        // Coleta os dados do agendamento
+        List<Subsidiary> listSubsidiary = Provider.of<ListData>(context,listen: false).listSubsidiary;
 
-        // Limpa os dados do armazenamento.
-        context.read<App>().database.delete('subsidiary');
+        // Limpa todos os dados do agendamento.
+        await Provider.of<EPraga>(context,listen: false).database.delete('subsidiary');
 
         for (var i = 0; i < listSubsidiary.length; i++) {
-          await context.read<App>().database.transaction((txn) async {
+          await context.read<EPraga>().database.transaction((txn) async {
             await txn.rawInsert('insert into subsidiary(id, id_company, latitude, longitude, name, description, address) values(?,?,?,?,?,?,?)',
             [
               listSubsidiary.elementAt(i).id,
               listSubsidiary.elementAt(i).idCompany,
-              listSubsidiary.elementAt(i).latitude.toString(),
-              listSubsidiary.elementAt(i).longitude.toString(),
+              listSubsidiary.elementAt(i).latitude,
+              listSubsidiary.elementAt(i).longitude,
               listSubsidiary.elementAt(i).name,
               listSubsidiary.elementAt(i).description,
               listSubsidiary.elementAt(i).address,
-            ]);
+            ]
+            );
           });
-        }
+        } // for (var i = 0; i < listSchudule.length; i++) { ... }
       } // if(modules.contains('subsidiary')) { ... }
-
-      if(modules.contains('subsidiaryItem')) {
-        List<SchuduleItem> listSchuduleItem = context.read<App>().listSchuduleItem;
-
-        // Limpa os dados do armazenamento.
-        context.read<App>().database.delete('subsidiary_item');
-
-        for (var i = 0; i < listSchuduleItem.length; i++) {
-          await context.read<App>().database.transaction((txn) async {
-            await txn.rawInsert('insert into subsidiary_item(id, id_schudule, sequence, qtde_image, latitude, longitude, visit, combat, accept, status, note, description, last_alt) values(?,?,?,?,?,?,?,?,?,?,?,?,?)',
-            [
-              listSchuduleItem.elementAt(i).id,
-              listSchuduleItem.elementAt(i).idSchudule,
-              listSchuduleItem.elementAt(i).sequence,
-              listSchuduleItem.elementAt(i).qtdeImage,
-              listSchuduleItem.elementAt(i).latitude.toString(),
-              listSchuduleItem.elementAt(i).longitude.toString(),
-              listSchuduleItem.elementAt(i).visit ? 1 : 0,
-              listSchuduleItem.elementAt(i).combat ? 1 : 0,
-              listSchuduleItem.elementAt(i).accept ? 1 : 0,
-              listSchuduleItem.elementAt(i).status ? 1 : 0,
-              listSchuduleItem.elementAt(i).note,
-              listSchuduleItem.elementAt(i).description,
-              listSchuduleItem.elementAt(i).lastAlt.millisecondsSinceEpoch,
-            ]); // await txn.rawInsert('insert into subsidiary_item(id, id_schudule, sequence, qtde_image, latitude, longitude, visit, combat, accept, status, note, description, last_alt) values(?,?,?,?,?,?,?,?,?,?,?,?,?)', ...
-          }); // await context.read<App>().database.transaction((txn) async { ... }
-        } // for (var i = 0; i < listSchuduleItem.length; i++) { ... }
-      } // if(modules.contains('subsidiaryItem')) { ... }
 
       return true;
     } // try { ... }

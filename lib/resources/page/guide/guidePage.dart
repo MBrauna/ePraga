@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:epraga/allFiles.dart';
 
 class GuidePage extends StatefulWidget {

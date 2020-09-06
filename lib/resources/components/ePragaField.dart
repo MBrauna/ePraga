@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:epraga/allFiles.dart';
 
 class EPragaField extends StatefulWidget {
   // Declaração de conteúdos para Campo
