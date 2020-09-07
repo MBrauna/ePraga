@@ -29,7 +29,6 @@ class RequestController {
 
       Map<String, dynamic> dataResponse = jsonDecode(response.body);
 
-
       switch (response.statusCode) {
             case 200:
               // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
@@ -45,7 +44,28 @@ class RequestController {
                   listSchudule.add(tmpSchudule);
                 }); // dataResponse['schudule'].forEach((elementSchudule){ ... });
 
-                Provider.of<ListData>(context,listen: false).listSchudule = listSchudule;
+                // Verifica o que já tem salvo em sessão para preenchimento.
+                listSchudule.forEach((element) {
+                  List<Schudule> listTmp = Provider.of<ListData>(context, listen: false).listSchudule.where((elementSchudule) => elementSchudule.id == element.id).toList();
+                  
+                  // Se não existir irá adicionar a lista
+                  if(listTmp.length <= 0) {
+                    Provider.of<ListData>(context,listen: false).listSchudule.add(element);
+                  }
+                  else {
+                    listTmp.forEach((elementTmp) {
+                      if(elementTmp.lastAlt.millisecondsSinceEpoch <= element.lastAlt.millisecondsSinceEpoch) {
+                        // Remove o existente ... 
+                        Provider.of<ListData>(context, listen: false).listSchudule.remove(elementTmp);
+                        // adiciona o novo
+                        Provider.of<ListData>(context, listen: false).listSchudule.add(element);
+                      }
+                      else {
+                        // Se ele for mais atual que o recebido ... mantém o atual.
+                      }
+                    }); // listTmp.forEach((elementTmp) { ... }
+                  }
+                });
 
                 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
                 List<Subsidiary> listSubsidiary = List<Subsidiary>();

@@ -7,10 +7,8 @@ export 'package:sqflite/sqflite.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 export 'package:flare_flutter/flare_actor.dart';
-export 'package:camera_camera/camera_camera.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:path/path.dart';
-export 'package:unique_identifier/unique_identifier.dart';
 export 'package:map_launcher/map_launcher.dart';
 
 // --------------------------------------------------------------------------------------- //

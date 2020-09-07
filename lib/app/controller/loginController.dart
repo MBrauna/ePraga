@@ -5,13 +5,7 @@ import 'package:http/http.dart' as http;
 
 class LoginController {
   static Future<String> initUniqueIdentifierState() async {
-    String identifier;
-    try {
-      identifier = await UniqueIdentifier.serial;
-    }
-    catch(error) {
-      identifier = 'ERROR404LOGINREQUEST';
-    }
+    String identifier = 'IMEIDATA';
 
     return identifier;
   } // static Future<String> initUniqueIdentifierState() async { ... }
@@ -45,7 +39,6 @@ class LoginController {
           // Declaração de variáveis
           String imeiData = await LoginController.initUniqueIdentifierState();
 
-          print(imeiData);
           
           Map<String, dynamic> body     = Map<String, dynamic>();
           body.putIfAbsent('cpf',           () => user.toString().padLeft(11,'0'));

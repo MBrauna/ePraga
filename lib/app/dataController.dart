@@ -186,6 +186,7 @@ class DataController {
 
         // Limpa todos os dados do agendamento.
         await context.read<EPraga>().database.delete('schudule');
+        await context.read<EPraga>().database.delete('schudule_item');
 
         for (var i = 0; i < listSchudule.length; i++) {
           await context.read<EPraga>().database.transaction((txn) async {
@@ -204,6 +205,27 @@ class DataController {
             ]
             );
           });
+
+          for(var j = 0; j < listSchudule.elementAt(i).schuduleItem.length; j++) {
+            await context.read<EPraga>().database.transaction((txn) async {
+              await txn.rawInsert('insert into schudule_item(id, id_schudule, sequence, qtde_image, latitude, longitude, visit, combat, accept, status, note, description, last_alt) values(?,?,?,?,?,?,?,?,?,?,?,?,?)',
+              [
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).id,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).idSchudule,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).sequence,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).qtdeImage,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).latitude.toString(),
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).longitude.toString(),
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).visit ? 1 : 0,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).combat ? 1 : 0,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).accept ? 1 : 0,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).status ? 1 : 0,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).note,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).description,
+                listSchudule.elementAt(i).schuduleItem.elementAt(j).lastAlt.millisecondsSinceEpoch,
+              ]);
+            }); // await context.read<EPraga>().database.transaction((txn) async { ... }
+          } // for(var j = 0; j < listSchudule.elementAt(i).schuduleItem.length; j++) { ... }
         }
       } // if(modules.contains('schudule')) { ... }
 
