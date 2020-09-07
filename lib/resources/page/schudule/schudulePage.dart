@@ -454,7 +454,9 @@ class _SchudulePage extends State<SchudulePage> {
                               ),
                               padding: EdgeInsets.all(10.0),
                               //shape: CircleBorder(),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, FadePageRoute(SchuduleItemPage(listSchudule.elementAt(idx))));
+                              },
                             ),
 
                             // Botão para ir até o local

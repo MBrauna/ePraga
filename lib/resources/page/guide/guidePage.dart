@@ -8,9 +8,6 @@ class GuidePage extends StatefulWidget {
 class _GuidePage extends State<GuidePage> {
   @override
   Widget build(BuildContext context) {
-    List normalizeText  = ['manual disponível para leitura','manuais disponíveis para leitura'];
-    bool activeField    = true;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

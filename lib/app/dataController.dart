@@ -67,6 +67,7 @@ class DataController {
 
             // Monta os itens relacionados ao agendamento
             for(var j = 0; j < listDBItem.length;j++) {
+
               SchuduleItem tmpSchuduleItem  = SchuduleItem(
                 id: listDBItem.elementAt(j)['id'],
                 description: listDBItem.elementAt(j)['description'],
@@ -75,8 +76,8 @@ class DataController {
                 idSchudule: listDBItem.elementAt(j)['id_schudule'],
                 images: List<ImageBase64>(),
                 lastAlt: DateTime.fromMillisecondsSinceEpoch(listDBItem.elementAt(j)['last_alt']),
-                latitude: listDBItem.elementAt(j)['latitude'],
-                longitude: listDBItem.elementAt(j)['longitude'],
+                latitude: null,//listDBItem.elementAt(j)['latitude'].trim().isEmpty ? null : num.parse(listDBItem.elementAt(j)['latitude']),
+                longitude: null,//listDBItem.elementAt(j)['longitude'].trim().isEmpty ? null : num.parse(listDBItem.elementAt(j)['longitude']),
                 note: listDBItem.elementAt(j)['note'],
                 qtdeImage: listDBItem.elementAt(j)['qtde_image'],
                 sequence: listDBItem.elementAt(j)['sequence'],
@@ -86,6 +87,7 @@ class DataController {
 
               schuduleItem.add(tmpSchuduleItem);
             } // for(var j = 0; j < listDBItem.length;j++) { ... }
+
 
             Schudule tmpSchudule  = Schudule(
               id: dataSchudule.elementAt(i)['id'],
@@ -98,7 +100,7 @@ class DataController {
               status: dataSchudule.elementAt(i)['status'] == 1 ? true : false,
               createdAt: dataSchudule.elementAt(i)['created_at'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(dataSchudule.elementAt(i)['created_at']),
               updatedAt: dataSchudule.elementAt(i)['updated_at'] == null ? DateTime.now() : DateTime.fromMillisecondsSinceEpoch(dataSchudule.elementAt(i)['updated_at']),
-              schuduleItem: List<SchuduleItem>(),
+              schuduleItem: schuduleItem,
             );
 
             // Adiciona a lista os dados coletados.
@@ -122,6 +124,7 @@ class DataController {
           List<Subsidiary> listSchudule  = List<Subsidiary>();
 
           for (var i = 0; i < dataSubsidiary.length; i++) {
+
             Subsidiary tmpSubsidiary  = Subsidiary(
               id: dataSubsidiary.elementAt(i)['id'],
               idCompany: dataSubsidiary.elementAt(i)['id'],

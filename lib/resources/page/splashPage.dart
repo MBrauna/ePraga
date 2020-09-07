@@ -9,11 +9,10 @@ class _SplashPage extends State<SplashPage> {
   bool _permissionData = false;
 
   @override
+  // ignore: must_call_super
   void initState(){
     SplashScreenController.permissions().then((value){
-      setState(() {
         this._permissionData  = value;
-      }); // setState(() { .. });
     }); // SplashScreenController.decision().then((value){ ... });
   } // void initState(){ ... }
 

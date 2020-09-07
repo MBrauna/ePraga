@@ -1,6 +1,7 @@
 // ignore: must_be_immutable
 import 'package:epraga/allFiles.dart';
 
+// ignore: must_be_immutable
 class CardImage extends StatefulWidget {
   String image, animation;
   Color background;

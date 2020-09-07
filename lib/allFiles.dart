@@ -60,3 +60,4 @@ export 'package:epraga/resources/page/mainPage.dart';
 export 'package:epraga/resources/page/auth/userPage.dart';
 export 'package:epraga/resources/page/guide/guidePage.dart';
 export 'package:epraga/resources/page/schudule/schudulePage.dart';
+export 'package:epraga/resources/page/schudule/schuduleItemPage.dart';

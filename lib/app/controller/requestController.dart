@@ -30,60 +30,61 @@ class RequestController {
       Map<String, dynamic> dataResponse = jsonDecode(response.body);
 
       switch (response.statusCode) {
-            case 200:
-              // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-              if(dataResponse['schudule'].length <= 0) {
-                Message(context).info('Nenhuma tarefa disponível!');
-              } // if(!dataResponse['mobile_access']) { ... }
+        case 200:
+          // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+          if(dataResponse['schudule'].length <= 0) {
+            Message(context).info('Nenhuma tarefa disponível!');
+          } // if(!dataResponse['mobile_access']) { ... }
+          else {
+            // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+            List<Schudule> listSchudule = List<Schudule>();
+
+            dataResponse['schudule'].forEach((elementSchudule){
+              Schudule tmpSchudule  = Schudule.fromJson(elementSchudule);
+              listSchudule.add(tmpSchudule);
+            }); // dataResponse['schudule'].forEach((elementSchudule){ ... });
+
+            // Verifica o que já tem salvo em sessão para preenchimento.
+            listSchudule.forEach((element) {
+              List<Schudule> listTmp = Provider.of<ListData>(context, listen: false).listSchudule.where((elementSchudule) => elementSchudule.id == element.id).toList();
+              
+              // Se não existir irá adicionar a lista
+              if(listTmp.length <= 0) {
+                Provider.of<ListData>(context,listen: false).listSchudule.add(element);
+              }
               else {
-                // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-                List<Schudule> listSchudule = List<Schudule>();
-
-                dataResponse['schudule'].forEach((elementSchudule){
-                  Schudule tmpSchudule  = Schudule.fromJson(elementSchudule);
-                  listSchudule.add(tmpSchudule);
-                }); // dataResponse['schudule'].forEach((elementSchudule){ ... });
-
-                // Verifica o que já tem salvo em sessão para preenchimento.
-                listSchudule.forEach((element) {
-                  List<Schudule> listTmp = Provider.of<ListData>(context, listen: false).listSchudule.where((elementSchudule) => elementSchudule.id == element.id).toList();
-                  
-                  // Se não existir irá adicionar a lista
-                  if(listTmp.length <= 0) {
-                    Provider.of<ListData>(context,listen: false).listSchudule.add(element);
+                listTmp.forEach((elementTmp) {
+                  if(elementTmp.lastAlt.millisecondsSinceEpoch <= element.lastAlt.millisecondsSinceEpoch) {
+                    // Remove o existente ... 
+                    Provider.of<ListData>(context, listen: false).listSchudule.remove(elementTmp);
+                    // adiciona o novo
+                    Provider.of<ListData>(context, listen: false).listSchudule.add(element);
                   }
                   else {
-                    listTmp.forEach((elementTmp) {
-                      if(elementTmp.lastAlt.millisecondsSinceEpoch <= element.lastAlt.millisecondsSinceEpoch) {
-                        // Remove o existente ... 
-                        Provider.of<ListData>(context, listen: false).listSchudule.remove(elementTmp);
-                        // adiciona o novo
-                        Provider.of<ListData>(context, listen: false).listSchudule.add(element);
-                      }
-                      else {
-                        // Se ele for mais atual que o recebido ... mantém o atual.
-                      }
-                    }); // listTmp.forEach((elementTmp) { ... }
+                    // Se ele for mais atual que o recebido ... mantém o atual.
                   }
-                });
+                }); // listTmp.forEach((elementTmp) { ... }
+              }
+            });
 
-                // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-                List<Subsidiary> listSubsidiary = List<Subsidiary>();
+            // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+            List<Subsidiary> listSubsidiary = List<Subsidiary>();
 
-                dataResponse['subsidiary'].forEach((elementSubsidiary){
-                  Subsidiary tmpSubsidiary = Subsidiary.fromJson(elementSubsidiary);
-                  listSubsidiary.add(tmpSubsidiary);
-                }); // dataResponse['subsidiary'].forEach((elementSubsidiary){ ... }
+            dataResponse['subsidiary'].forEach((elementSubsidiary){
+              Subsidiary tmpSubsidiary = Subsidiary.fromJson(elementSubsidiary);
+              listSubsidiary.add(tmpSubsidiary);
+            }); // dataResponse['subsidiary'].forEach((elementSubsidiary){ ... }
 
-                Provider.of<ListData>(context,listen: false).listSubsidiary = listSubsidiary;
+            Provider.of<ListData>(context,listen: false).listSubsidiary = listSubsidiary;
 
-                // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-              } // else { ... }
+            // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+          } // else { ... }
 
-              break;
-            default:
-              Message(context).error(dataResponse['error']['message']);
-          }
+          break;
+        default:
+          Message(context).error(dataResponse['error']['message']);
+      }
+
       await DataController.setDatabaseData(context, ['schudule','subsidiary']);
       return true;
     }

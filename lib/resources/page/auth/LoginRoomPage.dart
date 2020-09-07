@@ -1,5 +1,6 @@
 import 'package:epraga/allFiles.dart';
 
+// ignore: must_be_immutable
 class LoginRoomPage extends StatefulWidget {
   String usuario, senha;
   LoginRoomPage(this.usuario, this.senha);
