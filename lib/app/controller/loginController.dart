@@ -70,7 +70,7 @@ class LoginController {
 
                 // Armazena os dados da resposta - Cria os dados de login
                 context.read<EPraga>().login = Login.fromJson(dataResponse);
-                bool validateData = await DataController.setDatabaseData(context, ['login']);
+                bool validateData = await DataController.setDatabaseData(context, ['login','schudule', 'subsidiary']);
 
                 // Armazena os dados da resposta - Cria os dados de login
                 if(validateData){

@@ -97,6 +97,15 @@ class Schudule extends ChangeNotifier {
     notifyListeners();
   } // set endDate(DateTime date) { ... }
 
+  set lastAlt(DateTime date) {
+    if(date == null){
+      this._lastAlt = DateTime.now();
+    }
+    else {
+      this._lastAlt = date;
+    }
+  }
+
   // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   factory Schudule.fromJson(Map<String, dynamic> data) {

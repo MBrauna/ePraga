@@ -10,6 +10,7 @@ export 'package:flare_flutter/flare_actor.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:path/path.dart';
 export 'package:map_launcher/map_launcher.dart';
+export 'package:path_provider/path_provider.dart';
 
 // --------------------------------------------------------------------------------------- //
 
@@ -61,3 +62,4 @@ export 'package:epraga/resources/page/auth/userPage.dart';
 export 'package:epraga/resources/page/guide/guidePage.dart';
 export 'package:epraga/resources/page/schudule/schudulePage.dart';
 export 'package:epraga/resources/page/schudule/schuduleItemPage.dart';
+export 'package:epraga/resources/page/util/camera.dart';

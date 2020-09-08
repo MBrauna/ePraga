@@ -13,6 +13,11 @@ class _SchudulePage extends State<SchudulePage> {
   bool execAtt  = false;
 
   void openSubsidiary(BuildContext context, Schudule data) {
+    if(Provider.of<ListData>(context, listen: false).listSubsidiary.where((element) => element.id == data.idSubsidiary).length <= 0) {
+      Message(context).error('Dados do local inválido! Verifique.');
+      return;
+    } // if(Provider.of<ListData>(context, listen: false).listSubsidiary.where((element) => element.id == data.idSubsidiary).length <= 0) { ... }
+
     Subsidiary subsidiary  = Provider.of<ListData>(context, listen: false).listSubsidiary.where((element) => element.id == data.idSubsidiary).first;
 
     Size    size                    = MediaQuery.of(context).size;

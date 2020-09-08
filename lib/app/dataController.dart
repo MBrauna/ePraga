@@ -121,22 +121,26 @@ class DataController {
           context.read<ListData>().listSubsidiary  = List<Subsidiary>();
         } // if(dataSubsidiary.length <= 0) { ... }
         else {
-          List<Subsidiary> listSchudule  = List<Subsidiary>();
+          List<Subsidiary> listSubsidiary  = List<Subsidiary>();
 
           for (var i = 0; i < dataSubsidiary.length; i++) {
 
             Subsidiary tmpSubsidiary  = Subsidiary(
               id: dataSubsidiary.elementAt(i)['id'],
               idCompany: dataSubsidiary.elementAt(i)['id'],
-              latitude: num.parse(dataSubsidiary.elementAt(i)['latitude']),
-              longitude: num.parse(dataSubsidiary.elementAt(i)['longitude']),
+              latitude: dataSubsidiary.elementAt(i)['latitude'] == null ? null : num.parse(dataSubsidiary.elementAt(i)['latitude']),
+              longitude: dataSubsidiary.elementAt(i)['longitude'] == null ? null : num.parse(dataSubsidiary.elementAt(i)['longitude']),
               address: dataSubsidiary.elementAt(i)['address'],
               description: dataSubsidiary.elementAt(i)['description'],
               name: dataSubsidiary.elementAt(i)['name'],
+              croqui: dataSubsidiary.elementAt(i)['base64'],
             );
 
-            listSchudule.add(tmpSubsidiary);
+            listSubsidiary.add(tmpSubsidiary);
           } // for (var i = 0; i < dataSubsidiary.length; i++) { ... }
+
+          // Seta na sessão os dados.
+          context.read<ListData>().listSubsidiary = listSubsidiary;
         }
       }
 
@@ -241,7 +245,7 @@ class DataController {
 
         for (var i = 0; i < listSubsidiary.length; i++) {
           await context.read<EPraga>().database.transaction((txn) async {
-            await txn.rawInsert('insert into subsidiary(id, id_company, latitude, longitude, name, description, address) values(?,?,?,?,?,?,?)',
+            await txn.rawInsert('insert into subsidiary(id, id_company, latitude, longitude, name, description, address, base64) values(?,?,?,?,?,?,?,?)',
             [
               listSubsidiary.elementAt(i).id,
               listSubsidiary.elementAt(i).idCompany,
@@ -250,6 +254,7 @@ class DataController {
               listSubsidiary.elementAt(i).name,
               listSubsidiary.elementAt(i).description,
               listSubsidiary.elementAt(i).address,
+              listSubsidiary.elementAt(i).croqui,
             ]
             );
           });

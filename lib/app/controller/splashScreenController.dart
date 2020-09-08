@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:epraga/allFiles.dart';
 
 class SplashScreenController {
@@ -30,9 +31,12 @@ class SplashScreenController {
       // Coleta os dados do database, e caso não exista, cria.
       Database database               = await EPragaDB.createDatabase();
       context.read<EPraga>().database = database;
+      WidgetsFlutterBinding.ensureInitialized();
+      List<CameraDescription> camera  = await availableCameras();
+      Provider.of<EPraga>(context,listen: false).cameras  = camera;
 
       // Coleta do banco de dados as informações previamente cadastradas
-      bool dataDB = await DataController.getDatabaseData(context, ['login','schudule']);
+      bool dataDB = await DataController.getDatabaseData(context, ['login','schudule', 'subsidiary']);
       Login login = context.read<EPraga>().login;
 
       if(dataDB) {
