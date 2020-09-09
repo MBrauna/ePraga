@@ -142,7 +142,27 @@ class DataController {
           // Seta na sessão os dados.
           context.read<ListData>().listSubsidiary = listSubsidiary;
         }
-      }
+      } // if(modules.contains('subsidiary')) { ... }
+
+      if(modules.contains('sendJob')) {
+        List dataSendJob = await context.read<EPraga>().database.query('send_job'); // List datasendJob = await context.read<App>().database.query('send_job', distinct: true,);
+        List<SendJob> listJob = List<SendJob>();
+
+        if(dataSendJob.length > 0) {
+          for (var i = 0; i < dataSendJob.length; i++) {
+            SendJob tmpSendJob  = SendJob(
+              json: dataSendJob.elementAt(i)['json'],
+              nameProcedure: dataSendJob.elementAt(i)['name'],
+              url: dataSendJob.elementAt(i)['url'],
+              createdAt: dataSendJob.elementAt(i)['data_cria'],
+            );
+          }
+        } // if(dataSendJob.length > 0) {...}
+
+        context.read<ListData>().listSendJob  = listJob;
+      } // if(modules.contains('sendJob')) { ... }
+
+
 
       return true;
     } // try { ... }

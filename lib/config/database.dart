@@ -20,6 +20,7 @@ class EPragaDB {
     await db.execute('create table schudule(id integer primary key,description text,id_subsidiary integer,id_responsible integer,last_alt integer,start_date integer,end_date integer,status integer,created_at integer,updated_at integer)');
     await db.execute('create table subsidiary(id integer primary key, id_company integer, latitude text, longitude text, name text, description text, address text, base64 text)');
     await db.execute('create table schudule_item(id integer primary key, id_schudule integer, sequence integer, qtde_image integer, latitude text, longitude text, visit integer, combat integer, accept integer, status integer, note text, description text, last_alt integer)');
+    await db.execute('create table send_job(name text,url text,json text, created_at integer, updated_at integer, status integer)');
   } // void _populatedDB(Database db, int version) { ... }
 
   static void upgradeDB(Database db, int lastVersion, int actualVersion) {

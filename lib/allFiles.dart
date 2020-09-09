@@ -47,6 +47,7 @@ export 'package:epraga/model/schudule/schudule.dart';
 export 'package:epraga/model/schudule/schuduleItem.dart';
 export 'package:epraga/model/schudule/imageBase64.dart';
 export 'package:epraga/model/company/subsidiary.dart';
+export 'package:epraga/model/sendJob.dart';
 
 /// [COMPONENTS] - Componentes para uso na aplicação
 export 'package:epraga/resources/components/cardImage.dart';
