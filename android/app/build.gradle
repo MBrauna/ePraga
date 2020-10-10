@@ -34,14 +34,12 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
-        checkReleaseBuilds false
     }
-    //lintOptions { disable 'InvalidPackage'}
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "tec.solution.apps.epraga"
-        minSdkVersion 21 // 16
+        applicationId "com.mbrauna.apps.epraga"
+        minSdkVersion 21 //16
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -62,5 +60,4 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.android.support:support-v4:27.0.0"
 }

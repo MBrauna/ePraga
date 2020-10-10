@@ -1,85 +1,112 @@
-import 'package:epraga/allFiles.dart';
+import 'package:flutter/material.dart';
+import 'package:epraga/config/config.dart' as config;
 
 class Login extends ChangeNotifier {
-  
-  bool _mobileAccess;
+
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
+  num _id;
+  String _name, _cpfCnpj, _hash;
   DateTime _lastLogin, _expiredLogin;
-  int _id;
-  String _name, _identity, _email, _device, _token;
 
-  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
-  Login({bool mobileAccess = false, DateTime lastLogin, DateTime expiredLogin, int id, String name, String identity, String email, String device, String token,}){
-    this._mobileAccess = mobileAccess;
-    if(lastLogin == null) {
+  Login();
+
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
+  num get id          =>  this._id;
+  String get cpfCnpj  =>  this._cpfCnpj;
+  String get name     =>  this._name;
+  String get hash     =>  this._hash;
+  DateTime get last   =>  this._lastLogin;
+  DateTime get expire =>  this._expiredLogin;
+
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+
+  set id(num data) {
+    if(data == null || data <= 0) {
+      this._id  = null;
+    } // if(data <= 0) { ... }
+    else {
+      this._id  = data;
+    } // else { ... }
+    notifyListeners();
+  } // set id(num data) { ... }
+
+  set cpfCnpj(String data) {
+    if(data == null || data.trim().isEmpty) {
+      this._cpfCnpj = null;
+    } // if(data.trim().isEmpty) { ... }
+    else {
+      this._cpfCnpj = data;
+    } // else { ... }
+    notifyListeners();
+  } // set cpfCnpj(num data) { ... }
+
+  set name(String data) {
+    if(data == null || data.trim().isEmpty) {
+      this._name  = null;
+    } // if(data.trim().isEmpty) { ... }
+    else {
+      this._name  = data;
+    } // else { ... }
+    notifyListeners();
+  } // set name(String data) { ... }
+
+  set hash(String data) {
+    if(data == null || data.trim().isEmpty) {
+      this._hash  = null;
+    } // if(data.trim().isEmpty) { ... }
+    else {
+      this._hash  = data;
+    } // else { ... }
+    notifyListeners();
+  } // set hash(String data) { ... }
+
+  set last(DateTime date) {
+    if(date == null) {
       this._lastLogin = DateTime.now();
-    } // if(lastLogin == null) { ... }
+    } // if(date == null) { ... }
     else {
-      this._lastLogin = lastLogin;
+      this._lastLogin = date;
     } // else { ... }
+    notifyListeners();
+  } // set last(DateTime date) { ... }
 
-    if(expiredLogin == null) {
-      this._expiredLogin = DateTime.now();
-    } // if(expiredLogin == null) { ... }
+  set expire(DateTime date) {
+    if(date == null) {
+      this._expiredLogin  = DateTime.now();
+    } // if(date == null) { ... }
     else {
-      this._expiredLogin = expiredLogin;
+      this._expiredLogin  = date;
     } // else { ... }
+    notifyListeners();
+  } // set last(DateTime date) { ... }
 
-    if(id == null || id <= 0) {
-      new EPragaException(
-        error: '[ID] - Código do usuário está inválido! Verifique.',
-        message: '[ID] - Código do usuário está inválido! Verifique.',
-        origin: this.runtimeType.toString(),
-      );
-    } // if(id == null || id <= 0) { ... }
-    else {
-      this._id  = id;
-    } // else { ... }
-
-    if(token.trim().isEmpty || token == null) {
-      new EPragaException(
-        error: '[TOKEN] - Código do token não foi informado! Verifique.',
-        message: '[TOKEN] - Código do token não foi informado! Verifique.',
-        origin: this.runtimeType.toString(),
-      );
-    } // if(token.trim().isEmpty || token == null) { ... }
-    else {
-      this._token = token;
-    }
-
-    this._name = name;
-    this._identity = identity;
-    this._email = email;
-    this._device  = device;
-  } //  Login({bool mobileAccess, DateTime lastLogin, DateTime expiredLogin, int id, String name, String identity, String email, String device, String token,}){ ... }
-
-  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
 
   factory Login.fromJson(Map<String, dynamic> data) {
-    return Login(
-      device: data['mobile_device'],
-      email: data['email'],
-      expiredLogin: data['api_expiring'] == null ? null : DateTime.parse(data['api_expiring']),
-      id: data['id'],
-      identity: data['cpf_cnpj'],
-      lastLogin: data['last_login'] == null ? null : DateTime.parse(data['last_login']),
-      mobileAccess: data['mobile_access'] ?? false,
-      name: data['name'],
-      token: data['api_token'],
-    );
+    try {
+      Login login   = Login();
+      login.id      = data['id'];
+      login.name    = data['name'];
+      login.cpfCnpj = data['cpf_cnpj'];
+      login.hash    = data['api_token'];
+      login.last    = data['last_login'] == null ? DateTime.now() : DateTime.parse(data['last_login']);
+      login.expire  = data['api_expiring'] == null ? DateTime.now() : DateTime.parse(data['api_expiring']);
+
+      return login;
+    } // try { ... }
+    catch(error) {
+      if(config.DEBUG) {
+        print('[LOGIN MODEL]-----');
+        print(error);
+        print('[LOGIN MODEL]-----');
+      } // if(config.DEBUG) { ... }
+
+      return Login();
+    } // catch(error) { ... }
+
   } // factory Login.fromJson(Map<String, dynamic> data) { ... }
-
-  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-
-  bool get mobileAccess => this._mobileAccess;
-  int get id => this._id;
-  String get name => this._name;
-  String get identity => this._identity;
-  String get email => this._email;
-  String get device => this._device;
-  String get token => this._token;
-  DateTime get lastLogin => this._lastLogin;
-  DateTime get expiredLogin => this._expiredLogin;
-
-  // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-}
+} // class Login extends ChangeNotifier { ... }

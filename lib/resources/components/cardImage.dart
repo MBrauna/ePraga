@@ -1,4 +1,3 @@
-// ignore: must_be_immutable
 import 'package:epraga/allFiles.dart';
 
 // ignore: must_be_immutable
@@ -38,10 +37,10 @@ class _CardImage extends State<CardImage> {
           children: <Widget>[
             Container(
               width: double.infinity,
-              //height: 120.0,
+              //height: 90.0,
               padding: EdgeInsets.only(
-                bottom: 10.0,
-                top: 10.0,
+                //bottom: 0.0,
+                //top: 0.0,
               ),
               child: Card(
                 elevation: widget.elevation,
@@ -58,8 +57,8 @@ class _CardImage extends State<CardImage> {
               ),
             ),
             Container(
-              height: 100.0,
-              width: 120.0,
+              height: 90.0,
+              width: 90.0,
               color: Colors.transparent,
               child: new FlareActor(
                 widget.image,

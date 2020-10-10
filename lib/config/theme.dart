@@ -1,4 +1,4 @@
-import 'package:epraga/allFiles.dart';
+import 'package:flutter/material.dart';
 
 class EpragaTheme {
   /* ****************************************** *

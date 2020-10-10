@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:epraga/allFiles.dart';
 
 class Connectivity extends StatefulWidget {
@@ -20,7 +19,7 @@ class _Connectivity extends State<Connectivity> {
       });
     });
 
-    this._lastTimer = Timer.periodic(Duration(seconds: 30), (timerData){
+    this._lastTimer = Timer.periodic(Duration(seconds: 10), (timerData){
       VerifyNetwork().verify().then((value){
         setState(() {
           this._connectivity  = value;
@@ -40,6 +39,7 @@ class _Connectivity extends State<Connectivity> {
   @override
   Widget build(BuildContext context) {
     if (this._connectivity) {
+      SenderController.senderData(context);
       return Container();
     } // if(this._connectivity) { ... }
     else {
@@ -64,7 +64,7 @@ class _Connectivity extends State<Connectivity> {
               color: Theme.of(context).backgroundColor,
             ),
           ),
-          image: 'assets/flare/connection_error.flr',
+          image: 'assets/animation/connection_error.flr',
           animation: 'idle',
           background: Colors.red[600],
         ),
