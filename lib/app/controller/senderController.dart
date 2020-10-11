@@ -18,7 +18,7 @@ class SenderController {
 
       Sender tmpSender  = Sender();
       tmpSender.url     = config.ENDPOINT_LOCATION;
-      tmpSender.content = data.toString();
+      tmpSender.content = jsonEncode(data);
 
       await SenderDao.setDB(context, tmpSender);
 
@@ -49,7 +49,7 @@ class SenderController {
 
       Sender tmpSender  = Sender();
       tmpSender.url     = config.ENDPOINT_ITEM;
-      tmpSender.content = data.toString();
+      tmpSender.content = jsonEncode(data);
 
       await SenderDao.setDB(context, tmpSender);
 
@@ -80,7 +80,7 @@ class SenderController {
 
         Sender tmpSender  = Sender();
         tmpSender.url     = config.ENDPOINT_IMG;
-        tmpSender.content = data.toString();
+        tmpSender.content = jsonEncode(data);
 
         await SenderDao.setDB(context, tmpSender);
       } // for(int i=0; i<schudule.length; i++) { ... }
@@ -105,8 +105,8 @@ class SenderController {
       Map<String, dynamic> data = {
         'latitude'  : position.latitude,
         'longitude' : position.longitude,
-        'visit'     : schudule.listVisit.where((element) => (element.counter > 0)),
-        'used'      : schudule.listProd.where((element) => (element.counter > 0)),
+        'visit'     : schudule.listVisit.where((element) => (element.counter > 0)).toList(),
+        'used'      : schudule.listProd.where((element) => (element.counter > 0)).toList(),
         'iscas'     : schudule.sitIsca,
         'conform'   : schudule.naoConform,
         'iscaSit'   : schudule.iscaSubstituida,
@@ -118,7 +118,7 @@ class SenderController {
 
       Sender tmpSender  = Sender();
       tmpSender.url     = config.ENDPOINT_ITEM;
-      tmpSender.content = data.toString();
+      tmpSender.content = jsonEncode(data);
 
       await SenderDao.setDB(context, tmpSender);
 
@@ -138,7 +138,7 @@ class SenderController {
   static Future<bool> senderData(BuildContext context) async {
     try {
       List<Sender> listSender = await SenderDao.getDB(context);
-      Login login = Provider.of<App>(context).login;
+      Login login = Provider.of<App>(context, listen: false).login;
       // Se tem rede, então primeiramente procura na rede
       // Monta os headers da requisição
       Map<String, String> headers  = Map<String, String>();
@@ -147,9 +147,9 @@ class SenderController {
 
       for(int i=0;i<listSender.length;i++) {
         final response  = await http.post(
-          listSender.elementAt(i).url,
+          Uri.encodeFull(listSender.elementAt(i).url),
           headers: headers,
-          body: jsonDecode(listSender.elementAt(i).content),
+          body: json.encode(jsonDecode(listSender.elementAt(i).content)),
         );
 
         if(response.statusCode == 200) {

@@ -24,7 +24,7 @@ class EpragaDB extends ChangeNotifier {
     await db.execute('create table schudule_item(id_schudule_item integer primary key, id_schudule integer, spot integer, description text, last_alt integer, sequence integer default 99, qtde_images integer default 1, accept integer default 0, visit integer default 0)');
     await db.execute('create table image(id integer primary key,id_img_schudule integer, id_schudule_item integer, base64img text, created_at integer)');
     await db.execute('create table product(id_product integer primary key, id_category integer, quantity real, description text, measure text)');
-    await db.execute('create table sender(id integer primary key, url text, content text, status integer default 0');
+    await db.execute('create table sender(id integer primary key, url text, content text, status integer default 0)');
   } // static void populateDB(Database db, int version) async { ... }
 
 

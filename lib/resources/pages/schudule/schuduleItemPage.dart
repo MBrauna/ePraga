@@ -177,100 +177,115 @@ class _SchuduleItemPage extends State<SchuduleItemPage> {
                                   ),
                                 ),
                                 // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: cardData,
-                                      child: RaisedButton(
-                                        color: Theme.of(context).primaryColor,
-                                        child: FaIcon(
-                                          FontAwesomeIcons.solidImage,
-                                          color: Theme.of(context).backgroundColor,
-                                        ),
-                                        onPressed: (){
-                                          Navigator.of(context).push(FadePageRoute(ImagePage(Provider.of<App>(context, listen: false).cameraList,Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx)))).then((value){
-                                            SenderController.senderLocation(context);
-                                            setState((){});
-                                          });
-                                        },
-                                      ),
-                                    ),
+                                Builder(
+                                  builder: (context) {
 
-                                    SizedBox(
-                                      width: cardData,
-                                      child: RaisedButton(
-                                        color: Theme.of(context).primaryColor,
-                                        child: FaIcon(
-                                          FontAwesomeIcons.question,
-                                          color: Theme.of(context).backgroundColor,
-                                        ),
-                                        onPressed: (){
-                                          Navigator.of(context).push(FadePageRoute(QuestionPage(Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx)))).then((value){
-                                            SenderController.senderLocation(context);
-                                            setState((){});
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
-                                
-                                SizedBox(
-                                  width: size.width,
-                                  child: RaisedButton(
-                                    color: Theme.of(context).accentColor,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        FaIcon(
-                                          FontAwesomeIcons.checkDouble,
-                                          color: Theme.of(context).backgroundColor,
-                                        ),
-                                        Text(
-                                          'Finalizar',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context).backgroundColor,
-                                            fontSize: 15.0,
+                                    if(Provider.of<App>(context).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).accept) {
+                                      return Container();
+                                    }
+                                    else {
+                                      return Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: cardData,
+                                                child: RaisedButton(
+                                                  color: Theme.of(context).primaryColor,
+                                                  child: FaIcon(
+                                                    FontAwesomeIcons.solidImage,
+                                                    color: Theme.of(context).backgroundColor,
+                                                  ),
+                                                  onPressed: (){
+                                                    Navigator.of(context).push(FadePageRoute(ImagePage(Provider.of<App>(context, listen: false).cameraList,Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx)))).then((value){
+                                                      SenderController.senderLocation(context);
+                                                      setState((){});
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+
+                                              SizedBox(
+                                                width: cardData,
+                                                child: RaisedButton(
+                                                  color: Theme.of(context).primaryColor,
+                                                  child: FaIcon(
+                                                    FontAwesomeIcons.question,
+                                                    color: Theme.of(context).backgroundColor,
+                                                  ),
+                                                  onPressed: (){
+                                                    Navigator.of(context).push(FadePageRoute(QuestionPage(Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx)))).then((value){
+                                                      SenderController.senderLocation(context);
+                                                      setState((){});
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        FaIcon(
-                                          FontAwesomeIcons.checkDouble,
-                                          color: Theme.of(context).backgroundColor,
-                                        ),
-                                      ],
-                                    ),
-                                    onPressed: (){
-                                      if(Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).accept){
-                                        Message(context).info('Conteúdo marcado para envio! Aguarde.');
-                                      }
-                                      else {
-                                        if(QuestionController.validateQuestion(context, Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx))) {
-                                          if(Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).listImages.length < Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).qtdeImages) {
-                                            Message(context).error('Quantidade de imagens não atingiu a quantia ideal! Verifique.');
-                                          }
-                                          else {
-                                            setState((){
-                                              Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).accept  = true;
-                                            });
+                                          // -- # -- # -- # -- # -- # -- # -- # -- # -- # -- # -- //
+                                          
+                                          SizedBox(
+                                            width: size.width,
+                                            child: RaisedButton(
+                                              color: Theme.of(context).accentColor,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  FaIcon(
+                                                    FontAwesomeIcons.checkDouble,
+                                                    color: Theme.of(context).backgroundColor,
+                                                  ),
+                                                  Text(
+                                                    'Finalizar',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Theme.of(context).backgroundColor,
+                                                      fontSize: 15.0,
+                                                    ),
+                                                  ),
+                                                  FaIcon(
+                                                    FontAwesomeIcons.checkDouble,
+                                                    color: Theme.of(context).backgroundColor,
+                                                  ),
+                                                ],
+                                              ),
+                                              onPressed: (){
+                                                if(Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).accept){
+                                                  Message(context).info('Conteúdo marcado para envio! Aguarde.');
+                                                }
+                                                else {
+                                                  if(QuestionController.validateQuestion(context, Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx))) {
+                                                    if(Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).listImages.length < Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).qtdeImages) {
+                                                      Message(context).error('Quantidade de imagens não atingiu a quantia ideal! Verifique.');
+                                                    }
+                                                    else {
+                                                      setState((){
+                                                        Provider.of<App>(context,listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx).accept  = true;
+                                                      });
 
-                                            DataController.setData(context, ['schudule']).then((value){
-                                              SenderController.senderLocation(context);
-                                              SenderController.senderSchudule(context,Provider.of<App>(context).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx));
-                                              SenderController.senderQuestions(context,Provider.of<App>(context).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx));
-                                            });
+                                                      DataController.setData(context, ['schudule']).then((value){
+                                                        SenderController.senderLocation(context);
+                                                        SenderController.senderSchudule(context,Provider.of<App>(context, listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx));
+                                                        SenderController.senderQuestions(context,Provider.of<App>(context, listen: false).listSchudule.firstWhere((element) => (element.idSchudule == widget.idSchudule)).listItemSchudule.elementAt(idx));
+                                                      });
 
-                                          }
-                                        }
-                                        else {
-                                          Message(context).error('Perguntas não foram respondidas! Verifique.');
-                                        }
-                                      }
+                                                    }
+                                                  }
+                                                  else {
+                                                    Message(context).error('Perguntas não foram respondidas! Verifique.');
+                                                  }
+                                                }
 
-                                    },
-                                  ),
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+
+                                  }
                                 ),
                               
                               ],

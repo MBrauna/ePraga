@@ -36,6 +36,7 @@ class _ImagePage extends State<ImagePage>{
     controller = CameraController(
       widget.cameras.first,
       ResolutionPreset.low,
+      enableAudio: false,
     );
 
     // Next, initialize the controller. This returns a Future.
@@ -108,7 +109,10 @@ class _ImagePage extends State<ImagePage>{
                         if (snapshot.connectionState == ConnectionState.done) {
                           return RotatedBox(
                             quarterTurns: quarterTurns,
-                            child: CameraPreview(controller),
+                            child: CameraPreview(
+                              controller,
+
+                            ),
                           );
                         } else {
                           // Otherwise, display a loading indicator.

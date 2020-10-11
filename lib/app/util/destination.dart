@@ -10,7 +10,6 @@ class Destination {
 
 List<Destination> allDestinations = <Destination>[
   Destination('Agendamento', FontAwesomeIcons.businessTime, SchudulePage()),
-  Destination('Comunicação', FontAwesomeIcons.solidComment, Text('123')),
-  Destination('Servidor', FontAwesomeIcons.solidPaperPlane, Text('123')),
+  Destination('Envio', FontAwesomeIcons.solidPaperPlane, SenderPage()),
   Destination('Usuário', FontAwesomeIcons.solidUserCircle, UserPage()),
 ];

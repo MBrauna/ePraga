@@ -83,3 +83,4 @@ export 'package:epraga/resources/pages/subsidiary/subsidiaryPage.dart';
 export 'package:epraga/resources/pages/schudule/schuduleItemPage.dart';
 export 'package:epraga/resources/pages/images/imagePage.dart';
 export 'package:epraga/resources/pages/question/questionPage.dart';
+export 'package:epraga/resources/pages/sender/senderPage.dart';

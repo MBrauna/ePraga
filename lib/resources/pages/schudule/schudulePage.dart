@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:epraga/allFiles.dart';
 import 'package:intl/intl.dart';
 
@@ -25,6 +27,10 @@ class _SchudulePage extends State<SchudulePage> {
               _btnExec    = false;
             });
           }); // SchuduleController.requestSchudule(context).then((returnSchudule){ ... }
+
+          Timer.periodic(Duration(minutes: 20), (t){
+            SenderController.senderData(context);
+          });
         } // if(_execFirst){ ... }
         
 
